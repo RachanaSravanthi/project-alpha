@@ -1,7 +1,8 @@
-import React from "react";
-
+import HomePage from "./pages/HomePage.tsx";
 const App = () => {
-  return <div className="bg-green-500">Hello World</div>;
+  return (
+    <HomePage />
+  );
 };
 
 export default App;
