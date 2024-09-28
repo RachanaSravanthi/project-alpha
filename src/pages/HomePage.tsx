@@ -213,7 +213,12 @@ export default function HomePage() {
                     </ul>
                     <ul className="flex flex-col justify-start font-normal text-[1.4rem] text-[#909090] ">
                         <motion.li variants={fadeIn}>
-                            <a href="#" className="hover:text-gray-300 transition-colors duration-300">Handcrafted by <span className='text-[#E9E9E9]'>Octane</span> </a>
+                            <h1 className="text-[1rem] font-inter font-medium tracking-wide">
+                                <span className="text-gray-400 transition-colors duration-300">Handcrafted by </span>
+                                <a className="text-[#E9E9E9] hover:underline" href="https://theoctane.vercel.app">
+                                    Octane
+                                </a>
+                            </h1>
                         </motion.li>
                     </ul>
                 </motion.footer>
