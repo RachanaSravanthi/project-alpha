@@ -149,12 +149,13 @@ export default function HomePage() {
 
                 <motion.footer
                     id="contact"
-                    className="text-center pb-8"
+                    className="flex flex-col gap-10 justify-between p-10"
                     initial="hidden"
                     animate={isLoaded ? "visible" : "hidden"}
                     variants={staggerChildren}
                 >
-                    <ul className="flex flex-wrap justify-center space-x-8">
+                    {/* <ul className="flex flex-wrap justify-center space-x-8"> */}
+                    <ul className="flex flex-col justify-start font-normal text-[1.3rem] ">
                         <motion.li variants={fadeIn}>
                             <a href="#" className="hover:text-gray-300 transition-colors duration-300">view my behance</a>
                         </motion.li>
@@ -163,6 +164,11 @@ export default function HomePage() {
                         </motion.li>
                         <motion.li variants={fadeIn}>
                             <a href="#" className="hover:text-gray-300 transition-colors duration-300">view my dribble</a>
+                        </motion.li>
+                    </ul>
+                    <ul className="flex flex-col justify-start font-normal text-[1.4rem] text-[#909090] ">
+                        <motion.li variants={fadeIn}>
+                            <a href="#" className="hover:text-gray-300 transition-colors duration-300">Handcrafted by <span className='text-[#E9E9E9]'>Octane</span> </a>
                         </motion.li>
                     </ul>
                 </motion.footer>
