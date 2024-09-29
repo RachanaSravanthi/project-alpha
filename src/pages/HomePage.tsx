@@ -115,9 +115,8 @@ export default function HomePage() {
                     </ul>
                 </nav>
             </motion.header>
-
             <main className="mx-auto">
-                <motion.section
+                {/* <motion.section
                     id="about"
                     className="text-center py-20 flex items-center justify-center flex-col"
                     initial="hidden"
@@ -162,6 +161,69 @@ export default function HomePage() {
                             My works
                         </button>
                     </motion.div>
+                </motion.section> */}
+                <motion.section
+                    id="about"
+                    className="relative text-center py-36 flex items-center justify-center flex-col overflow-hidden"
+                    initial="hidden"
+                    animate={isLoaded ? "visible" : "hidden"}
+                    variants={staggerChildren}
+                >
+                    <div className="absolute inset-0 grid grid-cols-[repeat(28,1fr)] grid-rows-[repeat(15,1fr)]">
+                        {[...Array(28 * 16)].map((_, i) => (
+                            <div
+                                key={i}
+                                className="border border-white/10"
+                                style={{
+                                    animation: `pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite ${i * 0.05}s`,
+                                }}
+                            />
+                        ))}
+                    </div>
+
+                    <div className="relative z-10">
+                        <motion.h1
+                            variants={fadeIn}
+                            className="text-2xl md:text-4xl text-dim-white mb-2 font-inter font-medium"
+                        >
+                            Hello! I'm Rachana Sravanti
+                        </motion.h1>
+                        <motion.h2
+                            variants={fadeIn}
+                            className="text-3xl md:text-5xl font-medium text-off-white mb-3 font-inter max-w-2xl mx-auto"
+                        >
+                            Bringing Imagination to Life:
+                        </motion.h2>
+                        <motion.h2
+                            variants={fadeIn}
+                            className="text-3xl md:text-5xl font-medium text-off-white mb-3 font-inter max-w-2xl mx-auto"
+                        >
+                            Stunning VFX, 2D & 3D Designs
+                        </motion.h2>
+                        <motion.h2
+                            variants={fadeIn}
+                            className="text-3xl md:text-5xl font-medium text-off-white mb-3 font-inter max-w-2xl mx-auto"
+                        >
+                            for Film and Beyond!
+                        </motion.h2>
+                        <motion.div
+                            variants={fadeIn}
+                            className="flex flex-col md:flex-row justify-center space-y-4 md:space-y-0 md:space-x-4 md:mt-8"
+                        >
+                            <a
+                                href="#contact"
+                                className="bg-white text-black px-6 py-2 rounded-full hover:bg-gray-200 transition-colors duration-300 w-full md:w-auto"
+                            >
+                                Let's talk
+                            </a>
+                            <a
+                                href="#work"
+                                className="border border-white px-6 py-2 rounded-full hover:bg-white hover:text-black transition-colors duration-300 w-full md:w-auto"
+                            >
+                                My works
+                            </a>
+                        </motion.div>
+                    </div>
                 </motion.section>
 
                 <motion.section
