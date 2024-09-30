@@ -30,7 +30,7 @@ export default function HomePage() {
                                 key={i}
                                 className="border border-white/10"
                                 style={{
-                                    animation: `pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite ${i * 0.05}s`,
+                                    animation: `pulse 12s cubic-bezier(0.4, 0, 0.6, 1) infinite ${i * 0.05}s`,
                                 }}
                             />
                         ))}
