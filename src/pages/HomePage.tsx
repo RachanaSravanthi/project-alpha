@@ -181,7 +181,7 @@ export default function HomePage() {
                         ))}
                     </div>
 
-                    <div className="relative z-10">
+                    <div className="relative z-10 min-h-[60vh] flex items-center justify-center flex-col">
                         <motion.h1
                             variants={fadeIn}
                             className="text-2xl md:text-4xl text-dim-white mb-2 font-inter font-medium"
@@ -196,7 +196,7 @@ export default function HomePage() {
                         </motion.h2>
                         <motion.h2
                             variants={fadeIn}
-                            className="text-3xl md:text-5xl font-medium text-off-white mb-3 font-inter max-w-2xl mx-auto"
+                            className="text-3xl md:text-5xl font-medium text-off-white mb-3 font-inter max-w-4xl mx-auto"
                         >
                             Stunning VFX, 2D & 3D Designs
                         </motion.h2>
