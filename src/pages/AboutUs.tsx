@@ -26,24 +26,7 @@ export default function AboutPage() {
   }
 
   return (
-    <div className="min-h-screen bg-black text-white overflow-x-hidden font-inter">
-      <header className="flex justify-center items-center p-4 bg-black sticky top-0 z-50">
-        <nav className="w-full max-w-4xl">
-          <ul className="flex justify-center items-center space-x-8">
-            <img
-              src="/placeholder.svg"
-              alt="Profile"
-              width={40}
-              height={40}
-              className="rounded-full"
-            />
-            <li><a href="/about" className="hover:text-gray-300 transition-colors duration-300">About</a></li>
-            <li><a href="/work" className="hover:text-gray-300 transition-colors duration-300">Work</a></li>
-            <li><a href="/contact" className="hover:text-gray-300 transition-colors duration-300">Let's talk</a></li>
-          </ul>
-        </nav>
-      </header>
-
+    <>
       <main className="relative">
         {/* Grid Background */}
         <div className="absolute inset-0 overflow-hidden">
@@ -175,24 +158,7 @@ export default function AboutPage() {
         </motion.div>
       </main>
 
-      <footer className="py-8 px-4">
-        <div className="max-w-4xl mx-auto">
-          <ul className="flex flex-col space-y-2">
-            <motion.li whileHover={{ x: 10 }} transition={{ duration: 0.2 }}>
-              <a href="#" className="hover:text-gray-300 transition-colors duration-300">view my behance</a>
-            </motion.li>
-            <motion.li whileHover={{ x: 10 }} transition={{ duration: 0.2 }}>
-              <a href="#" className="hover:text-gray-300 transition-colors duration-300">get in touch</a>
-            </motion.li>
-            <motion.li whileHover={{ x: 10 }} transition={{ duration: 0.2 }}>
-              <a href="#" className="hover:text-gray-300 transition-colors duration-300">view my dribble</a>
-            </motion.li>
-          </ul>
-          <p className="mt-8 text-sm text-gray-500">
-            Handcrafted by <a href="https://theoctane.vercel.app" className="text-white hover:underline">Octane</a>
-          </p>
-        </div>
-      </footer>
-    </div>
+  
+    </>
   )
 }
