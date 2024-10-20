@@ -30,7 +30,7 @@ export default function Modal({ project, onClose, onPrevious, onNext }: ModalPro
       animate={{ y: 0 }}
       exit={{ y: "100%" }}
       transition={{ type: "spring", damping: 70, stiffness: 500 }}
-      className="relative inset-0 bg-black z-50 flex flex-col"
+      className="fixed inset-0 bg-black z-50 flex flex-col"
     >
       <div className="flex justify-between items-center p-4 bg-black">
         <div className="flex space-x-2">
@@ -54,7 +54,7 @@ export default function Modal({ project, onClose, onPrevious, onNext }: ModalPro
           <X size={32} />
         </button>
       </div>
-      <div className="flex-grow">
+      <div className="flex-grow overflow-y-auto">
         <div className="container mx-auto px-4 py-8">
           <h2 className="text-3xl font-bold text-white mb-8">{project.title}</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">

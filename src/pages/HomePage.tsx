@@ -40,9 +40,7 @@ export default function HomePage() {
 
   return (
     <>
-
-      {/* <AnimatePresence> */}
-      {selectedProjectIndex === null ? <div className="mx-auto h-full">
+      <main className="mx-auto">
         <motion.section
           id="about"
           className="relative text-center py-36 flex items-center justify-center flex-col overflow-hidden"
@@ -137,18 +135,18 @@ export default function HomePage() {
             </motion.div>
           ))}
         </motion.section>
-      </div>
-        : (
-          <div className="h-screen ">
-            <Modal
-              project={projectData[selectedProjectIndex]}
-              onClose={() => setSelectedProjectIndex(null)}
-              onPrevious={handlePreviousProject}
-              onNext={handleNextProject}
-            />
-          </div>
+      </main>
+
+      <AnimatePresence>
+        {selectedProjectIndex !== null && (
+          <Modal
+            project={projectData[selectedProjectIndex]}
+            onClose={() => setSelectedProjectIndex(null)}
+            onPrevious={handlePreviousProject}
+            onNext={handleNextProject}
+          />
         )}
-      {/* </AnimatePresence> */}
+      </AnimatePresence>
     </>
   );
 }
