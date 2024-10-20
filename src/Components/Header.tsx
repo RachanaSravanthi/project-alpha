@@ -23,7 +23,12 @@ export default function Header({ isLoaded, scrollTo }: HeaderProps) {
         >
             <nav className="w-full">
                 <ul className="flex justify-center items-center space-x-8">
-                    <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=1961&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Profile"  className="rounded-full mb-4 md:mb-0 cursor-pointer w-16 h-16 object-cover" onClick={() => navigate("/")} />
+                    <img
+                        src="https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=1961&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                        alt="Profile"
+                        className="rounded-full mb-4 md:mb-0 cursor-pointer w-8 h-8 object-cover"
+                        onClick={() => navigate("/")}
+                    />
                     <motion.li variants={fadeIn}>
                         <button
                             onClick={() => navigate("/about")}
