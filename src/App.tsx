@@ -48,17 +48,18 @@ const App = () => {
       },
     },
   };
+  
 
   const projectData = [
-    { title: "Project 1", subtitle: "VFX" },
-    { title: "Project 2", subtitle: "2D Design" },
-    { title: "Project 3", subtitle: "3D Design" },
-    { title: "Project 4", subtitle: "Film" },
-    { title: "Project 5", subtitle: "Animation" },
-    { title: "Project 6", subtitle: "Concept Art" },
-    { title: "Project 7", subtitle: "Motion Graphics" },
-    { title: "Project 8", subtitle: "Visual Effects" },
-    { title: "Project 9", subtitle: "Digital Art" },
+    { title: "Project 1", subtitle: "VFX" ,images:["https://i.pinimg.com/originals/72/f6/b3/72f6b3a4898f8b00f415954cdf0d1081.jpg","https://i.pinimg.com/originals/72/f6/b3/72f6b3a4898f8b00f415954cdf0d1081.jpg"],description:"Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio necessitatibus aspernatur laboriosam? Iste commodi explicabo repellat quaerat laborum? Dignissimos odit velit totam excepturi unde quibusdam eligendi vero ad aliquid blanditiis." },
+    { title: "Project 2", subtitle: "2D Design", images:["https://i.pinimg.com/originals/72/f6/b3/72f6b3a4898f8b00f415954cdf0d1081.jpg","https://i.pinimg.com/originals/72/f6/b3/72f6b3a4898f8b00f415954cdf0d1081.jpg"],description:"Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio necessitatibus aspernatur laboriosam? Iste commodi explicabo repellat quaerat laborum? Dignissimos odit velit totam excepturi unde quibusdam eligendi vero ad aliquid blanditiis." },
+    { title: "Project 3", subtitle: "3D Design" , images:["https://i.pinimg.com/originals/72/f6/b3/72f6b3a4898f8b00f415954cdf0d1081.jpg","https://i.pinimg.com/originals/72/f6/b3/72f6b3a4898f8b00f415954cdf0d1081.jpg"],description:"Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio necessitatibus aspernatur laboriosam? Iste commodi explicabo repellat quaerat laborum? Dignissimos odit velit totam excepturi unde quibusdam eligendi vero ad aliquid blanditiis."},
+    { title: "Project 4", subtitle: "Film", images:["https://i.pinimg.com/originals/72/f6/b3/72f6b3a4898f8b00f415954cdf0d1081.jpg","https://i.pinimg.com/originals/72/f6/b3/72f6b3a4898f8b00f415954cdf0d1081.jpg"] ,description:"Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio necessitatibus aspernatur laboriosam? Iste commodi explicabo repellat quaerat laborum? Dignissimos odit velit totam excepturi unde quibusdam eligendi vero ad aliquid blanditiis."},
+    { title: "Project 5", subtitle: "Animation", images:["https://i.pinimg.com/originals/72/f6/b3/72f6b3a4898f8b00f415954cdf0d1081.jpg","https://i.pinimg.com/originals/72/f6/b3/72f6b3a4898f8b00f415954cdf0d1081.jpg"],description:"Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio necessitatibus aspernatur laboriosam? Iste commodi explicabo repellat quaerat laborum? Dignissimos odit velit totam excepturi unde quibusdam eligendi vero ad aliquid blanditiis." },
+    { title: "Project 6", subtitle: "Concept Art" , images:["https://i.pinimg.com/originals/72/f6/b3/72f6b3a4898f8b00f415954cdf0d1081.jpg","https://i.pinimg.com/originals/72/f6/b3/72f6b3a4898f8b00f415954cdf0d1081.jpg"],description:"Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio necessitatibus aspernatur laboriosam? Iste commodi explicabo repellat quaerat laborum? Dignissimos odit velit totam excepturi unde quibusdam eligendi vero ad aliquid blanditiis."},
+    { title: "Project 7", subtitle: "Motion Graphics", images:["https://i.pinimg.com/originals/72/f6/b3/72f6b3a4898f8b00f415954cdf0d1081.jpg","https://i.pinimg.com/originals/72/f6/b3/72f6b3a4898f8b00f415954cdf0d1081.jpg"] ,description:"Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio necessitatibus aspernatur laboriosam? Iste commodi explicabo repellat quaerat laborum? Dignissimos odit velit totam excepturi unde quibusdam eligendi vero ad aliquid blanditiis."},
+    { title: "Project 8", subtitle: "Visual Effects", images:["https://i.pinimg.com/originals/72/f6/b3/72f6b3a4898f8b00f415954cdf0d1081.jpg","https://i.pinimg.com/originals/72/f6/b3/72f6b3a4898f8b00f415954cdf0d1081.jpg"] ,description:"Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio necessitatibus aspernatur laboriosam? Iste commodi explicabo repellat quaerat laborum? Dignissimos odit velit totam excepturi unde quibusdam eligendi vero ad aliquid blanditiis."},
+    { title: "Project 9", subtitle: "Digital Art", images:["https://i.pinimg.com/originals/72/f6/b3/72f6b3a4898f8b00f415954cdf0d1081.jpg","https://i.pinimg.com/originals/72/f6/b3/72f6b3a4898f8b00f415954cdf0d1081.jpg"],description:"Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio necessitatibus aspernatur laboriosam? Iste commodi explicabo repellat quaerat laborum? Dignissimos odit velit totam excepturi unde quibusdam eligendi vero ad aliquid blanditiis." },
   ];
 
   const scrollTo = (id: string) => {

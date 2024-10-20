@@ -7,6 +7,7 @@ import ErrorPage from "./pages/ErrorPage.tsx";
 import AboutPage from "./pages/AboutUs.tsx";
 import HomePage from "./pages/HomePage.tsx";
 
+
 const appRouter = createBrowserRouter([
     {
         path: "/",
