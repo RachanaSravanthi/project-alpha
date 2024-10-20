@@ -5,7 +5,7 @@ function ErrorPage() {
   return (
     <div>
       something went wrong
-      <h2>some error occured</h2>
+      <h2>some error occurred</h2>
     </div>
   )
 }

@@ -1,5 +1,3 @@
-
-
 import { motion } from "framer-motion";
 import { useOutletContext } from "react-router-dom"
 
@@ -28,7 +26,7 @@ export default function HomePage() {
                         {[...Array(28 * 16)].map((_, i) => (
                             <div
                                 key={i}
-                                className="border border-white/10"
+                                className="border border-white/15"
                                 style={{
                                     animation: `pulse 12s cubic-bezier(0.4, 0, 0.6, 1) infinite ${i * 0.05}s`,
                                 }}
