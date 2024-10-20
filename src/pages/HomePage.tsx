@@ -23,20 +23,26 @@ export default function HomePage() {
   const categories = ["Motion Design", "Graphics Design", "VFX for film"];
 
   const handlePreviousProject = () => {
-    setSelectedProjectIndex((prevIndex) => 
+    setSelectedProjectIndex((prevIndex) =>
       prevIndex !== null ? (prevIndex - 1 + projectData.length) % projectData.length : null
     );
   };
 
   const handleNextProject = () => {
-    setSelectedProjectIndex((prevIndex) => 
+    setSelectedProjectIndex((prevIndex) =>
       prevIndex !== null ? (prevIndex + 1) % projectData.length : null
     );
   };
 
+  const filteredProjects = selectedCategory
+    ? projectData.filter((project) => project.category === selectedCategory)
+    : projectData
+
   return (
     <>
-      <main className="mx-auto">
+
+      {/* <AnimatePresence> */}
+      {selectedProjectIndex === null ? <div className="mx-auto h-full">
         <motion.section
           id="about"
           className="relative text-center py-36 flex items-center justify-center flex-col overflow-hidden"
@@ -50,9 +56,8 @@ export default function HomePage() {
                 key={i}
                 className="border border-white/15"
                 style={{
-                  animation: `pulse 12s cubic-bezier(0.4, 0, 0.6, 1) infinite ${
-                    i * 0.05
-                  }s`,
+                  animation: `pulse 12s cubic-bezier(0.4, 0, 0.6, 1) infinite ${i * 0.05
+                    }s`,
                 }}
               />
             ))}
@@ -92,14 +97,13 @@ export default function HomePage() {
           {categories.map((category) => (
             <button
               key={category}
-              className={`px-4 py-2 rounded-full ${
-                selectedCategory === category
-                  ? "bg-white text-black"
-                  : "bg-transparent text-white border border-white"
-              }`}
+              className={`px-4 py-2 rounded-full ${selectedCategory === category
+                ? "bg-white text-black"
+                : "bg-transparent text-white border border-white"
+                }`}
               onClick={() =>
                 setSelectedCategory(
-                  category === selectedCategory ? null : category
+                  category === selectedCategory ? selectedCategory : category
                 )
               }
             >
@@ -109,12 +113,12 @@ export default function HomePage() {
         </motion.div>
         <motion.section
           id="work"
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mb-8"
           initial="hidden"
           animate={isLoaded ? "visible" : "hidden"}
           variants={staggerChildren}
         >
-          {projectData.map((project, i) => (
+          {filteredProjects.map((project, i) => (
             <motion.div
               key={i}
               className="relative overflow-hidden group hover:cursor-pointer"
@@ -133,18 +137,18 @@ export default function HomePage() {
             </motion.div>
           ))}
         </motion.section>
-      </main>
-
-      <AnimatePresence>
-        {selectedProjectIndex !== null && (
-          <Modal
-            project={projectData[selectedProjectIndex]}
-            onClose={() => setSelectedProjectIndex(null)}
-            onPrevious={handlePreviousProject}
-            onNext={handleNextProject}
-          />
+      </div>
+        : (
+          <div className="h-screen ">
+            <Modal
+              project={projectData[selectedProjectIndex]}
+              onClose={() => setSelectedProjectIndex(null)}
+              onPrevious={handlePreviousProject}
+              onNext={handleNextProject}
+            />
+          </div>
         )}
-      </AnimatePresence>
+      {/* </AnimatePresence> */}
     </>
   );
 }
