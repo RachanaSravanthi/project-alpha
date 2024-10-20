@@ -9,7 +9,7 @@ import Modal from "../Components/Modal";
 interface HomePageProps {
   isLoaded: boolean;
   scrollTo: (id: string) => void;
-  projectData: Array<{ title: string; subtitle: string; description: string; images: string[] }>;
+  projectData: Array<{ title: string; subtitle: string; description: string; images: string[],category: string }>;
   fadeIn: any;
   staggerChildren: any;
 }
