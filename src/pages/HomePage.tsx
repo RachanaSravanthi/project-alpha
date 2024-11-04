@@ -1,3 +1,5 @@
+"use client";
+
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { useOutletContext } from "react-router-dom";
@@ -6,15 +8,7 @@ import Modal from "../components/Modal";
 interface HomePageProps {
     isLoaded: boolean;
     scrollTo: (id: string) => void;
-    projectData: Array<{
-        id: number;
-        title: string;
-        category: string;
-        subtitle: string;
-        link: string;
-        images: string[];
-        description: string;
-    }>;
+    projectData: Array<{ title: string; subtitle: string; description: string; images: string[]; iframeLink: string; category: string }>;
     fadeIn: any;
     staggerChildren: any;
 }
@@ -93,11 +87,10 @@ export default function HomePage() {
                     {categories.map((category) => (
                         <button
                             key={category}
-                            className={`px-4 py-2 rounded-full ${
-                                selectedCategory === category
-                                    ? "bg-white text-black"
-                                    : "bg-transparent text-white border border-white"
-                            }`}
+                            className={`px-4 py-2 rounded-full ${selectedCategory === category
+                                ? "bg-white text-black"
+                                : "bg-transparent text-white border border-white"
+                                }`}
                             onClick={() => setSelectedCategory(category === selectedCategory ? selectedCategory : category)}
                         >
                             {category}
@@ -111,18 +104,25 @@ export default function HomePage() {
                     animate={isLoaded ? "visible" : "hidden"}
                     variants={staggerChildren}
                 >
-                    {filteredProjects.map((project, key) => (
+                    {filteredProjects.map((project, i) => (
                         <motion.div
-                            key={key}
+                            key={i}
                             className="relative overflow-hidden group hover:cursor-pointer"
                             variants={fadeIn}
-                            onClick={() => setSelectedProjectIndex(key)}
+                            onClick={() => setSelectedProjectIndex(i)}
                         >
-                            <img
+                            {/* <img
                                 src={project.images[0]}
                                 alt="Project thumbnail"
                                 className="w-full h-[300px] object-cover transition-transform duration-300 group-hover:scale-110"
-                            />
+                            /> */}
+
+                            <iframe
+                                src={`${project.iframeLink}?controls=0`}
+                                className="w-full h-[300px] object-cover transition-transform duration-300 group-hover:scale-110"
+                            ></iframe>
+
+
                             <div className="absolute bottom-0 left-0 p-2 bg-black bg-opacity-50 w-full transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
                                 <h3 className="text-lg font-bold">{project.title}</h3>
                                 <p className="text-sm">{project.subtitle}</p>
