@@ -8,7 +8,16 @@ import Modal from "../components/Modal";
 interface HomePageProps {
     isLoaded: boolean;
     scrollTo: (id: string) => void;
-    projectData: Array<{ title: string; subtitle: string; description: string; images: string[]; iframeLink: string; category: string }>;
+    projectData: Array<{
+        id: number;
+        title: string;
+        category: string;
+        subtitle: string;
+        link: string;
+        images: string[];
+        iframeLink: string;
+        description: string;
+    }>;
     fadeIn: any;
     staggerChildren: any;
 }
@@ -87,10 +96,11 @@ export default function HomePage() {
                     {categories.map((category) => (
                         <button
                             key={category}
-                            className={`px-4 py-2 rounded-full ${selectedCategory === category
-                                ? "bg-white text-black"
-                                : "bg-transparent text-white border border-white"
-                                }`}
+                            className={`px-4 py-2 rounded-full ${
+                                selectedCategory === category
+                                    ? "bg-white text-black"
+                                    : "bg-transparent text-white border border-white"
+                            }`}
                             onClick={() => setSelectedCategory(category === selectedCategory ? selectedCategory : category)}
                         >
                             {category}
@@ -121,7 +131,6 @@ export default function HomePage() {
                                 src={`${project.iframeLink}?controls=0`}
                                 className="w-full h-[300px] object-cover transition-transform duration-300 group-hover:scale-110"
                             ></iframe>
-
 
                             <div className="absolute bottom-0 left-0 p-2 bg-black bg-opacity-50 w-full transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
                                 <h3 className="text-lg font-bold">{project.title}</h3>
