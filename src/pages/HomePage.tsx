@@ -1,5 +1,3 @@
-"use client";
-
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { useOutletContext } from "react-router-dom";
@@ -8,7 +6,15 @@ import Modal from "../components/Modal";
 interface HomePageProps {
     isLoaded: boolean;
     scrollTo: (id: string) => void;
-    projectData: Array<{ title: string; subtitle: string; description: string; images: string[]; category: string }>;
+    projectData: Array<{
+        id: number;
+        title: string;
+        category: string;
+        subtitle: string;
+        link: string;
+        images: string[];
+        description: string;
+    }>;
     fadeIn: any;
     staggerChildren: any;
 }

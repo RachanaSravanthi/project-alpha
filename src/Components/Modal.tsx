@@ -9,6 +9,8 @@ interface ModalProps {
         id: number;
         title: string;
         category: string;
+        subtitle: string;
+        link: string;
         images: string[];
         description: string;
     };

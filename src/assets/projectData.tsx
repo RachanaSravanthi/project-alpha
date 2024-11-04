@@ -2,6 +2,8 @@ interface Project {
     id: number;
     title: string;
     category: string;
+    subtitle: string;
+    link: string;
     images: string[];
     description: string;
 }
@@ -11,6 +13,8 @@ export const projectData: Project[] = [
         id: 1,
         title: "VFX Film Showreel",
         category: "2D Design",
+        subtitle: "Test",
+        link: "link",
         images: [
             "https://drive.google.com/file/d/13WoPHOqUTzvT0ngaZ5-A50LXsPprcfsh/preview",
             "https://i.pinimg.com/originals/72/f6/b3/72f6b3a4898f8b00f415954cdf0d1081.jpg",
