@@ -13,7 +13,7 @@ export const projectData: Project[] = [
     {
         id: 1,
         title: "VFX Film Showreel",
-        category: "2D Design",
+        category: "VFX for film",
         subtitle: "Test",
         link: "link",
         images: [
