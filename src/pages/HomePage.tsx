@@ -105,12 +105,12 @@ export default function HomePage() {
                     animate={isLoaded ? "visible" : "hidden"}
                     variants={staggerChildren}
                 >
-                    {filteredProjects.map((project, i) => (
+                    {filteredProjects.map((project, key) => (
                         <motion.div
-                            key={i}
+                            key={key}
                             className="relative overflow-hidden group hover:cursor-pointer"
                             variants={fadeIn}
-                            onClick={() => setSelectedProjectIndex(i)}
+                            onClick={() => setSelectedProjectIndex(key)}
                         >
                             <img
                                 src={project.images[0]}
