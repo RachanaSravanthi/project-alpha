@@ -17,6 +17,7 @@ interface HomePageProps {
         images: string[];
         iframeLink: string;
         description: string;
+        tools: string;
     }>;
     fadeIn: any;
     staggerChildren: any;
