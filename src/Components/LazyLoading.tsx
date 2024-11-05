@@ -1,75 +1,47 @@
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
-interface VimeoEmbedProps {
+interface LazyLoadVimeoEmbedProps {
   src: string;
-  width: string;
-  height: string;
+  width?: string | number;
+  height?: string | number;
   className?: string;
-  [propName: string]: any;
 }
 
-const LazyLoadVimeoEmbed: React.FC<VimeoEmbedProps> = ({
+const LazyLoadVimeoEmbed: React.FC<LazyLoadVimeoEmbedProps> = ({
   src,
   width,
   height,
   className,
-  ...props
 }) => {
-  const containerRef = useRef<HTMLDivElement>(null);
+  const playerRef = useRef<any>(null);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const iframe = document.createElement('iframe');
+    const loadVimeoPlayer = async () => {
+      const Vimeo = await import('@vimeo/player');
+      const player = new Vimeo.default.Player(`vimeo-player-${src.split('/').pop()}`, {
+        url: src,
+        width: width || '100%',
+        height: height || '100%',
+        autoplay: false,
+        controls: false,
+        title: false,
+        byline: false,
+        portrait: false,
+      });
+      playerRef.current = player;
+    };
 
-            // Set the iframe source with necessary parameters to hide all UI elements
-            iframe.src = `${src}?background=1&muted=1`;
-            iframe.width = width;
-            iframe.height = height;
-            iframe.className = className || '';
-            iframe.setAttribute('frameborder', '0');
-            iframe.setAttribute('allowfullscreen', 'true');
-
-            containerRef.current!.appendChild(iframe);
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { rootMargin: '50px' }
-    );
-
-    if (containerRef.current) {
-      observer.observe(containerRef.current);
-    }
+    loadVimeoPlayer();
 
     return () => {
-      if (containerRef.current) {
-        observer.unobserve(containerRef.current);
-      }
+      playerRef.current?.destroy();
     };
-  }, [src, width, height, className]);
+  }, [src, width, height]);
 
   return (
-    <div
-      ref={containerRef}
-      onMouseEnter={() => {
-        // Start autoplay on hover by updating the src attribute
-        const iframe = containerRef.current?.querySelector('iframe');
-        if (iframe) {
-          iframe.src = `${src}?background=1&muted=1&autoplay=1`;
-        }
-      }}
-      onMouseLeave={() => {
-        // Stop autoplay on hover out by resetting the src attribute
-        const iframe = containerRef.current?.querySelector('iframe');
-        if (iframe) {
-          iframe.src = `${src}?background=1&muted=1`;
-        }
-      }}
-      {...props}
-    />
+    <div id={`vimeo-player-${src.split('/').pop()}`} className={className}>
+      {/* Placeholder or loading indicator */}
+    </div>
   );
 };
 

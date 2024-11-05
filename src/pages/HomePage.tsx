@@ -1,8 +1,10 @@
 
 import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import {useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import Modal from "../components/Modal";
+import VimeoEmbed from "../components/VEM";
+
 // import LazyLoadVimeoEmbed from "../components/LazyLoading";
 
 interface HomePageProps {
@@ -24,6 +26,7 @@ interface HomePageProps {
 }
 
 export default function HomePage() {
+   
     const { isLoaded, projectData, fadeIn, staggerChildren } = useOutletContext<HomePageProps>();
     const [selectedCategory, setSelectedCategory] = useState<string | null>("Motion Design");
     const [selectedProjectIndex, setSelectedProjectIndex] = useState<number | null>(null);
@@ -127,11 +130,12 @@ export default function HomePage() {
                                 alt="Project thumbnail"
                                 className="w-full h-[300px] object-cover transition-transform duration-300 group-hover:scale-110"
                             /> */}
-
-                         <iframe
-                                src={`${project.iframeLink}?controls=0`}
+                              <VimeoEmbed iframeLink={project.iframeLink} />
+                         {/* <iframe
+                                src={`${project.iframeLink}?controls=0&title=0&byline=0&portrait=0`}
                                 className="w-full h-[300px] object-cover transition-transform duration-300 group-hover:scale-110"
-                            ></iframe> 
+                                allow="autoplay; fullscreen" 
+                                 /> */}
                             {/* <LazyLoadVimeoEmbed
               src={project.iframeLink}
               width="100%"
