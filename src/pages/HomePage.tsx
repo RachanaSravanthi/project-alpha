@@ -1,9 +1,9 @@
-"use client";
 
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import Modal from "../components/Modal";
+// import LazyLoadVimeoEmbed from "../components/LazyLoading";
 
 interface HomePageProps {
     isLoaded: boolean;
@@ -110,7 +110,7 @@ export default function HomePage() {
                 </motion.div>
                 <motion.section
                     id="work"
-                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mb-8"
+                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mb-8" 
                     initial="hidden"
                     animate={isLoaded ? "visible" : "hidden"}
                     variants={staggerChildren}
@@ -128,11 +128,18 @@ export default function HomePage() {
                                 className="w-full h-[300px] object-cover transition-transform duration-300 group-hover:scale-110"
                             /> */}
 
-                            <iframe
+                         <iframe
                                 src={`${project.iframeLink}?controls=0`}
                                 className="w-full h-[300px] object-cover transition-transform duration-300 group-hover:scale-110"
-                            ></iframe>
-
+                            ></iframe> 
+                            {/* <LazyLoadVimeoEmbed
+              src={project.iframeLink}
+              width="100%"
+              height="300"
+              className="w-full h-[300px] object-cover transition-transform duration-300 group-hover:scale-110 bg-white"
+            /> */}
+          
+                      
                             <div className="absolute bottom-0 left-0 p-2 bg-black bg-opacity-50 w-full transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
                                 <h3 className="text-lg font-bold">{project.title}</h3>
                                 <p className="text-sm">{project.subtitle}</p>
