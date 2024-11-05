@@ -17,6 +17,7 @@ interface HomePageProps {
         images: string[];
         iframeLink: string;
         description: string;
+        tools: string;
     }>;
     fadeIn: any;
     staggerChildren: any;
@@ -24,7 +25,7 @@ interface HomePageProps {
 
 export default function HomePage() {
     const { isLoaded, projectData, fadeIn, staggerChildren } = useOutletContext<HomePageProps>();
-    const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+    const [selectedCategory, setSelectedCategory] = useState<string | null>("Motion Design");
     const [selectedProjectIndex, setSelectedProjectIndex] = useState<number | null>(null);
 
     const categories = ["Motion Design", "Graphics Design", "VFX for film"];
