@@ -1,108 +1,129 @@
-'use client'
-
-import React, { useState, ChangeEvent, FormEvent } from 'react'
-import { initializeApp } from 'firebase/app'
-import { getFirestore, collection, addDoc } from 'firebase/firestore'
-import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage'
+import { useState, ChangeEvent, FormEvent } from "react";
+import { initializeApp } from "firebase/app";
+import { getFirestore, collection, addDoc } from "firebase/firestore";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 // Initialize Firebase (replace with your config)
 const firebaseConfig = {
-  // Your Firebase configuration here
-}
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+}; 
 
-const app = initializeApp(firebaseConfig)
-const db = getFirestore(app)
-const storage = getStorage(app)
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const storage = getStorage(app);
 
 interface Project {
-  id: number
-  title: string
-  category: string
-  subtitle: string
-  link: string
-  images: string[]
-  iframeLink: string
-  description: string
-  tools: string
+  id: number;
+  title: string;
+  category: string;
+  subtitle: string;
+  link: string;
+  images: string[];
+  iframeLink: string;
+  description: string;
+  tools: string;
 }
 
 export default function AdminUploadPage() {
-  const [project, setProject] = useState<Omit<Project, 'id' | 'images'>>({
-    title: '',
-    category: '',
-    subtitle: '',
-    link: '',
-    iframeLink: '',
-    description: '',
-    tools: ''
-  })
-  const [images, setImages] = useState<File[]>([])
-  const [isUploading, setIsUploading] = useState(false)
-  const [message, setMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null)
+  const [project, setProject] = useState<Omit<Project, "id" | "images">>({
+    title: "",
+    category: "",
+    subtitle: "",
+    link: "",
+    iframeLink: "",
+    description: "",
+    tools: "",
+  });
+  const [images, setImages] = useState<File[]>([]);
+  const [isUploading, setIsUploading] = useState(false);
+  const [message, setMessage] = useState<{
+    type: "success" | "error";
+    text: string;
+  } | null>(null);
 
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value } = e.target
-    setProject(prev => ({ ...prev, [name]: value }))
-  }
+  const handleInputChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
+    setProject((prev) => ({ ...prev, [name]: value }));
+  };
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
-      setImages(Array.from(e.target.files))
+      setImages(Array.from(e.target.files));
     }
-  }
+  };
 
   const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault()
-    setIsUploading(true)
-    setMessage(null)
+    e.preventDefault();
+    setIsUploading(true);
+    setMessage(null);
 
     try {
       // Upload images
       const imageUrls = await Promise.all(
         images.map(async (image) => {
-          const imageRef = ref(storage, `project-images/${Date.now()}-${image.name}`)
-          await uploadBytes(imageRef, image)
-          return getDownloadURL(imageRef)
+          const imageRef = ref(
+            storage,
+            `project-images/${Date.now()}-${image.name}`
+          );
+          await uploadBytes(imageRef, image);
+          return getDownloadURL(imageRef);
         })
-      )
+      );
 
       // Add project to Firestore
-      const projectsRef = collection(db, 'projects')
+      const projectsRef = collection(db, "projects");
       await addDoc(projectsRef, {
         ...project,
         images: imageUrls,
-        id: Date.now() // Using timestamp as a simple id
-      })
+        id: Date.now(), // Using timestamp as a simple id
+      });
 
-      setMessage({ type: 'success', text: 'Project uploaded successfully' })
+      setMessage({ type: "success", text: "Project uploaded successfully" });
 
       // Reset form
       setProject({
-        title: '',
-        category: '',
-        subtitle: '',
-        link: '',
-        iframeLink: '',
-        description: '',
-        tools: ''
-      })
-      setImages([])
+        title: "",
+        category: "",
+        subtitle: "",
+        link: "",
+        iframeLink: "",
+        description: "",
+        tools: "",
+      });
+      setImages([]);
     } catch (error) {
-      console.error("Error uploading project:", error)
-      setMessage({ type: 'error', text: 'Error uploading project. Please try again.' })
+      console.error("Error uploading project:", error);
+      setMessage({
+        type: "error",
+        text: "Error uploading project. Please try again.",
+      });
     } finally {
-      setIsUploading(false)
+      setIsUploading(false);
     }
-  }
+  };
 
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         <div className="bg-white shadow-md rounded-lg p-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Upload New Project</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-6">
+            Upload New Project
+          </h2>
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <label htmlFor="title" className="block text-sm font-medium text-gray-700">Title</label>
+              <label
+                htmlFor="title"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Title
+              </label>
               <input
                 type="text"
                 id="title"
@@ -115,7 +136,12 @@ export default function AdminUploadPage() {
               />
             </div>
             <div>
-              <label htmlFor="category" className="block text-sm font-medium text-gray-700">Category</label>
+              <label
+                htmlFor="category"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Category
+              </label>
               <select
                 id="category"
                 name="category"
@@ -132,7 +158,12 @@ export default function AdminUploadPage() {
               </select>
             </div>
             <div>
-              <label htmlFor="subtitle" className="block text-sm font-medium text-gray-700">Subtitle</label>
+              <label
+                htmlFor="subtitle"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Subtitle
+              </label>
               <input
                 type="text"
                 id="subtitle"
@@ -145,7 +176,12 @@ export default function AdminUploadPage() {
               />
             </div>
             <div>
-              <label htmlFor="link" className="block text-sm font-medium text-gray-700">Project Link</label>
+              <label
+                htmlFor="link"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Project Link
+              </label>
               <input
                 type="text"
                 id="link"
@@ -157,7 +193,12 @@ export default function AdminUploadPage() {
               />
             </div>
             <div>
-              <label htmlFor="iframeLink" className="block text-sm font-medium text-gray-700">Iframe Link</label>
+              <label
+                htmlFor="iframeLink"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Iframe Link
+              </label>
               <input
                 type="text"
                 id="iframeLink"
@@ -170,7 +211,12 @@ export default function AdminUploadPage() {
               />
             </div>
             <div>
-              <label htmlFor="description" className="block text-sm font-medium text-gray-700">Description</label>
+              <label
+                htmlFor="description"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Description
+              </label>
               <textarea
                 id="description"
                 name="description"
@@ -183,7 +229,12 @@ export default function AdminUploadPage() {
               ></textarea>
             </div>
             <div>
-              <label htmlFor="tools" className="block text-sm font-medium text-gray-700">Tools</label>
+              <label
+                htmlFor="tools"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Tools
+              </label>
               <input
                 type="text"
                 id="tools"
@@ -195,7 +246,12 @@ export default function AdminUploadPage() {
               />
             </div>
             <div>
-              <label htmlFor="images" className="block text-sm font-medium text-gray-700">Images</label>
+              <label
+                htmlFor="images"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Images
+              </label>
               <input
                 type="file"
                 id="images"
@@ -213,18 +269,26 @@ export default function AdminUploadPage() {
             <button
               type="submit"
               disabled={isUploading}
-              className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ${isUploading ? 'opacity-50 cursor-not-allowed' : ''}`}
+              className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ${
+                isUploading ? "opacity-50 cursor-not-allowed" : ""
+              }`}
             >
-              {isUploading ? 'Uploading...' : 'Upload Project'}
+              {isUploading ? "Uploading..." : "Upload Project"}
             </button>
           </form>
         </div>
         {message && (
-          <div className={`mt-4 p-4 rounded-md ${message.type === 'success' ? 'bg-green-50 text-green-800' : 'bg-red-50 text-red-800'}`}>
+          <div
+            className={`mt-4 p-4 rounded-md ${
+              message.type === "success"
+                ? "bg-green-50 text-green-800"
+                : "bg-red-50 text-red-800"
+            }`}
+          >
             {message.text}
           </div>
         )}
       </div>
     </div>
-  )
+  );
 }
