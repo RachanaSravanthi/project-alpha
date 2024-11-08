@@ -1,7 +1,6 @@
 import { useState, ChangeEvent, FormEvent } from "react";
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection, addDoc } from "firebase/firestore";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 // Initialize Firebase (replace with your config)
 const firebaseConfig = {
@@ -15,7 +14,6 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-const storage = getStorage(app);
 
 interface Project {
     id: number;
@@ -23,7 +21,7 @@ interface Project {
     category: string;
     subtitle: string;
     link: string;
-    images: string[];
+    images: string[]; // Array to store Base64 strings
     iframeLink: string;
     description: string;
     tools: string;
@@ -39,7 +37,7 @@ export default function AdminUploadPage() {
         description: "",
         tools: "",
     });
-    const [images, setImages] = useState<File[]>([]);
+    const [images, setImages] = useState<string[]>([]); // Store Base64 strings here
     const [isUploading, setIsUploading] = useState(false);
     const [message, setMessage] = useState<{
         type: "success" | "error";
@@ -53,7 +51,19 @@ export default function AdminUploadPage() {
 
     const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
-            setImages(Array.from(e.target.files));
+            const filesArray = Array.from(e.target.files);
+            const base64Promises = filesArray.map((file) => {
+                return new Promise<string>((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.readAsDataURL(file);
+                    reader.onload = () => resolve(reader.result as string);
+                    reader.onerror = (error) => reject(error);
+                });
+            });
+
+            Promise.all(base64Promises)
+                .then((base64Images) => setImages(base64Images))
+                .catch((error) => console.error("Error converting images to Base64:", error));
         }
     };
 
@@ -63,20 +73,11 @@ export default function AdminUploadPage() {
         setMessage(null);
 
         try {
-            // Upload images
-            const imageUrls = await Promise.all(
-                images.map(async (image) => {
-                    const imageRef = ref(storage, `project-images/${Date.now()}-${image.name}`);
-                    await uploadBytes(imageRef, image);
-                    return getDownloadURL(imageRef);
-                })
-            );
-
-            // Add project to Firestore
+            // Add project to Firestore with Base64 images
             const projectsRef = collection(db, "projects");
             await addDoc(projectsRef, {
                 ...project,
-                images: imageUrls,
+                images: images,
                 id: Date.now(), // Using timestamp as a simple id
             });
 

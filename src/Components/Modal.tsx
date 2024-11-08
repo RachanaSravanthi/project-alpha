@@ -13,7 +13,6 @@ interface ModalProps {
         subtitle: string;
         link: string;
         images: string[];
-        iframeLink: string;
         description: string;
         tools: string;
     };
@@ -126,7 +125,7 @@ export default function Modal({ project, onClose, onPrevious, onNext }: ModalPro
                                     </button>
                                 </div>
                             ))} */}
-                            <VimeoEmbed iframeLink={project.iframeLink} />
+                            <VimeoEmbed link={project.link} />
                         </div>
                         <p className="text-white text-lg mb-12">{project.description}</p>
                         {/*

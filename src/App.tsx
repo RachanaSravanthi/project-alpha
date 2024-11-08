@@ -1,15 +1,66 @@
+import { useState, useEffect, useRef } from "react";
+import { initializeApp } from "firebase/app";
+import { getFirestore, collection, getDocs, DocumentData } from "firebase/firestore";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
-import { useState, useEffect, useRef } from "react";
 import Lenis from "@studio-freight/lenis";
 import { Outlet } from "react-router-dom";
-import { projectData } from "./assets/projectData";
+
+interface Project {
+    id: string;
+    title: string;
+    category: string;
+    subtitle: string;
+    link: string;
+    images: string[];
+    iframeLink: string;
+    description: string;
+    tools: string;
+}
+
+interface AppContext {
+    isLoaded: boolean;
+    scrollTo: (id: string) => void;
+    projectData: Project[];
+    fadeIn: object;
+    staggerChildren: object;
+}
+
+const firebaseConfig = {
+    apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+    authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+    projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+    storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+    appId: import.meta.env.VITE_FIREBASE_APP_ID,
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
 const App = () => {
     const [isLoaded, setIsLoaded] = useState(false);
+    const [projectData, setProjectData] = useState<Project[]>([]); // Typed project data
     const lenisRef = useRef<Lenis | null>(null);
 
     useEffect(() => {
+        const fetchProjects = async () => {
+            try {
+                const querySnapshot = await getDocs(collection(db, "projects"));
+                const projects = querySnapshot.docs.map((doc) => ({
+                    id: doc.id,
+                    ...doc.data(),
+                })) as Project[]; // Type assertion for Project[]
+                setProjectData(projects);
+                console.log(projects);
+                setIsLoaded(true);
+            } catch (error) {
+                console.error("Error fetching projects:", error);
+            }
+        };
+
+        fetchProjects();
+
         lenisRef.current = new Lenis({
             duration: 1.2,
             orientation: "vertical",
@@ -26,8 +77,6 @@ const App = () => {
         }
 
         requestAnimationFrame(raf);
-
-        setIsLoaded(true);
 
         return () => {
             lenisRef.current?.destroy();
@@ -60,13 +109,15 @@ const App = () => {
         <div className="min-h-screen bg-black text-white overflow-x-hidden font-inter">
             <Header isLoaded={isLoaded} scrollTo={scrollTo} />
             <Outlet
-                context={{
-                    isLoaded,
-                    scrollTo,
-                    projectData,
-                    fadeIn,
-                    staggerChildren,
-                }}
+                context={
+                    {
+                        isLoaded,
+                        scrollTo,
+                        projectData,
+                        fadeIn,
+                        staggerChildren,
+                    } as AppContext
+                } // Provide context type
             />
             <Footer isLoaded={isLoaded} />
         </div>

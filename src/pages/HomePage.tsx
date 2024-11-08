@@ -1,11 +1,8 @@
-
 import { motion, AnimatePresence } from "framer-motion";
-import {useState } from "react";
+import { useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import Modal from "../components/Modal";
 import VimeoEmbed from "../components/VEM";
-
-// import LazyLoadVimeoEmbed from "../components/LazyLoading";
 
 interface HomePageProps {
     isLoaded: boolean;
@@ -17,7 +14,6 @@ interface HomePageProps {
         subtitle: string;
         link: string;
         images: string[];
-        iframeLink: string;
         description: string;
         tools: string;
     }>;
@@ -26,7 +22,6 @@ interface HomePageProps {
 }
 
 export default function HomePage() {
-   
     const { isLoaded, projectData, fadeIn, staggerChildren } = useOutletContext<HomePageProps>();
     const [selectedCategory, setSelectedCategory] = useState<string | null>("Motion Design");
     const [selectedProjectIndex, setSelectedProjectIndex] = useState<number | null>(null);
@@ -96,6 +91,7 @@ export default function HomePage() {
                         </motion.h2>
                     </div>
                 </motion.section>
+
                 <motion.div className="flex justify-center space-x-4 my-8" variants={fadeIn}>
                     {categories.map((category) => (
                         <button
@@ -105,15 +101,16 @@ export default function HomePage() {
                                     ? "bg-white text-black"
                                     : "bg-transparent text-white border border-white"
                             }`}
-                            onClick={() => setSelectedCategory(category === selectedCategory ? selectedCategory : category)}
+                            onClick={() => setSelectedCategory(category)}
                         >
                             {category}
                         </button>
                     ))}
                 </motion.div>
+
                 <motion.section
                     id="work"
-                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mb-8" 
+                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mb-8"
                     initial="hidden"
                     animate={isLoaded ? "visible" : "hidden"}
                     variants={staggerChildren}
@@ -125,25 +122,15 @@ export default function HomePage() {
                             variants={fadeIn}
                             onClick={() => setSelectedProjectIndex(i)}
                         >
-                            {/* <img
-                                src={project.images[0]}
-                                alt="Project thumbnail"
-                                className="w-full h-[300px] object-cover transition-transform duration-300 group-hover:scale-110"
-                            /> */}
-                              <VimeoEmbed iframeLink={project.iframeLink} />
-                         {/* <iframe
-                                src={`${project.iframeLink}?controls=0&title=0&byline=0&portrait=0`}
-                                className="w-full h-[300px] object-cover transition-transform duration-300 group-hover:scale-110"
-                                allow="autoplay; fullscreen" 
-                                 /> */}
-                            {/* <LazyLoadVimeoEmbed
-              src={project.iframeLink}
-              width="100%"
-              height="300"
-              className="w-full h-[300px] object-cover transition-transform duration-300 group-hover:scale-110 bg-white"
-            /> */}
-          
-                      
+                            {project.link ? (
+                                <VimeoEmbed link={project.link} />
+                            ) : (
+                                <img
+                                    src={`data:image/jpeg;base64,${project.images[0]}`}
+                                    alt="Project thumbnail"
+                                    className="w-full h-[300px] object-cover transition-transform duration-300 group-hover:scale-110"
+                                />
+                            )}
                             <div className="absolute bottom-0 left-0 p-2 bg-black bg-opacity-50 w-full transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
                                 <h3 className="text-lg font-bold">{project.title}</h3>
                                 <p className="text-sm">{project.subtitle}</p>
