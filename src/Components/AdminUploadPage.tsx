@@ -16,7 +16,7 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 interface Project {
-    id: number;
+    id: string;
     title: string;
     category: string;
     subtitle: string;
@@ -91,7 +91,7 @@ export default function AdminDashboard() {
             await addDoc(projectsRef, {
                 ...project,
                 images: images,
-                id: Date.now(),
+                // id: Date.now(),
             })
 
             setMessage({ type: "success", text: "Project uploaded successfully" })
