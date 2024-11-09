@@ -96,11 +96,10 @@ export default function HomePage() {
                     {categories.map((category) => (
                         <button
                             key={category}
-                            className={`px-4 py-2 rounded-full ${
-                                selectedCategory === category
+                            className={`px-4 py-2 rounded-full ${selectedCategory === category
                                     ? "bg-white text-black"
                                     : "bg-transparent text-white border border-white"
-                            }`}
+                                }`}
                             onClick={() => setSelectedCategory(category)}
                         >
                             {category}
@@ -122,15 +121,11 @@ export default function HomePage() {
                             variants={fadeIn}
                             onClick={() => setSelectedProjectIndex(i)}
                         >
-                            {project.link ? (
-                                <VimeoEmbed link={project.link} />
-                            ) : (
-                                <img
-                                    src={`data:image/jpeg;base64,${project.images[0]}`}
-                                    alt="Project thumbnail"
-                                    className="w-full h-[300px] object-cover transition-transform duration-300 group-hover:scale-110"
-                                />
-                            )}
+                            <img
+                                src={`data:image/jpeg;base64,${project.images[0]}`}
+                                alt="Project thumbnail"
+                                className="w-full h-[300px] object-cover transition-transform duration-300 group-hover:scale-110"
+                            />
                             <div className="absolute bottom-0 left-0 p-2 bg-black bg-opacity-50 w-full transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
                                 <h3 className="text-lg font-bold">{project.title}</h3>
                                 <p className="text-sm">{project.subtitle}</p>
