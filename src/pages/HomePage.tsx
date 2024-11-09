@@ -1,9 +1,9 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { useOutletContext } from "react-router-dom";
-import Modal from "../components/Modal";
+import Modal from "../Components/Modal";
 import VimeoEmbed from "../components/VEM";
-import { Heading1 } from "lucide-react";
+
 
 interface HomePageProps {
     isLoaded: boolean;

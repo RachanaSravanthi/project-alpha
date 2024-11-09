@@ -24,16 +24,20 @@ const appRouter = createBrowserRouter([
                 path: "/about",
                 element: <AboutPage />,
             },
-            {
-                path: "/admin",
-                element: <AdminSignin />,
-            },
-            {
-                path: "/adminUploadPage",
-                element: <AdminUploadPage />,
-            },
         ],
+        
     },
+    {
+         path: "/admin",
+         element: <AdminSignin />,
+         errorElement: <ErrorPage />,
+    },
+    {
+        path: "/adminUploadPage",
+        element: <AdminUploadPage />,
+        errorElement: <ErrorPage />,
+   }
+    
 ]);
 createRoot(document.getElementById("root")!).render(
     <StrictMode>
