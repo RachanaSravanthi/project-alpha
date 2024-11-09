@@ -1,7 +1,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { useOutletContext } from "react-router-dom";
-import Modal from "../Components/Modal";
+import Modal from "../components/Modal";
 import VimeoEmbed from "../components/VEM";
 
 interface HomePageProps {
@@ -14,6 +14,7 @@ interface HomePageProps {
         subtitle: string;
         link: string;
         images: string[];
+        iframeLink: string;
         description: string;
         tools: string;
     }>;

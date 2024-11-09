@@ -21,7 +21,7 @@ interface Project {
     category: string;
     subtitle: string;
     link: string;
-    images: string[]; // Array to store Base64 strings
+    images: string[];
     iframeLink: string;
     description: string;
     tools: string;

@@ -7,7 +7,7 @@ import Lenis from "@studio-freight/lenis";
 import { Outlet } from "react-router-dom";
 
 interface Project {
-    id: string;
+    id: number;
     title: string;
     category: string;
     subtitle: string;
@@ -50,9 +50,8 @@ const App = () => {
                 const projects = querySnapshot.docs.map((doc) => ({
                     id: doc.id,
                     ...doc.data(),
-                })) as Project[]; // Type assertion for Project[]
+                })) as Project[];
                 setProjectData(projects);
-                console.log(projects);
                 setIsLoaded(true);
             } catch (error) {
                 console.error("Error fetching projects:", error);
