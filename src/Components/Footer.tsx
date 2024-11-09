@@ -33,14 +33,14 @@ export default function Footer({ isLoaded }: FooterProps) {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 1 }}
-                className="bg-gray-900 text-[#FFF] py-10 px-8 shadow-sm rounded-md flex items-center justify-around md:flex-row flex-col space-y-6 md:space-y-0"
+                className="bg-white/10 text-[#FFF] py-10 px-8 shadow-sm rounded-md flex items-center justify-around md:flex-row flex-col space-y-6 md:space-y-0"
             >
                 <div>
                     <motion.h1
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6, delay: 1 }}
-                        className="text-2xl text-center"
+                        className="text-2xl text-center font-inter"
                     >
                         Start a project!
                     </motion.h1>
@@ -50,7 +50,7 @@ export default function Footer({ isLoaded }: FooterProps) {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6, delay: 1.2 }}
-                        className="text-center"
+                        className="text-center font-inter"
                     >
                         Interested in working together? We should queue
                         <br />
@@ -61,8 +61,8 @@ export default function Footer({ isLoaded }: FooterProps) {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: 1 }}
-                    className="py-2 px-7 border-2 border-[#FFF] hover:bg-[#6b7bef] hover:border-[#6b7bef] rounded-lg duration-300 text-center"
-                    href="mailto:imdelbingeorge@gmail.com"
+                    className="py-2 px-7 border-2 font-inter border-[#FFF] hover:bg-black hover:border-black rounded-lg duration-300 text-center"
+                    href="mailto:test@gmail.com"
                 >
                     Lets do this!
                 </motion.a>
@@ -88,8 +88,8 @@ export default function Footer({ isLoaded }: FooterProps) {
             <ul className="flex flex-col justify-start font-normal text-[1.4rem] text-[#909090]">
                 <motion.li variants={fadeIn}>
                     <a href="https://www.devoctane.in" className="text-[1rem] font-inter font-medium tracking-wide">
-                        <span className="text-[#4A4A4A] transition-colors duration-300">Handcrafted by </span>
-                        <span className="text-[#909090] hover:underline">Octane</span>
+                        <span className="text-[#787878] transition-colors duration-300">Handcrafted by </span>
+                        <span className="text-[#c6c6c6] hover:underline">Octane</span>
                     </a>
                 </motion.li>
             </ul>
