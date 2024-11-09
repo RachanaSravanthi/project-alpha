@@ -15,7 +15,7 @@ function PrivateRoute({ element }: { element: JSX.Element }) {
 
     if (isAuthenticated === null) return <div>Loading...</div>; // Optional loading state
 
-    return isAuthenticated ? element : <Navigate to="/" replace />;
+    return isAuthenticated ? element : <Navigate to="/admin" replace />;
 }
 
 export default PrivateRoute
