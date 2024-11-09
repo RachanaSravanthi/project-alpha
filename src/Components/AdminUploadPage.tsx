@@ -1,6 +1,6 @@
-import { useState, ChangeEvent, FormEvent } from "react";
+import { useState, ChangeEvent, FormEvent, useEffect } from "react";
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, addDoc } from "firebase/firestore";
+import { getFirestore, collection, addDoc, deleteDoc, getDocs, doc } from "firebase/firestore";
 
 // Initialize Firebase (replace with your config)
 const firebaseConfig = {
@@ -26,8 +26,7 @@ interface Project {
     description: string;
     tools: string;
 }
-
-export default function AdminUploadPage() {
+export default function AdminDashboard() {
     const [project, setProject] = useState<Omit<Project, "id" | "images">>({
         title: "",
         category: "",
@@ -36,55 +35,66 @@ export default function AdminUploadPage() {
         iframeLink: "",
         description: "",
         tools: "",
-    });
-    const [images, setImages] = useState<string[]>([]); // Store Base64 strings here
-    const [isUploading, setIsUploading] = useState(false);
-    const [message, setMessage] = useState<{
-        type: "success" | "error";
-        text: string;
-    } | null>(null);
+    })
+    const [images, setImages] = useState<string[]>([])
+    const [isUploading, setIsUploading] = useState(false)
+    const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null)
+    const [projects, setProjects] = useState<Project[]>([])
+    const [activeTab, setActiveTab] = useState<"upload" | "view">("upload")
+
+    useEffect(() => {
+        fetchProjects()
+    }, [])
+
+    const fetchProjects = async () => {
+        try {
+            const projectsRef = collection(db, "projects")
+            const snapshot = await getDocs(projectsRef)
+            const fetchedProjects = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() } as Project))
+            setProjects(fetchedProjects)
+        } catch (error) {
+            console.error("Error fetching projects:", error)
+            setMessage({ type: "error", text: "Error fetching projects. Please try again." })
+        }
+    }
 
     const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-        const { name, value } = e.target;
-        setProject((prev) => ({ ...prev, [name]: value }));
-    };
+        const { name, value } = e.target
+        setProject((prev) => ({ ...prev, [name]: value }))
+    }
 
     const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
-            const filesArray = Array.from(e.target.files);
+            const filesArray = Array.from(e.target.files)
             const base64Promises = filesArray.map((file) => {
                 return new Promise<string>((resolve, reject) => {
-                    const reader = new FileReader();
-                    reader.readAsDataURL(file);
-                    reader.onload = () => resolve(reader.result as string);
-                    reader.onerror = () => reject(new Error("Failed to read file"));
-                });
-            });
-    
+                    const reader = new FileReader()
+                    reader.readAsDataURL(file)
+                    reader.onload = () => resolve(reader.result as string)
+                    reader.onerror = () => reject(new Error("Failed to read file"))
+                })
+            })
+
             Promise.all(base64Promises)
                 .then((base64Images) => setImages(base64Images))
-                .catch((error) => console.error("Error converting images to Base64:", error));
+                .catch((error) => console.error("Error converting images to Base64:", error))
         }
-    };
-    
+    }
 
     const handleSubmit = async (e: FormEvent) => {
-        e.preventDefault();
-        setIsUploading(true);
-        setMessage(null);
+        e.preventDefault()
+        setIsUploading(true)
+        setMessage(null)
 
         try {
-            // Add project to Firestore with Base64 images
-            const projectsRef = collection(db, "projects");
+            const projectsRef = collection(db, "projects")
             await addDoc(projectsRef, {
                 ...project,
                 images: images,
-                id: Date.now(), // Using timestamp as a simple id
-            });
+                id: Date.now(),
+            })
 
-            setMessage({ type: "success", text: "Project uploaded successfully" });
-
-            // Reset form
+            setMessage({ type: "success", text: "Project uploaded successfully" })
             setProject({
                 title: "",
                 category: "",
@@ -93,25 +103,54 @@ export default function AdminUploadPage() {
                 iframeLink: "",
                 description: "",
                 tools: "",
-            });
-            setImages([]);
+            })
+            setImages([])
+            fetchProjects()
         } catch (error) {
-            console.error("Error uploading project:", error);
+            console.error("Error uploading project:", error)
             setMessage({
                 type: "error",
                 text: "Error uploading project. Please try again.",
-            });
+            })
         } finally {
-            setIsUploading(false);
+            setIsUploading(false)
         }
-    };
+    }
+
+    const handleDelete = async (id: string) => {
+        try {
+            await deleteDoc(doc(db, "projects", id))
+            setMessage({ type: "success", text: "Project deleted successfully" })
+            fetchProjects()
+        } catch (error) {
+            console.error("Error deleting project:", error)
+            setMessage({ type: "error", text: "Error deleting project. Please try again." })
+        }
+    }
 
     return (
-        <div className="min-h-screen bg-gray-100 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-md w-full space-y-8">
-                <div className="bg-white shadow-md rounded-lg p-8">
-                    <h2 className="text-2xl font-bold text-gray-900 mb-6">Upload New Project</h2>
-                    <form onSubmit={handleSubmit} className="space-y-6">
+        <div className="container mx-auto p-4">
+            <h1 className="text-3xl font-bold mb-6">Admin Dashboard</h1>
+            <div className="mb-4">
+                <button
+                    onClick={() => setActiveTab("upload")}
+                    className={`mr-2 px-4 py-2 rounded ${activeTab === "upload" ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-700"
+                        }`}
+                >
+                    Upload Project
+                </button>
+                <button
+                    onClick={() => setActiveTab("view")}
+                    className={`px-4 py-2 rounded ${activeTab === "view" ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-700"
+                        }`}
+                >
+                    View Projects
+                </button>
+            </div>
+            {activeTab === "upload" && (
+                <div className="bg-white shadow-md rounded-lg p-6">
+                    <h2 className="text-2xl font-bold mb-4">Upload New Project</h2>
+                    <form onSubmit={handleSubmit} className="space-y-4">
                         <div>
                             <label htmlFor="title" className="block text-sm font-medium text-gray-700">
                                 Title
@@ -123,8 +162,8 @@ export default function AdminUploadPage() {
                                 value={project.title}
                                 onChange={handleInputChange}
                                 required
-                                className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md text-sm shadow-sm placeholder-black text-black
-                          focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
+                                className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md text-sm shadow-sm placeholder-gray-400
+                focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
                             />
                         </div>
                         <div>
@@ -137,8 +176,8 @@ export default function AdminUploadPage() {
                                 value={project.category}
                                 onChange={handleInputChange}
                                 required
-                                className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md text-sm shadow-sm placeholder-black text-black
-                          focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
+                                className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md text-sm shadow-sm placeholder-gray-400
+                focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
                             >
                                 <option value="">Select Category</option>
                                 <option value="Motion Design">Motion Design</option>
@@ -157,8 +196,8 @@ export default function AdminUploadPage() {
                                 value={project.subtitle}
                                 onChange={handleInputChange}
                                 required
-                                className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md text-sm shadow-sm placeholder-black text-black
-                          focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
+                                className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md text-sm shadow-sm placeholder-gray-400
+                focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
                             />
                         </div>
                         <div>
@@ -171,8 +210,8 @@ export default function AdminUploadPage() {
                                 name="link"
                                 value={project.link}
                                 onChange={handleInputChange}
-                                className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md text-sm shadow-sm placeholder-black text-black
-                          focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
+                                className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md text-sm shadow-sm placeholder-gray-400
+                focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
                             />
                         </div>
                         <div>
@@ -186,8 +225,8 @@ export default function AdminUploadPage() {
                                 value={project.iframeLink}
                                 onChange={handleInputChange}
                                 required
-                                className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md text-sm shadow-sm placeholder-black text-black
-                          focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
+                                className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md text-sm shadow-sm placeholder-gray-400
+                focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
                             />
                         </div>
                         <div>
@@ -201,8 +240,8 @@ export default function AdminUploadPage() {
                                 onChange={handleInputChange}
                                 required
                                 rows={4}
-                                className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md text-sm shadow-sm placeholder-black text-black
-                          focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
+                                className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md text-sm shadow-sm placeholder-gray-400
+                focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
                             ></textarea>
                         </div>
                         <div>
@@ -215,8 +254,8 @@ export default function AdminUploadPage() {
                                 name="tools"
                                 value={project.tools}
                                 onChange={handleInputChange}
-                                className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md text-sm shadow-sm placeholder-black text-black
-                          focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
+                                className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md text-sm shadow-sm placeholder-gray-400
+                focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
                             />
                         </div>
                         <div>
@@ -230,34 +269,49 @@ export default function AdminUploadPage() {
                                 multiple
                                 accept="image/*"
                                 className="mt-1 block w-full text-sm text-gray-500
-                  file:mr-4 file:py-2 file:px-4
-                  file:rounded-full file:border-0
-                  file:text-sm file:font-semibold
-                  file:bg-indigo-50 file:text-indigo-700
-                  hover:file:bg-indigo-100"
+                file:mr-4 file:py-2 file:px-4
+                file:rounded-full file:border-0
+                file:text-sm file:font-semibold
+                file:bg-blue-50 file:text-blue-700
+                hover:file:bg-blue-100"
                             />
                         </div>
                         <button
                             type="submit"
                             disabled={isUploading}
-                            className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ${
-                                isUploading ? "opacity-50 cursor-not-allowed" : ""
-                            }`}
+                            className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 ${isUploading ? "opacity-50 cursor-not-allowed" : ""
+                                }`}
                         >
                             {isUploading ? "Uploading..." : "Upload Project"}
                         </button>
                     </form>
                 </div>
-                {message && (
-                    <div
-                        className={`mt-4 p-4 rounded-md ${
-                            message.type === "success" ? "bg-green-50 text-green-800" : "bg-red-50 text-red-800"
+            )}
+            {activeTab === "view" && (
+                <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                    {projects.map((project) => (
+                        <div key={project.id} className="bg-white shadow-md rounded-lg p-6">
+                            <h3 className="text-xl font-bold mb-2">{project.title}</h3>
+                            <p className="text-gray-600 mb-2">Category: {project.category}</p>
+                            <p className="text-gray-600 mb-4">Subtitle: {project.subtitle}</p>
+                            <button
+                                onClick={() => handleDelete(project.id)}
+                                className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
+                            >
+                                Delete
+                            </button>
+                        </div>
+                    ))}
+                </div>
+            )}
+            {message && (
+                <div
+                    className={`mt-4 p-4 rounded-md ${message.type === "success" ? "bg-green-50 text-green-800" : "bg-red-50 text-red-800"
                         }`}
-                    >
-                        {message.text}
-                    </div>
-                )}
-            </div>
+                >
+                    {message.text}
+                </div>
+            )}
         </div>
-    );
+    )
 }
