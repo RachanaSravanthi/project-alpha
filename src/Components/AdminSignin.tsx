@@ -1,5 +1,6 @@
 import { useState, FormEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
 
 export default function AdminSignin() {
     const [email, setEmail] = useState('')
@@ -7,6 +8,7 @@ export default function AdminSignin() {
     const [isSigningIn, setIsSigningIn] = useState(false)
     const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null)
     const navigate = useNavigate()
+    const auth = getAuth()
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault()
@@ -14,16 +16,17 @@ export default function AdminSignin() {
         setMessage(null)
 
         try {
-            await new Promise(resolve => setTimeout(resolve, 1000))
-
-            if (email === 'johndoe@gmail.com' && password === 'john123') {
-                setMessage({ type: 'success', text: 'Sign in successful!' })
-                navigate('/adminUploadPage')
-            } else {
-                setMessage({ type: 'error', text: 'Invalid email or password. Please try again.' })
-            }
+            // Attempt to sign in using Firebase Auth
+            const userCredential = await signInWithEmailAndPassword(auth, email, password)
+            setMessage({ type: 'success', text: 'Sign in successful!' })
+            navigate('/adminUploadPage')
         } catch (error) {
-            setMessage({ type: 'error', text: 'Sign in failed. Please try again.' })
+            // Handle specific Firebase Auth errors
+            if (error instanceof Error) {
+                setMessage({ type: 'error', text: error.message })
+            } else {
+                setMessage({ type: 'error', text: 'Sign in failed. Please try again.' })
+            }
         } finally {
             setIsSigningIn(false)
         }
