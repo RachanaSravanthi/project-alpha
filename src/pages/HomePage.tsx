@@ -4,7 +4,6 @@ import { useOutletContext } from "react-router-dom";
 import Modal from "../Components/Modal";
 import VimeoEmbed from "../components/VEM";
 
-
 interface HomePageProps {
     isLoaded: boolean;
     scrollTo: (id: string) => void;
@@ -68,25 +67,25 @@ export default function HomePage() {
                     <div className="relative z-10 min-h-[60vh] flex items-center justify-center flex-col">
                         <motion.h1
                             variants={fadeIn}
-                            className="text-2xl md:text-4xl text-dim-white mb-2 font-inter font-medium"
+                            className="text-2xl md:text-5xl text-dim-white mb-2 font-inter font-medium"
                         >
                             Hello! I'm Rachana Sravanti
                         </motion.h1>
                         <motion.h2
                             variants={fadeIn}
-                            className="text-3xl md:text-5xl font-medium text-off-white mb-3 font-inter max-w-2xl mx-auto"
+                            className="text-3xl md:text-6xl font-medium text-off-white mb-3 font-inter max-w-3xl mx-auto"
                         >
                             Bringing Imagination to Life:
                         </motion.h2>
                         <motion.h2
                             variants={fadeIn}
-                            className="text-3xl md:text-5xl font-medium text-off-white mb-3 font-inter max-w-4xl mx-auto"
+                            className="text-3xl md:text-6xl font-medium text-off-white mb-3 font-inter max-w-4xl mx-auto"
                         >
                             Stunning VFX, 2D & 3D Designs
                         </motion.h2>
                         <motion.h2
                             variants={fadeIn}
-                            className="text-3xl md:text-5xl font-medium text-off-white mb-3 font-inter max-w-2xl mx-auto"
+                            className="text-3xl md:text-6xl font-medium text-off-white mb-3 font-inter max-w-2xl mx-auto"
                         >
                             for Film and Beyond!
                         </motion.h2>
@@ -97,10 +96,11 @@ export default function HomePage() {
                     {categories.map((category) => (
                         <button
                             key={category}
-                            className={`px-4 py-2 rounded-full ${selectedCategory === category
+                            className={`px-4 py-2 rounded-full ${
+                                selectedCategory === category
                                     ? "bg-white text-black"
                                     : "bg-transparent text-white border border-white"
-                                }`}
+                            }`}
                             onClick={() => setSelectedCategory(category)}
                         >
                             {category}
@@ -122,15 +122,15 @@ export default function HomePage() {
                             variants={fadeIn}
                             onClick={() => setSelectedProjectIndex(i)}
                         >
-                            {project.link ? (
+                            {/* {project.link ? (
                                 <VimeoEmbed link={project.link} />
-                            ) : (<h1>hi</h1>)}
-                                <img
-                                    src={`${project.images[0]}`}
-                                    alt="Project thumbnail"
-                                    className="w-full h-[300px] object-cover transition-transform duration-300 group-hover:scale-110"
-                                />
-                        
+                            ) : (<h1>hi</h1>)} */}
+                            <img
+                                src={`${project.images[0]}`}
+                                alt="Project thumbnail"
+                                className="w-full h-[300px] object-cover transition-transform duration-300 group-hover:scale-110"
+                            />
+
                             <div className="absolute bottom-0 left-0 p-2 bg-black bg-opacity-50 w-full transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
                                 <h3 className="text-lg font-bold">{project.title}</h3>
                                 <p className="text-sm">{project.subtitle}</p>
