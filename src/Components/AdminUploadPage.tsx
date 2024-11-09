@@ -35,66 +35,66 @@ export default function AdminDashboard() {
         iframeLink: "",
         description: "",
         tools: "",
-    })
-    const [images, setImages] = useState<string[]>([])
-    const [isUploading, setIsUploading] = useState(false)
-    const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null)
-    const [projects, setProjects] = useState<Project[]>([])
-    const [activeTab, setActiveTab] = useState<"upload" | "view">("upload")
+    });
+    const [images, setImages] = useState<string[]>([]);
+    const [isUploading, setIsUploading] = useState(false);
+    const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
+    const [projects, setProjects] = useState<Project[]>([]);
+    const [activeTab, setActiveTab] = useState<"upload" | "view">("upload");
 
     useEffect(() => {
-        fetchProjects()
-    }, [])
+        fetchProjects();
+    }, []);
 
     const fetchProjects = async () => {
         try {
-            const projectsRef = collection(db, "projects")
-            const snapshot = await getDocs(projectsRef)
-            const fetchedProjects = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() } as Project))
-            setProjects(fetchedProjects)
+            const projectsRef = collection(db, "projects");
+            const snapshot = await getDocs(projectsRef);
+            const fetchedProjects = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() } as Project));
+            setProjects(fetchedProjects);
         } catch (error) {
-            console.error("Error fetching projects:", error)
-            setMessage({ type: "error", text: "Error fetching projects. Please try again." })
+            console.error("Error fetching projects:", error);
+            setMessage({ type: "error", text: "Error fetching projects. Please try again." });
         }
-    }
+    };
 
     const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-        const { name, value } = e.target
-        setProject((prev) => ({ ...prev, [name]: value }))
-    }
+        const { name, value } = e.target;
+        setProject((prev) => ({ ...prev, [name]: value }));
+    };
 
     const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
-            const filesArray = Array.from(e.target.files)
+            const filesArray = Array.from(e.target.files);
             const base64Promises = filesArray.map((file) => {
                 return new Promise<string>((resolve, reject) => {
-                    const reader = new FileReader()
-                    reader.readAsDataURL(file)
-                    reader.onload = () => resolve(reader.result as string)
-                    reader.onerror = () => reject(new Error("Failed to read file"))
-                })
-            })
+                    const reader = new FileReader();
+                    reader.readAsDataURL(file);
+                    reader.onload = () => resolve(reader.result as string);
+                    reader.onerror = () => reject(new Error("Failed to read file"));
+                });
+            });
 
             Promise.all(base64Promises)
                 .then((base64Images) => setImages(base64Images))
-                .catch((error) => console.error("Error converting images to Base64:", error))
+                .catch((error) => console.error("Error converting images to Base64:", error));
         }
-    }
+    };
 
     const handleSubmit = async (e: FormEvent) => {
-        e.preventDefault()
-        setIsUploading(true)
-        setMessage(null)
+        e.preventDefault();
+        setIsUploading(true);
+        setMessage(null);
 
         try {
-            const projectsRef = collection(db, "projects")
+            const projectsRef = collection(db, "projects");
             await addDoc(projectsRef, {
                 ...project,
                 images: images,
                 id: Date.now(),
-            })
+            });
 
-            setMessage({ type: "success", text: "Project uploaded successfully" })
+            setMessage({ type: "success", text: "Project uploaded successfully" });
             setProject({
                 title: "",
                 category: "",
@@ -103,30 +103,30 @@ export default function AdminDashboard() {
                 iframeLink: "",
                 description: "",
                 tools: "",
-            })
-            setImages([])
-            fetchProjects()
+            });
+            setImages([]);
+            fetchProjects();
         } catch (error) {
-            console.error("Error uploading project:", error)
+            console.error("Error uploading project:", error);
             setMessage({
                 type: "error",
                 text: "Error uploading project. Please try again.",
-            })
+            });
         } finally {
-            setIsUploading(false)
+            setIsUploading(false);
         }
-    }
+    };
 
     const handleDelete = async (id: string) => {
         try {
-            await deleteDoc(doc(db, "projects", id))
-            setMessage({ type: "success", text: "Project deleted successfully" })
-            fetchProjects()
+            await deleteDoc(doc(db, "projects", id));
+            setMessage({ type: "success", text: "Project deleted successfully" });
+            fetchProjects();
         } catch (error) {
-            console.error("Error deleting project:", error)
-            setMessage({ type: "error", text: "Error deleting project. Please try again." })
+            console.error("Error deleting project:", error);
+            setMessage({ type: "error", text: "Error deleting project. Please try again." });
         }
-    }
+    };
 
     return (
         <div className="container mx-auto p-4">
@@ -134,15 +134,17 @@ export default function AdminDashboard() {
             <div className="mb-4">
                 <button
                     onClick={() => setActiveTab("upload")}
-                    className={`mr-2 px-4 py-2 rounded ${activeTab === "upload" ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-700"
-                        }`}
+                    className={`mr-2 px-4 py-2 rounded ${
+                        activeTab === "upload" ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-700"
+                    }`}
                 >
                     Upload Project
                 </button>
                 <button
                     onClick={() => setActiveTab("view")}
-                    className={`px-4 py-2 rounded ${activeTab === "view" ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-700"
-                        }`}
+                    className={`px-4 py-2 rounded ${
+                        activeTab === "view" ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-700"
+                    }`}
                 >
                     View Projects
                 </button>
@@ -279,8 +281,9 @@ export default function AdminDashboard() {
                         <button
                             type="submit"
                             disabled={isUploading}
-                            className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 ${isUploading ? "opacity-50 cursor-not-allowed" : ""
-                                }`}
+                            className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 ${
+                                isUploading ? "opacity-50 cursor-not-allowed" : ""
+                            }`}
                         >
                             {isUploading ? "Uploading..." : "Upload Project"}
                         </button>
@@ -306,12 +309,13 @@ export default function AdminDashboard() {
             )}
             {message && (
                 <div
-                    className={`mt-4 p-4 rounded-md ${message.type === "success" ? "bg-green-50 text-green-800" : "bg-red-50 text-red-800"
-                        }`}
+                    className={`mt-4 p-4 rounded-md ${
+                        message.type === "success" ? "bg-green-50 text-green-800" : "bg-red-50 text-red-800"
+                    }`}
                 >
                     {message.text}
                 </div>
             )}
         </div>
-    )
+    );
 }
