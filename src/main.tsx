@@ -7,6 +7,7 @@ import ErrorPage from "./Pages/ErrorPage.tsx";
 import AboutPage from "./Pages/AboutUs.tsx";
 import HomePage from "./Pages/HomePage.tsx";
 import AdminUploadPage from "./components/AdminUploadPage.tsx";
+import AdminSignin from "./Components/AdminSignin.tsx";
 
 
 const appRouter = createBrowserRouter([
@@ -25,6 +26,10 @@ const appRouter = createBrowserRouter([
             },
             {
                 path: "/admin",
+                element: <AdminSignin />,
+            },
+            {
+                path: "/adminUploadPage",
                 element: <AdminUploadPage />,
             },
         ],
