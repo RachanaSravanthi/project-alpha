@@ -21,7 +21,7 @@ interface Project {
     category: string;
     subtitle: string;
     link: string;
-    images: string[];
+    images: string[]; // Array to store Base64 strings
     iframeLink: string;
     description: string;
     tools: string;
@@ -92,7 +92,7 @@ export default function AdminDashboard() {
                 ...project,
                 images: images,
                 // id: Date.now(),
-            })
+            });
 
             setMessage({ type: "success", text: "Project uploaded successfully" });
             setProject({
