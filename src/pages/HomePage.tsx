@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import Modal from "../components/Modal";
 import VimeoEmbed from "../components/VEM";
+import { Heading1 } from "lucide-react";
 
 interface HomePageProps {
     isLoaded: boolean;
@@ -121,11 +122,15 @@ export default function HomePage() {
                             variants={fadeIn}
                             onClick={() => setSelectedProjectIndex(i)}
                         >
-                            <img
-                                src={`data:image/jpeg;base64,${project.images[0]}`}
-                                alt="Project thumbnail"
-                                className="w-full h-[300px] object-cover transition-transform duration-300 group-hover:scale-110"
-                            />
+                            {project.link ? (
+                                <VimeoEmbed link={project.link} />
+                            ) : (<h1>hi</h1>)}
+                                <img
+                                    src={`${project.images[0]}`}
+                                    alt="Project thumbnail"
+                                    className="w-full h-[300px] object-cover transition-transform duration-300 group-hover:scale-110"
+                                />
+                        
                             <div className="absolute bottom-0 left-0 p-2 bg-black bg-opacity-50 w-full transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
                                 <h3 className="text-lg font-bold">{project.title}</h3>
                                 <p className="text-sm">{project.subtitle}</p>

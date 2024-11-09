@@ -57,15 +57,16 @@ export default function AdminUploadPage() {
                     const reader = new FileReader();
                     reader.readAsDataURL(file);
                     reader.onload = () => resolve(reader.result as string);
-                    reader.onerror = (error) => reject(error);
+                    reader.onerror = () => reject(new Error("Failed to read file"));
                 });
             });
-
+    
             Promise.all(base64Promises)
                 .then((base64Images) => setImages(base64Images))
                 .catch((error) => console.error("Error converting images to Base64:", error));
         }
     };
+    
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
