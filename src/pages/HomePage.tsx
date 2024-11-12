@@ -90,6 +90,24 @@ export default function HomePage() {
                         >
                             for Film and Beyond!
                         </motion.h2>
+                        <motion.div
+                            className="mt-8 cursor-pointer"
+                            animate={{
+                                y: [0, 10, 0],
+                            }}
+                            transition={{
+                                duration: 2,
+                                repeat: Infinity,
+                                ease: "easeInOut"
+                            }}
+                            onClick={() => scrollTo("work")}
+                        >
+                            <img 
+                                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-u6bqqzMunHKabHhx6Sxkulk9ug6ThQ.png" 
+                                alt="Scroll to works"
+                                className="w-40 h-40 opacity-80"
+                            />
+                        </motion.div>
                     </div>
                 </motion.section>
 
