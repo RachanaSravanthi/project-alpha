@@ -2,7 +2,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import Modal from "../components/Modal";
-import VimeoEmbed from "../components/VEM";
+// import VimeoEmbed from "../components/VEM";
+import Arrow from "../assets/arrow.png";
 
 interface HomePageProps {
     isLoaded: boolean;
@@ -98,15 +99,12 @@ export default function HomePage() {
                             transition={{
                                 duration: 2,
                                 repeat: Infinity,
-                                ease: "easeInOut"
+                                ease: "easeInOut",
                             }}
-                            onClick={() => scrollTo("work")}
+                            onClick={() => scrollTo()}
+                            // onClick={() => scrollTo("work")}
                         >
-                            <img 
-                                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-u6bqqzMunHKabHhx6Sxkulk9ug6ThQ.png" 
-                                alt="Scroll to works"
-                                className="w-40 h-40 opacity-80"
-                            />
+                            <img src={Arrow} alt="Scroll to works" className="w-44 h-44 opacity-80" />
                         </motion.div>
                     </div>
                 </motion.section>

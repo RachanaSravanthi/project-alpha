@@ -1,13 +1,13 @@
 import { useState, useEffect, useRef } from "react";
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, getDocs, DocumentData } from "firebase/firestore";
+import { getFirestore, collection, getDocs } from "firebase/firestore";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import Lenis from "@studio-freight/lenis";
 import { Outlet } from "react-router-dom";
 
 interface Project {
-    id: number;
+    id: string;
     title: string;
     category: string;
     subtitle: string;

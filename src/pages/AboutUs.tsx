@@ -1,11 +1,32 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 
 export default function AboutPage() {
     const [isLoaded, setIsLoaded] = useState(false);
+    const [isTimelineVisible, setIsTimelineVisible] = useState(false);
+    const timelineRef = useRef(null);
 
     useEffect(() => {
         setIsLoaded(true);
+
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    setIsTimelineVisible(true);
+                }
+            },
+            { threshold: 0.1 }
+        );
+
+        if (timelineRef.current) {
+            observer.observe(timelineRef.current);
+        }
+
+        return () => {
+            if (timelineRef.current) {
+                observer.unobserve(timelineRef.current);
+            }
+        };
     }, []);
 
     const fadeIn = {
@@ -23,6 +44,33 @@ export default function AboutPage() {
         },
     };
 
+    const experiences = [
+        {
+            period: "Nov 2023 - Present",
+            company: "Adfuel Media",
+            role: "Multimedia Designer",
+        },
+        {
+            period: "Aug 2022 - Sept 2023",
+            company: "DNEG",
+            role: "Lighting Technical Director",
+        },
+        {
+            period: "Jan 2021 - July 2021",
+            company: "Elite crest technologies",
+            role: "Graphic Designer",
+        },
+        {
+            period: "Aug 2020 - Dec 2020",
+            company: "Shunya",
+            role: "Motion graphic Designer",
+        },
+        {
+            period: "July 2017 - Aug 2020",
+            company: "Freelance",
+            role: "Graphic Designer",
+        },
+    ];
     return (
         <>
             <main className="relative">
@@ -90,48 +138,57 @@ export default function AboutPage() {
                             <img
                                 src="https://plus.unsplash.com/premium_photo-1664366737698-3a98169201c3?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                                 alt="About me"
-
-                                // layout="fill"
-                                // objectFit="cover"
                             />
                         </motion.div>
                     </div>
+                </motion.div>
 
-                    <motion.div variants={fadeIn} className="grid md:grid-cols-3 gap-8 mb-16">
-                        {[1, 2, 3].map((item) => (
-                            <motion.div
-                                key={item}
-                                className="text-center"
-                                whileHover={{ scale: 1.05, backgroundColor: "rgba(255, 255, 255, 0.1)" }}
-                                transition={{ duration: 0.3 }}
-                            >
-                                <img
-                                    src="https://plus.unsplash.com/premium_photo-1668319914124-57301e0a1850?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                                    alt="What I do icon"
-                                    width={100}
-                                    height={100}
-                                    className="mx-auto mb-4"
-                                />
-                                <motion.h2
-                                    className="text-2xl font-bold mb-2"
-                                    initial={{ opacity: 0, y: 20 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{ duration: 0.6, delay: 0.6 }}
-                                >
-                                    What I do?
-                                </motion.h2>
-                                <motion.p
-                                    initial={{ opacity: 0, y: 20 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{ duration: 0.6, delay: 0.8 }}
-                                >
-                                    As a generalist I tackle almost all of post production whether it be 2D or animation,
-                                    motion graphics, titles, visual effects or compositing
-                                </motion.p>
+                <motion.div
+                    className="w-full max-w-2xl mx-auto p-6 rounded-lg shadow-lg"
+                    ref={timelineRef}
+                    initial="hidden"
+                    animate={isTimelineVisible ? "visible" : "hidden"}
+                    variants={staggerChildren}
+                >
+                    <h2 className="text-3xl font-bold mb-8 text-center">Experience Details</h2>
+                    <div className="relative">
+                        {/* Animated vertical line */}
+                        <div
+                            className={`absolute left-[15px] top-[24px] w-[2px] bg-orange-500 transition-all duration-1000 ease-out ${
+                                isTimelineVisible ? "h-full" : "h-0"
+                            }`}
+                        />
+
+                        {experiences.map((exp, index) => (
+                            <motion.div key={index} className="flex gap-4 mb-8" variants={fadeIn}>
+                                {/* Timeline dot */}
+                                <div className="relative w-8 h-8 shrink-0">
+                                    <div className="absolute top-[8
+                                    px] left-[8px] w-4 h-4 rounded-full bg-orange-500" />
+                                </div>
+
+                                {/* Content */}
+                                <div className="flex-1 pt-2">
+                                    <h3 className="font-bold text-lg text-orange-500">{exp.company}</h3>
+                                    <p className="text-gray-300 font-medium">{exp.role}</p>
+                                    <p className="text-sm text-gray-400 mt-1">{exp.period}</p>
+                                </div>
                             </motion.div>
                         ))}
-                    </motion.div>
+                    </div>
                 </motion.div>
+
+                <style>{`
+                    @keyframes pulse {
+                        0%,
+                        100% {
+                            opacity: 0.1;
+                        }
+                        50% {
+                            opacity: 0.2;
+                        }
+                    }
+                `}</style>
             </main>
         </>
     );
