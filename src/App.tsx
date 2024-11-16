@@ -3,8 +3,8 @@ import { initializeApp } from "firebase/app";
 import { getFirestore, collection, getDocs } from "firebase/firestore";
 import Lenis from "@studio-freight/lenis";
 import { Outlet } from "react-router-dom";
-import Header from "./components/Header";
-import Footer from "./components/Footer";
+import Header from "./Components/Header";
+import Footer from "./Components/Footer";
 
 interface Project {
     id: string;
