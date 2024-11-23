@@ -72,7 +72,7 @@ const Exp = () => {
                             animation: isVisible ? "fadeInUp 0.5s ease-out forwards" : "none",
                         }}
                     >
-                        {/* Timeline dot */ console.log("hi")}
+                   
                         <div className="relative w-8 h-8 shrink-0">
                             <div className="absolute top-[14px] left-[14px] w-4 h-4 rounded-full bg-orange-500" />
                         </div>

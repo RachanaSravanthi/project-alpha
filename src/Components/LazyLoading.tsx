@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 
+
 interface LazyLoadVimeoEmbedProps {
   src: string;
   width?: string | number;
@@ -17,7 +18,7 @@ const LazyLoadVimeoEmbed: React.FC<LazyLoadVimeoEmbedProps> = ({
 
   useEffect(() => {
     const loadVimeoPlayer = async () => {
-      const Vimeo = await import('@vimeo/player');
+      const Vimeo:any = await import('@vimeo/player');
       const player = new Vimeo.default.Player(`vimeo-player-${src.split('/').pop()}`, {
         url: src,
         width: width || '100%',
