@@ -1,7 +1,7 @@
 import { useState, ChangeEvent, FormEvent, useEffect } from "react";
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection, addDoc, deleteDoc, getDocs, doc } from "firebase/firestore";
-
+import imageCompression from 'browser-image-compression';
 // Initialize Firebase (replace with your config)
 const firebaseConfig = {
     apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -63,23 +63,57 @@ export default function AdminDashboard() {
         setProject((prev) => ({ ...prev, [name]: value }));
     };
 
-    const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files) {
-            const filesArray = Array.from(e.target.files);
-            const base64Promises = filesArray.map((file) => {
-                return new Promise<string>((resolve, reject) => {
-                    const reader = new FileReader();
-                    reader.readAsDataURL(file);
-                    reader.onload = () => resolve(reader.result as string);
-                    reader.onerror = () => reject(new Error("Failed to read file"));
-                });
-            });
 
-            Promise.all(base64Promises)
-                .then((base64Images) => setImages(base64Images))
-                .catch((error) => console.error("Error converting images to Base64:", error));
+
+const handleImageChange = async (e: ChangeEvent<HTMLInputElement>) => {
+    setIsUploading(true);
+    if (e.target.files) {
+        const filesArray = Array.from(e.target.files);
+
+        const uploadPromises = filesArray.map(async (file) => {
+            try {
+                // Compress the image
+                const compressedFile = await imageCompression(file, {
+                    maxSizeMB: 2, // Larger size for better quality
+                    maxWidthOrHeight: 1920, // Higher resolution for high-quality thumbnails
+                    initialQuality: 0.8, // Adjust this to control quality
+                    useWebWorker: true, // Improve performance
+                });
+
+                // Prepare FormData
+                const formData = new FormData();
+                formData.append('image', compressedFile);
+
+                // Upload the compressed image
+                const response = await fetch(`https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_IMGBB_API_KEY}`, {
+                    method: 'POST',
+                    body: formData,
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Failed to upload image: ${response.statusText}`);
+                }
+
+                const data = await response.json();
+                return data.data.display_url;
+            } catch (error) {
+                console.error('Error compressing or uploading image:', error);
+                throw error;
+            }
+        });
+
+        try {
+            const imageUrls = await Promise.all(uploadPromises);
+            setImages(imageUrls);
+        } catch (error) {
+            console.error('Error handling image uploads:', error);
+        } finally {
+            setIsUploading(false);
         }
-    };
+    }
+};
+
+    
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
@@ -277,6 +311,9 @@ export default function AdminDashboard() {
                 file:bg-blue-50 file:text-blue-700
                 hover:file:bg-blue-100"
                             />
+                            {
+                                isUploading&&<h1>uploading</h1>
+                            }
                         </div>
                         <button
                             type="submit"
