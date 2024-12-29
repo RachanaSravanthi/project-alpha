@@ -98,7 +98,7 @@ export default function Modal({ project, onClose, onPrevious, onNext }: ModalPro
                             <p className="text-white text-lg leading-relaxed">{project.description}</p>
                         </div>
 
-                        <div className="mb-12">
+                        {/* <div className="mb-12">
                             <h2 className="text-2xl sm:text-3xl font-semibold text-white mb-4">Project Gallery</h2>
                             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                                 {project.images.map((image, index) => (
@@ -115,7 +115,7 @@ export default function Modal({ project, onClose, onPrevious, onNext }: ModalPro
                                     </div>
                                 ))}
                             </div>
-                        </div>
+                        </div> */}
 
                         {activeImage !== 0 && (
                             <div className="fixed inset-0 z-60 bg-black/90 flex items-center justify-center">
@@ -133,10 +133,10 @@ export default function Modal({ project, onClose, onPrevious, onNext }: ModalPro
                             </div>
                         )}
 
-                        <div>
+                        {/* <div>
                             <h2 className="text-2xl sm:text-3xl font-semibold text-white mb-4">Tools Used</h2>
                             <p className="text-white text-lg">{project.tools}</p>
-                        </div>
+                        </div> */}
 
                         {project.link && (
                             <div className="mt-8">
