@@ -25,6 +25,7 @@ interface Project {
     iframeLink: string;
     description: string;
     tools: string;
+    index:number,
 }
 export default function AdminDashboard() {
     const [project, setProject] = useState<Omit<Project, "id" | "images">>({
@@ -35,6 +36,7 @@ export default function AdminDashboard() {
         iframeLink: "",
         description: "",
         tools: "",
+        index:0
     });
     const [images, setImages] = useState<string[]>([]);
     const [isUploading, setIsUploading] = useState(false);
@@ -122,9 +124,18 @@ const handleImageChange = async (e: ChangeEvent<HTMLInputElement>) => {
 
         try {
             const projectsRef = collection(db, "projects");
+            const snapshot = await getDocs(projectsRef);
+            const fetchedProjects = snapshot.docs.map((doc) => doc.data() as Project);
+    
+            // Determine the next index value
+            const lastIndex = fetchedProjects.length > 0
+                ? Math.max(...fetchedProjects.map((proj) => proj.index || 0))
+                : -1; // If no projects exist, start from -1
+            const nextIndex = lastIndex + 1;
             await addDoc(projectsRef, {
                 ...project,
                 images: images,
+                index:nextIndex,
                 // id: Date.now(),
             });
 
@@ -137,6 +148,7 @@ const handleImageChange = async (e: ChangeEvent<HTMLInputElement>) => {
                 iframeLink: "",
                 description: "",
                 tools: "",
+                index:nextIndex,
             });
             setImages([]);
             fetchProjects();

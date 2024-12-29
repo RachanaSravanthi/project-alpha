@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, getDocs } from "firebase/firestore";
+import { getFirestore, collection, getDocs, query, orderBy } from "firebase/firestore";
 import Lenis from "@studio-freight/lenis";
 import { Outlet } from "react-router-dom";
 import Header from "./Components/Header";
@@ -46,7 +46,7 @@ const App = () => {
     useEffect(() => {
         const fetchProjects = async () => {
             try {
-                const querySnapshot = await getDocs(collection(db, "projects"));
+                const querySnapshot = await getDocs(query(collection(db, "projects"), orderBy("index"))); 
                 const projects = querySnapshot.docs.map((doc) => ({
                     id: doc.id,
                     ...doc.data(),
