@@ -51,6 +51,14 @@ export default function HomePage() {
         ? projectData.filter((project) => project.category === selectedCategory)
         : projectData;
 
+        const scrollTo = (id: string) => {
+            const element = document.getElementById(id);
+            if (element) {
+                element.scrollIntoView({ behavior: "smooth" });
+            }
+        };
+        
+
     return (
         <>
             <main className="mx-auto">
@@ -108,7 +116,7 @@ export default function HomePage() {
                                 repeat: Infinity,
                                 ease: "easeInOut",
                             }}
-                            onClick={() => scrollTo()}
+                            onClick={() => scrollTo("work")}
                             // onClick={() => scrollTo("work")}
                         >
                             <img src={Arrow} alt="Scroll to works" className="w-44 h-44 opacity-80" />
