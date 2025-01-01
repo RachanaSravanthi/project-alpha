@@ -40,6 +40,13 @@ export default function HomePage() {
         setSelectedProjectIndex((prevIndex) => (prevIndex !== null ? (prevIndex + 1) % projectData.length : null));
     };
 
+    const handleProjectClick = (index: number) => {
+        const project = filteredProjects[index]; // Get the clicked project from the filtered list
+        const projectIndexInOriginalData = projectData.findIndex((p) => p.id === project.id); // Find its index in the original data
+        setSelectedProjectIndex(projectIndexInOriginalData);
+    };
+    
+
     const filteredProjects = selectedCategory
         ? projectData.filter((project) => project.category === selectedCategory)
         : projectData;
@@ -137,7 +144,9 @@ export default function HomePage() {
                             key={i}
                             className="relative overflow-hidden group hover:cursor-pointer"
                             variants={fadeIn}
-                            onClick={() => setSelectedProjectIndex(i)}
+                            // onClick={() => setSelectedProjectIndex(i)}
+                             onClick={() => handleProjectClick(i)}
+
                         >
                             {/* {project.link ? (
                                 <VimeoEmbed link={project.link} />
