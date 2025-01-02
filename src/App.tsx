@@ -4,7 +4,8 @@ import { getFirestore, collection, getDocs, query, orderBy } from "firebase/fire
 import Lenis from "@studio-freight/lenis";
 import { Outlet } from "react-router-dom";
 import Header from "./Components/Header";
-import Footer from "./Components/Footer";
+// import Footer from "./Components/Footer";
+import Footer2 from "./Components/Footer2";
 
 interface Project {
     id: string;
@@ -118,7 +119,7 @@ const App = () => {
                     } as AppContext
                 } // Provide context type
             />
-            <Footer isLoaded={isLoaded} />
+            <Footer2 isLoaded={isLoaded} />
         </div>
     );
 };
