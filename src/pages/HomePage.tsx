@@ -3,7 +3,8 @@ import { useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import Modal from "../Components/Modal";
 // import VimeoEmbed from "../components/VEM";
-import Arrow from "../assets/arrow.png";
+// import AnimatedArrow from "../assets/AnimatedArrow";
+import AnimatedArrow2 from "../assets/AnimatedArrow2";
 
 interface HomePageProps {
     isLoaded: boolean;
@@ -106,7 +107,7 @@ export default function HomePage() {
                         >
                             for Film and Beyond!
                         </motion.h2>
-                        <motion.div
+                        {/* <motion.div
                             className="mt-8 cursor-pointer"
                             animate={{
                                 y: [0, 10, 0],
@@ -120,7 +121,9 @@ export default function HomePage() {
                             // onClick={() => scrollTo("work")}
                         >
                             <img src={Arrow} alt="Scroll to works" className="w-44 h-44 opacity-80" />
-                        </motion.div>
+                        </motion.div> */}
+                        <AnimatedArrow2/>
+                        {/* <AnimatedArrow/> */}
                     </div>
                 </motion.section>
 
