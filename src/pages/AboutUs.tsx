@@ -1,10 +1,10 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { motion } from "framer-motion";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 export default function AboutPage() {
     const [isLoaded, setIsLoaded] = useState(false);
-    // const [isTimelineVisible, setIsTimelineVisible] = useState(false);
+    const [isTimelineVisible, setIsTimelineVisible] = useState(false);
     const timelineRef = useRef(null);
     const containerRef = useRef<HTMLDivElement>(null)
     const [currentIndex, setCurrentIndex] = useState(0)
@@ -43,26 +43,24 @@ export default function AboutPage() {
         },
     ];
 
-    const scrollTo = (index: number) => {
+    const scrollTo = useCallback((index: number) => {
         if (containerRef.current) {
-            setCurrentIndex(index);
-            const scrollLeft = index * (400 + 16); // card width + gap
+            const newIndex = (index + experiences.length) % experiences.length;
+            setCurrentIndex(newIndex);
+            const cardWidth = window.innerWidth >= 768 ? containerRef.current.offsetWidth / 3 : containerRef.current.offsetWidth;
+            const scrollLeft = newIndex * cardWidth;
             containerRef.current.scrollTo({
                 left: scrollLeft,
                 behavior: "smooth",
             });
         }
-    };
+    }, [experiences.length]);
     
     // Infinite scroll functionality
     useEffect(() => {
         const startAutoScroll = () => {
             autoScrollRef.current = setInterval(() => {
-                setCurrentIndex((prevIndex) => {
-                    const nextIndex = (prevIndex + 1) % experiences.length;
-                    scrollTo(nextIndex);
-                    return nextIndex;
-                });
+                scrollTo(currentIndex + 1);
             }, 3000); // Scroll every 3 seconds
         };
     
@@ -73,9 +71,7 @@ export default function AboutPage() {
                 clearInterval(autoScrollRef.current);
             }
         };
-    }, [experiences.length]);
-
-    
+    }, [currentIndex, scrollTo]);
 
     // Pause auto-scroll on hover
     const handleMouseEnter = () => {
@@ -86,12 +82,9 @@ export default function AboutPage() {
 
     // Resume auto-scroll on mouse leave
     const handleMouseLeave = () => {
-        if (autoScrollRef.current) {
-            clearInterval(autoScrollRef.current)
-        }
         autoScrollRef.current = setInterval(() => {
-            scrollTo(currentIndex + 1)
-        }, 3000)
+            scrollTo(currentIndex + 1);
+        }, 3000);
     }
 
     useEffect(() => {
@@ -100,7 +93,7 @@ export default function AboutPage() {
         const observer = new IntersectionObserver(
             ([entry]) => {
                 if (entry.isIntersecting) {
-                    // setIsTimelineVisible(true);
+                    setIsTimelineVisible(true);
                 }
             },
             { threshold: 0.1 }
@@ -132,11 +125,9 @@ export default function AboutPage() {
         },
     };
 
-    
     return (
         <>
             <main className="relative">
-                
                 {/* Grid Background */}
                 <div className="absolute inset-0 overflow-hidden">
                     <div className="absolute inset-0 grid grid-cols-[repeat(28,1fr)] grid-rows-[repeat(16,1fr)] max-w-screen max-h-screen">
@@ -153,15 +144,15 @@ export default function AboutPage() {
                 </div>
 
                 <motion.div
-                    className="relative z-10 max-w-6xl mx-auto px-4 py-16"
+                    className="relative z-10 max-w-6xl mx-auto px-4 py-8 md:py-16"
                     initial="hidden"
                     animate={isLoaded ? "visible" : "hidden"}
                     variants={staggerChildren}
                 >
-                    <div className="grid md:grid-cols-2 gap-8 mb-16 h-[600px]">
-                        <motion.div variants={fadeIn}>
+                    <div className="grid md:grid-cols-2 gap-8 mb-16 md:h-[600px]">
+                        <motion.div variants={fadeIn} className="flex flex-col justify-center">
                             <motion.h1
-                                className="text-4xl font-bold mb-4"
+                                className="text-3xl md:text-4xl font-bold mb-4"
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.6, delay: 0.2 }}
@@ -169,7 +160,7 @@ export default function AboutPage() {
                                 About me
                             </motion.h1>
                             <motion.p
-                                className="text-3xl"
+                                className="text-xl md:text-3xl mb-4"
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.6, delay: 0.4 }}
@@ -178,9 +169,8 @@ export default function AboutPage() {
                                 specialize in crafting compelling motion graphics for brands and striking visual effects for
                                 film.
                             </motion.p>
-                            <br />
                             <motion.p
-                                className="text-xl font-light text-gray-300"
+                                className="text-base md:text-xl font-light text-gray-300"
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.6, delay: 0.4 }}
@@ -194,95 +184,79 @@ export default function AboutPage() {
                         </motion.div>
                         <motion.div
                             variants={fadeIn}
-                            className="relative overflow-hidden rounded-lg"
+                            className="relative overflow-hidden rounded-lg h-64 md:h-auto"
                             whileHover={{ scale: 1.05 }}
                             transition={{ duration: 0.3 }}
                         >
                             <img
                                 src="https://plus.unsplash.com/premium_photo-1664366737698-3a98169201c3?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                                 alt="About me"
+                                className="w-full h-full object-cover"
                             />
                         </motion.div>
                     </div>
                 </motion.div>
 
-                 <motion.div
-            className="w-full mx-auto px-6 shadow-lg relative"
-            initial="hidden"
-            animate="visible"
-            variants={{
-                hidden: { opacity: 0 },
-                visible: { opacity: 1 }
-            }}
-        >
-            <h2 className="text-3xl font-bold mb-8 text-center">Experience Details</h2>
-            
-            {/* Navigation Buttons */}
-            <button 
-                onClick={() => scrollTo(currentIndex - 1)}
-                className="absolute left-4 top-1/2 z-10 transform -translate-y-1/2 bg-gray-900/50 p-2 rounded-full hover:bg-gray-900/75 transition-colors"
-                aria-label="Previous experience"
-            >
-                <ChevronLeft className="h-6 w-6 text-white" />
-            </button>
-            <button 
-                onClick={() => scrollTo(currentIndex + 1)}
-                className="absolute right-4 top-1/2 z-10 transform -translate-y-1/2 bg-gray-900/50 p-2 rounded-full hover:bg-gray-900/75 transition-colors"
-                aria-label="Next experience"
-            >
-                <ChevronRight className="h-6 w-6 text-white" />
-            </button>
+                <motion.div
+                    className="w-full mx-auto px-4 md:px-6 shadow-lg relative flex flex-col justify-center items-center min-h-[50vh]"
+                    initial="hidden"
+                    animate="visible"
+                    variants={{
+                        hidden: { opacity: 0 },
+                        visible: { opacity: 1 }
+                    }}
+                >
+                    <h2 className="text-2xl md:text-3xl font-bold mb-8 text-center">Experience Details</h2>
+                    
+                    {/* Navigation Buttons */}
+                    <div className="w-full max-w-[1200px] relative">
+                        <button 
+                            onClick={() => scrollTo(currentIndex - 1)}
+                            className="absolute left-0 md:-left-12 top-1/2 z-10 transform -translate-y-1/2 bg-gray-900/50 p-2 rounded-full hover:bg-gray-900/75 transition-colors"
+                            aria-label="Previous experience"
+                        >
+                            <ChevronLeft className="h-6 w-6 text-white" />
+                        </button>
+                        <button 
+                            onClick={() => scrollTo(currentIndex + 1)}
+                            className="absolute right-0 md:-right-12 top-1/2 z-10 transform -translate-y-1/2 bg-gray-900/50 p-2 rounded-full hover:bg-gray-900/75 transition-colors"
+                            aria-label="Next experience"
+                        >
+                            <ChevronRight className="h-6 w-6 text-white" />
+                        </button>
 
-            {/* Cards Container */}
-            <div 
-                ref={containerRef}
-                className=" flex justify-center overflow-x-hidden snap-x snap-mandatory gap-16 px-16"
-                onMouseEnter={handleMouseEnter}
-                onMouseLeave={handleMouseLeave}
-            >
-                
-                {experiences.map((exp, index) => (
-
-                    <motion.div
-                        key={index}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: index * 0.2 }}
-                        className="flex-none w-[400px] snap-center"
-                    >
-                        <div className="backdrop-blur-sm rounded-xl p-6 h-full text-center">
-                            <div className="aspect-square relative mb-6">
-                                <img
-                                    src={exp.image}
-                                    alt={`${exp.company} illustration`}
-                                    className="w-full h-full object-cover rounded-lg"
-                                />
-                            </div>
-                            <h3 className="text-2xl font-bold text-white mb-2">{exp.company}</h3>
-                            <p className="text-gray-400 text-lg mb-2">{exp.role}</p>
-                            <p className="text-gray-500">{exp.period}</p>
+                        {/* Cards Container */}
+                        <div 
+                            ref={containerRef}
+                            className="flex overflow-x-hidden snap-x snap-mandatory w-full max-w-[1200px] mx-auto"
+                            onMouseEnter={handleMouseEnter}
+                            onMouseLeave={handleMouseLeave}
+                        >
+                            {[...experiences, ...experiences.slice(0, 2)].map((exp, index) => (
+                                <motion.div
+                                    key={index}
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: index * 0.2 }}
+                                    className="flex-none w-full md:w-1/3 snap-center px-2"
+                                >
+                                    <div className="backdrop-blur-sm rounded-xl p-4 md:p-6 h-full text-center">
+                                        <div className="aspect-square relative mb-4 md:mb-6">
+                                            <img
+                                                src={exp.image}
+                                                alt={`${exp.company} illustration`}
+                                                className="w-full h-full object-cover rounded-lg"
+                                            />
+                                        </div>
+                                        <h3 className="text-xl md:text-2xl font-bold text-white mb-2">{exp.company}</h3>
+                                        <p className="text-base md:text-lg text-gray-400 mb-2">{exp.role}</p>
+                                        <p className="text-sm md:text-base text-gray-500">{exp.period}</p>
+                                    </div>
+                                </motion.div>
+                            ))}
                         </div>
-                    </motion.div>
-                ))}
-            </div>
-
-            {/* Dots Indicator */}
-            {/* <div className="flex justify-center gap-2 mt-4">
-                {experiences.map((_, index) => (
-                    <button
-                        key={index}
-                        onClick={() => scrollTo(index)}
-                        className={`w-2 h-2 rounded-full transition-colors ${
-                            index === currentIndex ? 'bg-white' : 'bg-gray-500'
-                        }`}
-                        aria-label={`Go to experience ${index + 1}`}
-                    />
-                ))}
-                
-            </div> */}
-        
-            
-        </motion.div>
+                    </div>
+                </motion.div>
 
                 <style>{`
                     @keyframes pulse {
@@ -299,3 +273,4 @@ export default function AboutPage() {
         </>
     );
 }
+
