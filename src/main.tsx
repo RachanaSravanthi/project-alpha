@@ -9,6 +9,7 @@ import HomePage from "./pages/HomePage.tsx";
 import AdminUploadPage from "./Components/AdminUploadPage.tsx";
 import AdminSignin from "./Components/AdminSignin.tsx";
 import PrivateRoute from "./Components/PrivateRoute.tsx";
+import ContactPage from "./Components/ContactPage.tsx";
 
 
 const appRouter = createBrowserRouter([
@@ -24,6 +25,10 @@ const appRouter = createBrowserRouter([
             {
                 path: "/about",
                 element: <AboutPage />,
+            },
+            {
+                path: "/contact",
+                element: <ContactPage />,
             },
         ],
         

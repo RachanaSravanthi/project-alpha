@@ -91,13 +91,13 @@ export default function Footer2({ isLoaded }: FooterProps) {
             About
           </motion.a>
           <motion.a
-            href="#logos"
+            href="https://www.behance.net/rachanaSravanthi"
             className="block  hover:text-gray-300 transition-colors duration-300"
           >
             Behance
           </motion.a>
           <motion.a
-            href="#about"
+            href="https://www.linkedin.com/in/rachana-s-vfx/"
             className="block  hover:text-gray-300 transition-colors duration-300"
           >
             Linkedin
@@ -123,10 +123,13 @@ export default function Footer2({ isLoaded }: FooterProps) {
             <a href="#" className="hover:text-gray-300 transition-colors duration-300">
               <Facebook size={25} />
             </a>
-            <a href="#" className="hover:text-gray-300 transition-colors duration-300">
+            <a href="" className="hover:text-gray-300 transition-colors duration-300">
               <Instagram size={25} />
             </a>
-            <a href="#" className="hover:text-gray-300 transition-colors duration-300">
+            <a href="https://www.linkedin.com/in/rachana-s-vfx/" className="hover:text-gray-300 transition-colors duration-300">
+              <Linkedin size={25} />
+            </a>
+            <a href="https://www.behance.net/rachanaSravanthi" className="hover:text-gray-300 transition-colors duration-300">
               <Linkedin size={25} />
             </a>
           </div>
@@ -134,7 +137,7 @@ export default function Footer2({ isLoaded }: FooterProps) {
         <motion.div variants={fadeIn} className="space-y-6">
           {/* Say Hello Button */}
           <motion.a
-            href="mailto:contact@example.com"
+            href="#contact"
             className="py-2 px-7 bg-white font-semibold text-black border-2 font-inter border-[#000] hover:bg-white hover:border-white rounded-lg duration-300 text-center"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
