@@ -39,7 +39,11 @@ export default function Header({ isLoaded, scrollTo }: HeaderProps) {
                     </motion.li>
                     <motion.li variants={fadeIn}>
                         <button
-                            onClick={() => scrollTo("work")}
+                            onClick={async () => {
+                                await navigate("/")
+                                         scrollTo("work")
+                        }
+                        }
                             className="hover:text-gray-600 transition-colors duration-300 cursor-pointer"
                         >
                             Work
@@ -47,7 +51,7 @@ export default function Header({ isLoaded, scrollTo }: HeaderProps) {
                     </motion.li>
                     <motion.li variants={fadeIn}>
                         <button
-                            onClick={() => scrollTo("contact")}
+                            onClick={() => navigate("/contact")}
                             className="hover:text-gray-600 transition-colors duration-300 cursor-pointer"
                         >
                             Let's talk
