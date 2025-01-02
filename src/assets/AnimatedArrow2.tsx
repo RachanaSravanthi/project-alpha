@@ -8,7 +8,7 @@ export default function AnimatedArrow2() {
 
   return (
     <div
-      className="relative w-24 h-48 cursor-pointer mx-auto" // Centered container with responsive width
+      className="relative w-14 h-14   lg:w-24 lg:h-48 cursor-pointer mx-auto" // Centered container with responsive width
       onClick={() => scrollTo("work")}
     >
       {/* Glow effect background */}
