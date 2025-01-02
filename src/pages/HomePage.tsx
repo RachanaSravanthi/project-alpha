@@ -52,12 +52,12 @@ export default function HomePage() {
         ? projectData.filter((project) => project.category === selectedCategory)
         : projectData;
 
-        const scrollTo = (id: string) => {
-            const element = document.getElementById(id);
-            if (element) {
-                element.scrollIntoView({ behavior: "smooth" });
-            }
-        };
+        // const scrollTo = (id: string) => {
+        //     const element = document.getElementById(id);
+        //     if (element) {
+        //         element.scrollIntoView({ behavior: "smooth" });
+        //     }
+        // };
         
 
     return (

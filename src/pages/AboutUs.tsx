@@ -4,7 +4,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export default function AboutPage() {
     const [isLoaded, setIsLoaded] = useState(false);
-    const [isTimelineVisible, setIsTimelineVisible] = useState(false);
+    // const [isTimelineVisible, setIsTimelineVisible] = useState(false);
     const timelineRef = useRef(null);
     const containerRef = useRef<HTMLDivElement>(null)
     const [currentIndex, setCurrentIndex] = useState(0)
@@ -100,7 +100,7 @@ export default function AboutPage() {
         const observer = new IntersectionObserver(
             ([entry]) => {
                 if (entry.isIntersecting) {
-                    setIsTimelineVisible(true);
+                    // setIsTimelineVisible(true);
                 }
             },
             { threshold: 0.1 }
@@ -136,6 +136,7 @@ export default function AboutPage() {
     return (
         <>
             <main className="relative">
+                
                 {/* Grid Background */}
                 <div className="absolute inset-0 overflow-hidden">
                     <div className="absolute inset-0 grid grid-cols-[repeat(28,1fr)] grid-rows-[repeat(16,1fr)] max-w-screen max-h-screen">
@@ -239,7 +240,9 @@ export default function AboutPage() {
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
             >
+                
                 {experiences.map((exp, index) => (
+
                     <motion.div
                         key={index}
                         initial={{ opacity: 0, y: 20 }}
@@ -275,7 +278,10 @@ export default function AboutPage() {
                         aria-label={`Go to experience ${index + 1}`}
                     />
                 ))}
+                
             </div> */}
+        
+            
         </motion.div>
 
                 <style>{`
