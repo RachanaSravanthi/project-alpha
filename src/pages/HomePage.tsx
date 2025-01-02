@@ -86,7 +86,7 @@ export default function HomePage() {
                             variants={fadeIn}
                             className="text-2xl md:text-5xl text-dim-white mb-2 font-inter font-medium"
                         >
-                            Hello! I'm Rachana Sravanti
+                            Hello! I'm Rachana Sravanthi
                         </motion.h1>
                         <motion.h2
                             variants={fadeIn}

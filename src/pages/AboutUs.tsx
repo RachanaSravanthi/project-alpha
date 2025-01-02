@@ -1,10 +1,98 @@
 import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export default function AboutPage() {
     const [isLoaded, setIsLoaded] = useState(false);
     const [isTimelineVisible, setIsTimelineVisible] = useState(false);
     const timelineRef = useRef(null);
+    const containerRef = useRef<HTMLDivElement>(null)
+    const [currentIndex, setCurrentIndex] = useState(0)
+    const autoScrollRef = useRef<NodeJS.Timeout>()
+
+    const experiences = [
+        {
+            period: "Nov 2023 - Present",
+            company: "Adfuel Media",
+            role: "Multimedia Designer",
+            image:"/about/aboutImg.png"
+        },
+        {
+            period: "Aug 2022 - Sept 2023",
+            company: "DNEG",
+            role: "Lighting Technical Director",
+            image:"/about/aboutImg.png"
+        },
+        {
+            period: "Jan 2021 - July 2021",
+            company: "Elite crest technologies",
+            role: "Graphic Designer",
+            image:"/about/aboutImg.png"
+        },
+        {
+            period: "Aug 2020 - Dec 2020",
+            company: "Shunya",
+            role: "Motion graphic Designer",
+            image:"/about/aboutImg.png"
+        },
+        {
+            period: "July 2017 - Aug 2020",
+            company: "Freelance",
+            role: "Graphic Designer",
+            image:"/about/aboutImg.png"
+        },
+    ];
+
+    const scrollTo = (index: number) => {
+        if (containerRef.current) {
+            setCurrentIndex(index);
+            const scrollLeft = index * (400 + 16); // card width + gap
+            containerRef.current.scrollTo({
+                left: scrollLeft,
+                behavior: "smooth",
+            });
+        }
+    };
+    
+    // Infinite scroll functionality
+    useEffect(() => {
+        const startAutoScroll = () => {
+            autoScrollRef.current = setInterval(() => {
+                setCurrentIndex((prevIndex) => {
+                    const nextIndex = (prevIndex + 1) % experiences.length;
+                    scrollTo(nextIndex);
+                    return nextIndex;
+                });
+            }, 3000); // Scroll every 3 seconds
+        };
+    
+        startAutoScroll();
+    
+        return () => {
+            if (autoScrollRef.current) {
+                clearInterval(autoScrollRef.current);
+            }
+        };
+    }, [experiences.length]);
+
+    
+
+    // Pause auto-scroll on hover
+    const handleMouseEnter = () => {
+        if (autoScrollRef.current) {
+            clearInterval(autoScrollRef.current)
+        }
+    }
+
+    // Resume auto-scroll on mouse leave
+    const handleMouseLeave = () => {
+        if (autoScrollRef.current) {
+            clearInterval(autoScrollRef.current)
+        }
+        autoScrollRef.current = setInterval(() => {
+            scrollTo(currentIndex + 1)
+        }, 3000)
+    }
 
     useEffect(() => {
         setIsLoaded(true);
@@ -44,33 +132,7 @@ export default function AboutPage() {
         },
     };
 
-    const experiences = [
-        {
-            period: "Nov 2023 - Present",
-            company: "Adfuel Media",
-            role: "Multimedia Designer",
-        },
-        {
-            period: "Aug 2022 - Sept 2023",
-            company: "DNEG",
-            role: "Lighting Technical Director",
-        },
-        {
-            period: "Jan 2021 - July 2021",
-            company: "Elite crest technologies",
-            role: "Graphic Designer",
-        },
-        {
-            period: "Aug 2020 - Dec 2020",
-            company: "Shunya",
-            role: "Motion graphic Designer",
-        },
-        {
-            period: "July 2017 - Aug 2020",
-            company: "Freelance",
-            role: "Graphic Designer",
-        },
-    ];
+    
     return (
         <>
             <main className="relative">
@@ -143,40 +205,78 @@ export default function AboutPage() {
                     </div>
                 </motion.div>
 
-                <motion.div
-                    className="w-full max-w-2xl mx-auto p-6 rounded-lg shadow-lg"
-                    ref={timelineRef}
-                    initial="hidden"
-                    animate={isTimelineVisible ? "visible" : "hidden"}
-                    variants={staggerChildren}
-                >
-                    <h2 className="text-3xl font-bold mb-8 text-center">Experience Details</h2>
-                    <div className="relative">
-                        {/* Animated vertical line */}
-                        <div
-                            className={`absolute left-[15px] top-[24px] w-[2px] bg-orange-500 transition-all duration-1000 ease-out ${
-                                isTimelineVisible ? "h-full" : "h-0"
-                            }`}
-                        />
+                 <motion.div
+            className="w-full mx-auto px-6 shadow-lg relative"
+            initial="hidden"
+            animate="visible"
+            variants={{
+                hidden: { opacity: 0 },
+                visible: { opacity: 1 }
+            }}
+        >
+            <h2 className="text-3xl font-bold mb-8 text-center">Experience Details</h2>
+            
+            {/* Navigation Buttons */}
+            <button 
+                onClick={() => scrollTo(currentIndex - 1)}
+                className="absolute left-4 top-1/2 z-10 transform -translate-y-1/2 bg-gray-900/50 p-2 rounded-full hover:bg-gray-900/75 transition-colors"
+                aria-label="Previous experience"
+            >
+                <ChevronLeft className="h-6 w-6 text-white" />
+            </button>
+            <button 
+                onClick={() => scrollTo(currentIndex + 1)}
+                className="absolute right-4 top-1/2 z-10 transform -translate-y-1/2 bg-gray-900/50 p-2 rounded-full hover:bg-gray-900/75 transition-colors"
+                aria-label="Next experience"
+            >
+                <ChevronRight className="h-6 w-6 text-white" />
+            </button>
 
-                        {experiences.map((exp, index) => (
-                            <motion.div key={index} className="flex gap-4 mb-8" variants={fadeIn}>
-                                {/* Timeline dot */}
-                                <div className="relative w-8 h-8 shrink-0">
-                                    <div className="absolute top-[8
-                                    px] left-[8px] w-4 h-4 rounded-full bg-orange-500" />
-                                </div>
+            {/* Cards Container */}
+            <div 
+                ref={containerRef}
+                className=" flex justify-center overflow-x-hidden snap-x snap-mandatory gap-16 px-16"
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+            >
+                {experiences.map((exp, index) => (
+                    <motion.div
+                        key={index}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: index * 0.2 }}
+                        className="flex-none w-[400px] snap-center"
+                    >
+                        <div className="backdrop-blur-sm rounded-xl p-6 h-full text-center">
+                            <div className="aspect-square relative mb-6">
+                                <img
+                                    src={exp.image}
+                                    alt={`${exp.company} illustration`}
+                                    className="w-full h-full object-cover rounded-lg"
+                                />
+                            </div>
+                            <h3 className="text-2xl font-bold text-white mb-2">{exp.company}</h3>
+                            <p className="text-gray-400 text-lg mb-2">{exp.role}</p>
+                            <p className="text-gray-500">{exp.period}</p>
+                        </div>
+                    </motion.div>
+                ))}
+            </div>
 
-                                {/* Content */}
-                                <div className="flex-1 pt-2">
-                                    <h3 className="font-bold text-lg text-orange-500">{exp.company}</h3>
-                                    <p className="text-gray-300 font-medium">{exp.role}</p>
-                                    <p className="text-sm text-gray-400 mt-1">{exp.period}</p>
-                                </div>
-                            </motion.div>
-                        ))}
-                    </div>
-                </motion.div>
+            {/* Dots Indicator */}
+            {/* <div className="flex justify-center gap-2 mt-4">
+                {experiences.map((_, index) => (
+                    <button
+                        key={index}
+                        onClick={() => scrollTo(index)}
+                        className={`w-2 h-2 rounded-full transition-colors ${
+                            index === currentIndex ? 'bg-white' : 'bg-gray-500'
+                        }`}
+                        aria-label={`Go to experience ${index + 1}`}
+                    />
+                ))}
+            </div> */}
+        </motion.div>
 
                 <style>{`
                     @keyframes pulse {
