@@ -4,7 +4,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 export default function AboutPage() {
     const [isLoaded, setIsLoaded] = useState(false);
-    const [isTimelineVisible, setIsTimelineVisible] = useState(false);
+    // const [isTimelineVisible, setIsTimelineVisible] = useState(false);
     const timelineRef = useRef(null);
     const containerRef = useRef<HTMLDivElement>(null)
     const [currentIndex, setCurrentIndex] = useState(0)
@@ -93,7 +93,7 @@ export default function AboutPage() {
         const observer = new IntersectionObserver(
             ([entry]) => {
                 if (entry.isIntersecting) {
-                    setIsTimelineVisible(true);
+                    // setIsTimelineVisible(true);
                 }
             },
             { threshold: 0.1 }
