@@ -1,7 +1,7 @@
 import { useState, ChangeEvent, FormEvent, useEffect } from "react";
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection, addDoc, deleteDoc, getDocs, doc } from "firebase/firestore";
-import imageCompression from 'browser-image-compression';
+
 // Initialize Firebase (replace with your config)
 const firebaseConfig = {
     apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -38,7 +38,7 @@ export default function AdminDashboard() {
         tools: "",
         index:0
     });
-    const [images, setImages] = useState<string[]>([]);
+
     const [isUploading, setIsUploading] = useState(false);
     const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
     const [projects, setProjects] = useState<Project[]>([]);
@@ -65,62 +65,36 @@ export default function AdminDashboard() {
         setProject((prev) => ({ ...prev, [name]: value }));
     };
 
-
-
-const handleImageChange = async (e: ChangeEvent<HTMLInputElement>) => {
-    setIsUploading(true);
-    if (e.target.files) {
-        const filesArray = Array.from(e.target.files);
-
-        const uploadPromises = filesArray.map(async (file) => {
-            try {
-                // Compress the image
-                const compressedFile = await imageCompression(file, {
-                    maxSizeMB: 2, // Larger size for better quality
-                    maxWidthOrHeight: 1920, // Higher resolution for high-quality thumbnails
-                    initialQuality: 0.8, // Adjust this to control quality
-                    useWebWorker: true, // Improve performance
-                });
-
-                // Prepare FormData
-                const formData = new FormData();
-                formData.append('image', compressedFile);
-
-                // Upload the compressed image
-                const response = await fetch(`https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_IMGBB_API_KEY}`, {
-                    method: 'POST',
-                    body: formData,
-                });
-
-                if (!response.ok) {
-                    throw new Error(`Failed to upload image: ${response.statusText}`);
-                }
-
-                const data = await response.json();
-                return data.data.display_url;
-            } catch (error) {
-                console.error('Error compressing or uploading image:', error);
-                throw error;
-            }
-        });
-
-        try {
-            const imageUrls = await Promise.all(uploadPromises);
-            setImages(imageUrls);
-        } catch (error) {
-            console.error('Error handling image uploads:', error);
-        } finally {
-            setIsUploading(false);
+//to get thubm=nail and embedded url
+    const extractURL = (url: string): string[] | null => {
+        // Updated regex to correctly capture only the video ID
+        const youtubeRegex = /(?:youtube\.com\/.*[?&]v=|youtu\.be\/)([^&?]+)/;
+        const vimeoRegex = /vimeo\.com\/(\d+)/;
+        let match;
+        if ((match = youtubeRegex.exec(url))) {
+            return [`https://i.ytimg.com/vi/${match[1]}/maxresdefault.jpg`,`https://www.youtube.com/embed/${match[1]}`];
+        } else if ((match = vimeoRegex.exec(url))) {
+            return [`https://vumbnail.com/${match[1]}.jpg`, `https://player.vimeo.com/video/${match[1]}`]; // Using a public service for Vimeo thumbnails
         }
-    }
-};
-
     
-
+        return null;
+    };
+    
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
         setIsUploading(true);
         setMessage(null);
+
+        const urls = extractURL(project.link);
+
+        if (!urls) {
+            setMessage({
+                type: "error",
+                text: "Invalid project link. Please provide a valid YouTube or Vimeo URL.",
+            });
+            return;
+        }
+
 
         try {
             const projectsRef = collection(db, "projects");
@@ -134,7 +108,8 @@ const handleImageChange = async (e: ChangeEvent<HTMLInputElement>) => {
             const nextIndex = lastIndex + 1;
             await addDoc(projectsRef, {
                 ...project,
-                images: images,
+                iframeLink:urls[1],
+                images: [urls[0]],
                 index:nextIndex,
                 // id: Date.now(),
             });
@@ -150,7 +125,7 @@ const handleImageChange = async (e: ChangeEvent<HTMLInputElement>) => {
                 tools: "",
                 index:nextIndex,
             });
-            setImages([]);
+         
             fetchProjects();
         } catch (error) {
             console.error("Error uploading project:", error);
@@ -262,21 +237,7 @@ const handleImageChange = async (e: ChangeEvent<HTMLInputElement>) => {
                 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
                             />
                         </div>
-                        <div>
-                            <label htmlFor="iframeLink" className="block text-sm font-medium text-gray-700">
-                                Iframe Link
-                            </label>
-                            <input
-                                type="text"
-                                id="iframeLink"
-                                name="iframeLink"
-                                value={project.iframeLink}
-                                onChange={handleInputChange}
-                                required
-                                className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md text-sm shadow-sm placeholder-gray-400
-                focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
-                            />
-                        </div>
+                        
                         <div>
                             <label htmlFor="description" className="block text-sm font-medium text-gray-700">
                                 Description
@@ -306,27 +267,7 @@ const handleImageChange = async (e: ChangeEvent<HTMLInputElement>) => {
                 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
                             />
                         </div>
-                        <div>
-                            <label htmlFor="images" className="block text-sm font-medium text-gray-700">
-                                Images
-                            </label>
-                            <input
-                                type="file"
-                                id="images"
-                                onChange={handleImageChange}
-                                multiple
-                                accept="image/*"
-                                className="mt-1 block w-full text-sm text-gray-500
-                file:mr-4 file:py-2 file:px-4
-                file:rounded-full file:border-0
-                file:text-sm file:font-semibold
-                file:bg-blue-50 file:text-blue-700
-                hover:file:bg-blue-100"
-                            />
-                            {
-                                isUploading&&<h1>uploading</h1>
-                            }
-                        </div>
+
                         <button
                             type="submit"
                             disabled={isUploading}
