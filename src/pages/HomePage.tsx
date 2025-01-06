@@ -6,6 +6,7 @@ import Modal from "../Components/Modal";
 // import AnimatedArrow from "../assets/AnimatedArrow";
 import AnimatedArrow2 from "../assets/AnimatedArrow2";
 
+
 interface HomePageProps {
     isLoaded: boolean;
     scrollTo: (id: string) => void;

@@ -6,6 +6,7 @@ import { Outlet } from "react-router-dom";
 import Header from "./Components/Header";
 // import Footer from "./Components/Footer";
 import Footer2 from "./Components/Footer2";
+import ScrollToTopButton from "./Components/ScrollButton";
 
 interface Project {
     id: string;
@@ -120,6 +121,7 @@ const App = () => {
                 } // Provide context type
             />
             <Footer2 isLoaded={isLoaded} />
+                 <ScrollToTopButton/>
         </div>
     );
 };
