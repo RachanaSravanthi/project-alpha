@@ -1,20 +1,32 @@
-"use client"
 
-import { motion } from "framer-motion"
-// import { Facebook, Instagram, Linkedin } from 'lucide-react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faFacebookF, faInstagram, faLinkedinIn, faBehance } from "@fortawesome/free-brands-svg-icons"
-       //faFacebookSquare, faInstagramSquare, faLinkedin,  faBehanceSquare
+
+import { motion } from "framer-motion";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  // faFacebookF,
+  // faInstagram,
+  faLinkedinIn,
+  faBehance,
+} from "@fortawesome/free-brands-svg-icons";
+import { useLocation } from "react-router-dom";
+
+
+
+
 
 interface FooterProps {
-  isLoaded: boolean
+  isLoaded: boolean;
 }
 
 export default function Footer2({ isLoaded }: FooterProps) {
+  
+const location = useLocation();
+
   const fadeIn = {
     hidden: { opacity: 0 },
     visible: { opacity: 1, transition: { duration: 1 } },
-  }
+  };
 
   const staggerChildren = {
     hidden: { opacity: 0 },
@@ -24,11 +36,10 @@ export default function Footer2({ isLoaded }: FooterProps) {
         staggerChildren: 0.2,
       },
     },
-  }
+  };
 
   return (
     <>
-
       <motion.footer
         className="bg-black text-white px-8 py-12"
         initial="hidden"
@@ -76,7 +87,10 @@ export default function Footer2({ isLoaded }: FooterProps) {
         </motion.div>
         <div className="max-w-8xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-9">
           {/* Left Column */}
-          <motion.div variants={fadeIn} className="space-y-2 hover:text-gray-300 transition-colors duration-300">
+          <motion.div
+            variants={fadeIn}
+            className="space-y-2 hover:text-gray-300 transition-colors duration-300"
+          >
             <h2 className="text-3xl font-medium">Rachana Sravanthi</h2>
             <p className="text-md text-gray-400">
               Multi-Disciplinary Designer & VFX Artist
@@ -87,26 +101,39 @@ export default function Footer2({ isLoaded }: FooterProps) {
 
           {/* Middle Column - Navigation */}
           <motion.nav variants={fadeIn} className="space-y-3 text-md">
-            <motion.a
-              href="#about"
+            {
+              location.pathname!=="/"
+              ?
+              <motion.a
+              href="/#works"
               className="block  hover:text-gray-300 transition-colors duration-300"
             >
-              About
+              Works
             </motion.a>
+            :
             <motion.a
+            href="/about"
+            className="block  hover:text-gray-300 transition-colors duration-300"
+          >
+            About
+          </motion.a>
+            }
+            <motion.a
+              target="_blank"
               href="https://www.behance.net/rachanaSravanthi"
               className="block  hover:text-gray-300 transition-colors duration-300"
             >
               Behance
             </motion.a>
             <motion.a
+              target="_blank"
               href="https://www.linkedin.com/in/rachana-s-vfx/"
               className="block  hover:text-gray-300 transition-colors duration-300"
             >
               Linkedin
             </motion.a>
             <motion.a
-              href="#contact"
+              href="/contact"
               className="block  hover:text-gray-300 transition-colors duration-300"
             >
               Contact
@@ -123,20 +150,30 @@ export default function Footer2({ isLoaded }: FooterProps) {
 
             {/* Social Icons */}
             <div className="flex gap-4">
-              <a href="#" className="hover:text-gray-300 transition-colors duration-300">
-                {/* <Facebook size={25} /> */}
+              {/* <a
+                href="#"
+                className="hover:text-gray-300 transition-colors duration-300"
+              >
                 <FontAwesomeIcon icon={faFacebookF} size="xl" />
               </a>
-              <a href="" className="hover:text-gray-300 transition-colors duration-300">
-                {/* <Instagram size={25} /> */}
+              <a
+                href=""
+                className="hover:text-gray-300 transition-colors duration-300"
+              >
                 <FontAwesomeIcon icon={faInstagram} size="xl" />
-              </a>
-              <a href="https://www.linkedin.com/in/rachana-s-vfx/" className="hover:text-gray-300 transition-colors duration-300">
-                {/* <Linkedin size={25} /> */}
+              </a> */}
+              <a
+                target="_blank"
+                href="https://www.linkedin.com/in/rachana-s-vfx/"
+                className="hover:text-gray-300 transition-colors duration-300"
+              >
                 <FontAwesomeIcon icon={faLinkedinIn} size="xl" />
               </a>
-              <a href="https://www.behance.net/rachanaSravanthi" className="hover:text-gray-300 transition-colors duration-300">
-                {/* <Linkedin size={25} /> */}
+              <a
+                target="_blank"
+                href="https://www.behance.net/rachanaSravanthi"
+                className="hover:text-gray-300 transition-colors duration-300"
+              >
                 <FontAwesomeIcon icon={faBehance} size="xl" />
               </a>
             </div>
@@ -144,7 +181,7 @@ export default function Footer2({ isLoaded }: FooterProps) {
           <motion.div variants={fadeIn} className="space-y-6">
             {/* Say Hello Button */}
             <motion.a
-              href="#contact"
+              href="/contact"
               className="py-2 px-7 bg-white font-semibold text-black border-2 font-inter border-[#000] hover:bg-white hover:border-white rounded-lg duration-300 text-center"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
@@ -155,6 +192,5 @@ export default function Footer2({ isLoaded }: FooterProps) {
         </div>
       </motion.footer>
     </>
-  )
+  );
 }
-

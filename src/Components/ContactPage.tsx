@@ -76,7 +76,7 @@ console.log(err);
                 Lets create together
               </h2>
               <p className="text-gray-400">
-                Break the ice! Let us help you out
+                Break the ice!  Let me help you out
               </p>
             </div>
 
@@ -97,7 +97,7 @@ console.log(err);
               <div className="space-y-1">
                 <input
                   type="email"
-                  placeholder="Whats your email?"
+                  placeholder="What's your email?"
                   required
                   value={formData.email}
                   onChange={(e) =>
