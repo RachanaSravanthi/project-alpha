@@ -1,41 +1,50 @@
-
-import { motion } from 'framer-motion'
-import { useState } from 'react'
+import { motion } from "framer-motion";
+import { useState } from "react";
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: ''
-  })
+    name: "",
+    email: "",
+    mobile: "",
+    subject: "",
+  });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [formSubmited,setFormSubmited]=useState(false);
+  const [formSubmited, setFormSubmited] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsSubmitting(true)
-    setFormSubmited(false)
-
-    // Replace with your Google Form URL    
-    const GOOGLE_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSeZph8LgZHvF4x0ouuRrb69TZFYizQ0xz4TF19N0flyT8XtXw/formResponse'
-    const formResponse = await fetch(GOOGLE_FORM_URL, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      },
-      body: new URLSearchParams({
-        'entry.1712600641': formData.name,     // Replace with your form field IDs
-        'entry.1183213126': formData.email,    // Replace with your form field IDs
-        'entry.728623949': formData.subject   // Replace with your form field IDs
-      })
-    }) 
-    if (formResponse.ok) {
-      setFormData({ name: '', email: '', subject: '' })
-      setFormSubmited(true)
-    }
-    setIsSubmitting(false)
+    e.preventDefault();
+    setIsSubmitting(true);
+    setFormSubmited(false);
+try{
+  //docs.google.com/forms/d/e/1FAIpQLScRfX75cDYXlfPQR2WIhBMVSlOI00OEyzfYxG4mphS_PUb5tg/viewform?usp=pp_url&entry.154228335=Rachana&entry.458940791=rachana@gmail.com&entry.1170359642=999999999&entry.1286022249=I+would+like+collaborate
+  const GOOGLE_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLScRfX75cDYXlfPQR2WIhBMVSlOI00OEyzfYxG4mphS_PUb5tg/formResponse'  
+  const formResponse = await fetch(GOOGLE_FORM_URL, {
+    method: "POST",
+    mode: "no-cors",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    body: new URLSearchParams({
+      "entry.154228335": formData.name, // Replace with your form field IDs
+      "entry.458940791": formData.email, // Replace with your form field IDs
+      "entry.1170359642": formData.mobile, // Replace with your form field IDs
+      "entry.1286022249": formData.subject, // Replace with your form field IDs
+    }),
+  });
+  if(formResponse)
+  {
+    console.log('res',formResponse);
+    setFormData({ name: "", email: "", subject: "",mobile:"" });
+    setFormSubmited(true);
   }
+  setIsSubmitting(false);
+}
+catch(err){
+console.log(err);
+
+}
+
+  };
 
   return (
     <div className="min-h-screen bg-black text-white p-8 md:p-16 lg:p-24">
@@ -50,7 +59,8 @@ export default function ContactPage() {
             Ready to Start Your Project?
           </h1>
           <p className="text-gray-400 text-xl">
-            Let's make your vision a reality. Contact me today and let's discuss how I can help you innovate and grow.
+            Let's make your vision a reality. Contact me today and let's discuss
+            how I can help you innovate and grow.
           </p>
         </motion.div>
 
@@ -77,7 +87,9 @@ export default function ContactPage() {
                   placeholder="What's your name?*"
                   required
                   value={formData.name}
-                  onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
+                  onChange={(e) =>
+                    setFormData((prev) => ({ ...prev, name: e.target.value }))
+                  }
                   className="w-full bg-transparent border-b border-gray-700 focus:border-white py-2 outline-none transition-colors"
                 />
               </div>
@@ -88,7 +100,24 @@ export default function ContactPage() {
                   placeholder="Whats your email?"
                   required
                   value={formData.email}
-                  onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
+                  onChange={(e) =>
+                    setFormData((prev) => ({ ...prev, email: e.target.value }))
+                  }
+                  className="w-full bg-transparent border-b border-gray-700 focus:border-white py-2 outline-none transition-colors"
+                />
+              </div>
+              <div className="space-y-1">
+                <input
+                  type="tel"
+                  id="mobile"
+                  name="mobile"
+                  pattern="[0-9]{10}"
+                  placeholder="Whats your contact number?"
+                  required
+                  value={formData.mobile}
+                  onChange={(e) =>
+                    setFormData((prev) => ({ ...prev, mobile: e.target.value }))
+                  }
                   className="w-full bg-transparent border-b border-gray-700 focus:border-white py-2 outline-none transition-colors"
                 />
               </div>
@@ -99,13 +128,22 @@ export default function ContactPage() {
                   placeholder="Describe your subject"
                   required
                   value={formData.subject}
-                  onChange={(e) => setFormData(prev => ({ ...prev, subject: e.target.value }))}
+                  onChange={(e) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      subject: e.target.value,
+                    }))
+                  }
                   className="w-full bg-transparent border-b border-gray-700 focus:border-white py-2 outline-none transition-colors"
                 />
               </div>
-                {formSubmited&&<div className='w-full text-center'>
-                    <h1 className='text-green-400'>Successfully saved the response</h1>
-                </div>}
+              {formSubmited && (
+                <div className="w-full text-center">
+                  <h1 className="text-green-400">
+                    Successfully saved the response
+                  </h1>
+                </div>
+              )}
               <motion.button
                 type="submit"
                 disabled={isSubmitting}
@@ -113,13 +151,12 @@ export default function ContactPage() {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
-                {isSubmitting ? 'Submitting...' : 'Submit'}
+                {isSubmitting ? "Submitting..." : "Submit"}
               </motion.button>
             </form>
           </div>
         </motion.div>
       </div>
     </div>
-  )
+  );
 }
-
