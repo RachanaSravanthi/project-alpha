@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { ChevronUp } from 'lucide-react'
@@ -31,23 +30,23 @@ const ScrollToTopButton: React.FC = () => {
   return (
     <div>
       {isVisible && (
-        <motion.button
+        <motion.div
           onClick={scrollToTop}
-          className="fixed bottom-5 right-5 bg-[rgb(255,255,255,1)] text-white p-3 rounded-full shadow-lg hover:bg-white transition-colors duration-300 flex items-center justify-center"
+          className="fixed bottom-5 right-5 bg-white text-black p-3 rounded-full shadow-lg flex items-center space-x-2 cursor-pointer hover:bg-gray-100 transition-colors duration-300"
           aria-label="Scroll to top"
           initial={{ scale: 0, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           exit={{ scale: 0, opacity: 0 }}
           transition={{ duration: 0.3 }}
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
         >
           <ChevronUp size={24} color="black" />
-        </motion.button>
+          <span className="text-sm font-medium">Scroll to Top</span>
+        </motion.div>
       )}
     </div>
   )
 }
 
 export default ScrollToTopButton
-
