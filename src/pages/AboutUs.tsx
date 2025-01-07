@@ -15,31 +15,31 @@ export default function AboutPage() {
             period: "Nov 2023 - Present",
             company: "Adfuel Media",
             role: "Multimedia Designer",
-            image:"/about/aboutImg.png"
+            image:"/ExpericeLogo/Multimedia.png"
         },
         {
             period: "Aug 2022 - Sept 2023",
             company: "DNEG",
             role: "Lighting Technical Director",
-            image:"/about/aboutImg.png"
+            image:"/ExpericeLogo/LightingTD.png"
         },
         {
             period: "Jan 2021 - July 2021",
             company: "Elite crest technologies",
             role: "Graphic Designer",
-            image:"/about/aboutImg.png"
+            image:"/ExpericeLogo/Graphicdesigner.png"
         },
         {
             period: "Aug 2020 - Dec 2020",
             company: "Shunya",
             role: "Motion graphic Designer",
-            image:"/about/aboutImg.png"
+            image:"/ExpericeLogo/Motiongraphics.png"
         },
         {
             period: "July 2017 - Aug 2020",
             company: "Freelance",
             role: "Graphic Designer",
-            image:"/about/aboutImg.png"
+            image:"/ExpericeLogo/Graphicdesigner.png"
         },
     ];
 
@@ -248,8 +248,8 @@ export default function AboutPage() {
                                                 className="w-full h-full object-cover rounded-lg"
                                             />
                                         </div>
-                                        <h3 className="text-xl md:text-2xl font-bold text-white mb-2">{exp.company}</h3>
-                                        <p className="text-base md:text-lg text-gray-400 mb-2">{exp.role}</p>
+                                        <h3 className="text-xl md:text-2xl font-bold text-white mb-2">{exp.role}</h3>
+                                        <p className="text-base md:text-lg text-gray-400 mb-2">{exp.company}</p>
                                         <p className="text-sm md:text-base text-gray-500">{exp.period}</p>
                                     </div>
                                 </motion.div>

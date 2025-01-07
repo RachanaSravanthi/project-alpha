@@ -42,7 +42,7 @@ const ScrollToTopButton: React.FC = () => {
           whileTap={{ scale: 0.95 }}
         >
           <ChevronUp size={24} color="black" />
-          <span className="text-sm font-medium">Scroll to Top</span>
+          <span className="text-sm font-medium">Back to Top</span>
         </motion.div>
       )}
     </div>

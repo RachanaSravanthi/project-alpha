@@ -29,15 +29,7 @@ export default function Header({ isLoaded, scrollTo }: HeaderProps) {
                         className="rounded-full mb-4 md:mb-0 cursor-pointer w-8 h-8 object-cover"
                         onClick={() => navigate("/")}
                     />
-                    <motion.li variants={fadeIn}>
-                        <button
-                            onClick={() => navigate("/about")}
-                            className="hover:text-gray-600 transition-colors duration-300 cursor-pointer"
-                        >
-                            About
-                        </button>
-                    </motion.li>
-                    <motion.li variants={fadeIn}>
+                     <motion.li variants={fadeIn}>
                         <button
                             onClick={async () => {
                                 await navigate("/")
@@ -47,6 +39,14 @@ export default function Header({ isLoaded, scrollTo }: HeaderProps) {
                             className="hover:text-gray-600 transition-colors duration-300 cursor-pointer"
                         >
                             Work
+                        </button>
+                    </motion.li>
+                    <motion.li variants={fadeIn}>
+                        <button
+                            onClick={() => navigate("/about")}
+                            className="hover:text-gray-600 transition-colors duration-300 cursor-pointer"
+                        >
+                            About
                         </button>
                     </motion.li>
                     <motion.li variants={fadeIn}>
