@@ -77,6 +77,7 @@ export default function HomePage() {
                                 key={i}
                                 className="border border-white/15"
                                 style={{
+                                    aspectRatio: "1 / 1",
                                     animation: `pulse 12s cubic-bezier(0.4, 0, 0.6, 1) infinite ${i * 0.05}s`,
                                 }}
                             />
@@ -144,39 +145,50 @@ export default function HomePage() {
                     ))}
                 </motion.div>
 
-                <motion.section
-                    id="work"
-                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mb-8"
-                    initial="hidden"
-                    animate={isLoaded ? "visible" : "hidden"}
-                    variants={staggerChildren}
-                >
-                    {filteredProjects.map((project, i) => (
-                        <motion.div
-                            key={i}
-                            className="relative overflow-hidden group hover:cursor-pointer"
-                            variants={fadeIn}
-                            // onClick={() => setSelectedProjectIndex(i)}
-                             onClick={() => handleProjectClick(i)}
+                <motion.section 
+    id="work" 
+    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mb-8"
+    initial="hidden"
+    animate={isLoaded ? "visible" : "hidden"}
+    variants={staggerChildren}
+>
+    {filteredProjects.map((project, i) => (
+        <motion.div
+            key={i}
+            className="relative overflow-hidden group hover:cursor-pointer"
+            variants={fadeIn}
+            onClick={() => handleProjectClick(i)}
+        >
+            {project.images[0]?.includes('drive.google.com') ? (
+               <div className="relative w-full h-[300px] overflow-hidden transition-transform duration-300 group-hover:scale-110">
+               <iframe                      
+                 src={project.images[0].replace('/view?usp=sharing', '/preview')}
+                 className="w-full h-[400px] absolute top-[-50px] left-0 scale-[1.2] pointer-events-none object-cover "
+                 style={{
+                   border: 'none',
+                   backgroundColor: 'transparent',
+                   maskImage: 'linear-gradient(to bottom, black 83%, transparent 100%)'
+                 }}
+                 frameBorder="0"
+                 scrolling="no"
+               />
+             </div>
+            ) : (
+                <img
+                    src={project.images[0]}
+                    alt="Project thumbnail"
+                    className="w-full h-[300px] object-cover transition-transform duration-300 group-hover:scale-110"
+                />
+            )}
 
-                        >
-                            {/* {project.link ? (
-                                <VimeoEmbed link={project.link} />
-                            ) : (<h1>hi</h1>)} */}
-                            <img
-                                src={`${project.images[0]}`}
-                                alt="Project thumbnail"
-                                className="w-full h-[300px] object-cover transition-transform duration-300 group-hover:scale-110"
-                            />
-
-                            <div className="absolute bottom-0 left-0 p-2 bg-black bg-opacity-50 w-full transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-                                <h3 className="text-lg font-bold">{project.title}</h3>
-                                <p className="text-sm">{project.subtitle}</p>
-                            </div>
-                        </motion.div>
-                    ))}
-                </motion.section>
-            </main>
+            <div className="absolute bottom-0 left-0 p-2 bg-black bg-opacity-50 w-full transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                <h3 className="text-lg font-bold">{project.title}</h3>
+                <p className="text-sm">{project.subtitle}</p>
+            </div>
+        </motion.div>
+    ))}
+</motion.section>
+            </main> 
 
             <AnimatePresence>
                 {selectedProjectIndex !== null && (

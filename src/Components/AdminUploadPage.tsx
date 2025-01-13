@@ -65,17 +65,22 @@ export default function AdminDashboard() {
         setProject((prev) => ({ ...prev, [name]: value }));
     };
 
-//to get thubm=nail and embedded url
+//to get thumbnail and embedded url
     const extractURL = (url: string): string[] | null => {
         // Updated regex to correctly capture only the video ID
         const youtubeRegex = /(?:youtube\.com\/.*[?&]v=|youtu\.be\/)([^&?]+)/;
         const vimeoRegex = /vimeo\.com\/(\d+)/;
+        const driveRegex = /drive\.google\.com\/file\/d\/([^/]+)/;
         let match;
         if ((match = youtubeRegex.exec(url))) {
             return [`https://i.ytimg.com/vi/${match[1]}/maxresdefault.jpg`,`https://www.youtube.com/embed/${match[1]}`];
         } else if ((match = vimeoRegex.exec(url))) {
             return [`https://vumbnail.com/${match[1]}.jpg`, `https://player.vimeo.com/video/${match[1]}`]; // Using a public service for Vimeo thumbnails
         }
+    else if ((match = driveRegex.exec(url))) {
+        const previewUrl = `https://drive.google.com/file/d/${match[1]}/preview`;
+        return [previewUrl, previewUrl];
+    }
     
         return null;
     };
