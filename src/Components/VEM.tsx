@@ -9,7 +9,31 @@ const VideoEmbed: React.FC<VideoEmbedProps> = ({ link, className }) => {
     // Function to determine video source
     const getVideoSource = (url: string) => {
         if (!url) return null;
-        
+        // Google Drive handling
+        if (url.includes('drive.google.com')) {
+            let driveId = '';
+            
+            // Handle preview link format
+            if (url.includes('/preview')) {
+                driveId = url.split('/file/d/')[1]?.split('/preview')[0];
+            }
+            // Handle /file/d/ format
+            else if (url.includes('/file/d/')) {
+                driveId = url.split('/file/d/')[1]?.split('/')[0];
+            }
+            // Handle id= format
+            else if (url.includes('id=')) {
+                driveId = url.split('id=')[1]?.split('&')[0];
+            }
+
+            if (driveId) {
+                // Always use preview for Drive content
+                return {
+                    type: 'drive',
+                    embedUrl: `https://drive.google.com/file/d/${driveId}/preview`
+                };
+            }
+        }
         // Vimeo handling
         if (url.includes('vimeo.com')) {
             const vimeoId = url.split('/').pop()?.split('?')[0];

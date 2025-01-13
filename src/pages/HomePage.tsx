@@ -87,25 +87,25 @@ export default function HomePage() {
                     <div className="relative z-10 min-h-[60vh] flex items-center justify-center flex-col">
                         <motion.h1
                             variants={fadeIn}
-                            className="text-2xl md:text-5xl text-dim-white mb-2 font-inter font-medium"
+                            className="text-xl md:text-4xl lg:text-5xl text-dim-white mb-2 font-inter font-medium"
                         >
                             Hello! I'm Rachana Sravanthi
                         </motion.h1>
                         <motion.h2
                             variants={fadeIn}
-                            className="text-3xl md:text-6xl font-medium text-off-white mb-3 font-inter max-w-3xl mx-auto"
+                            className="text-2xl md:text-5xl lg:text-6xl font-medium text-off-white mb-3 font-inter max-w-3xl mx-auto"
                         >
                             Bringing Imagination to Life:
                         </motion.h2>
                         <motion.h2
                             variants={fadeIn}
-                            className="text-3xl md:text-6xl font-medium text-off-white mb-3 font-inter max-w-4xl mx-auto"
+                            className="text-2xl md:text-5xl lg:text-6xl font-medium text-off-white mb-3 font-inter max-w-4xl mx-auto"
                         >
                             Stunning VFX, 2D & 3D Designs
                         </motion.h2>
                         <motion.h2
                             variants={fadeIn}
-                            className="text-3xl md:text-6xl font-medium text-off-white mb-3 font-inter max-w-2xl mx-auto"
+                            className="text-2xl md:text-5xl lg:text-6xl font-medium text-off-white mb-3 font-inter max-w-2xl mx-auto"
                         >
                             for Film and Beyond!
                         </motion.h2>
@@ -160,10 +160,10 @@ export default function HomePage() {
             onClick={() => handleProjectClick(i)}
         >
             {project.images[0]?.includes('drive.google.com') ? (
-               <div className="relative w-full h-[300px] overflow-hidden transition-transform duration-300 group-hover:scale-110">
+               <div className="relative w-full min-w-full h-[300px] overflow-hidden transition-transform duration-300 group-hover:scale-110">
                <iframe                      
                  src={project.images[0].replace('/view?usp=sharing', '/preview')}
-                 className="w-full h-[400px] absolute top-[-50px] left-0 scale-[1.2] pointer-events-none object-cover "
+                 className=" min-w-full  h-[400px] absolute left-0 pointer-events-none object-fit "
                  style={{
                    border: 'none',
                    backgroundColor: 'transparent',
@@ -173,6 +173,8 @@ export default function HomePage() {
                  scrolling="no"
                />
              </div>
+              
+       
             ) : (
                 <img
                     src={project.images[0]}
