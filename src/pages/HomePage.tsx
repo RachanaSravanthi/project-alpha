@@ -66,7 +66,7 @@ export default function HomePage() {
             <main className="mx-auto">
                 <motion.section
                     id="about"
-                    className="relative text-center py-36 flex items-center justify-center flex-col overflow-hidden aspect-[50/50] sm:aspect-[28/15] md:aspect-[28/15]"
+                    className="relative text-center py-36 flex items-center justify-center flex-col overflow-hidden aspect-[50/50] sm:aspect-[28/15] md:aspect-[28/15] "
                     initial="hidden"
                     animate={isLoaded ? "visible" : "hidden"}
                     variants={staggerChildren}
