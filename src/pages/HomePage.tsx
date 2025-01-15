@@ -160,12 +160,14 @@ export default function HomePage() {
                                 <div className="relative w-full min-w-full h-[300px] overflow-hidden transition-transform duration-300 group-hover:scale-110">
                                     <iframe
                                         src={project.images[0].replace("/view?usp=sharing", "/preview")}
-                                        className=" min-w-full  h-[400px] absolute left-0 pointer-events-none object-fit "
+                                        className=" min-w-full  h-[400px] absolute left-0 pointer-events-none object-fit"
                                         style={{
                                             border: "none",
                                             backgroundColor: "transparent",
                                             maskImage: "linear-gradient(to bottom, black 83%, transparent 100%)",
                                             transform: "scale(4) translateY(145px)",
+                                            position: "absolute",
+                                            // bottom: "-200px",
                                         }}
                                         frameBorder="0"
                                         scrolling="no"
