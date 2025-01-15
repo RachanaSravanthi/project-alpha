@@ -1,11 +1,10 @@
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, transform } from "framer-motion";
 import { useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import Modal from "../Components/Modal";
 // import VimeoEmbed from "../components/VEM";
 // import AnimatedArrow from "../assets/AnimatedArrow";
 import AnimatedArrow2 from "../assets/AnimatedArrow2";
-
 
 interface HomePageProps {
     isLoaded: boolean;
@@ -47,19 +46,17 @@ export default function HomePage() {
         const projectIndexInOriginalData = projectData.findIndex((p) => p.id === project.id); // Find its index in the original data
         setSelectedProjectIndex(projectIndexInOriginalData);
     };
-    
 
     const filteredProjects = selectedCategory
         ? projectData.filter((project) => project.category === selectedCategory)
         : projectData;
 
-        // const scrollTo = (id: string) => {
-        //     const element = document.getElementById(id);
-        //     if (element) {
-        //         element.scrollIntoView({ behavior: "smooth" });
-        //     }
-        // };
-        
+    // const scrollTo = (id: string) => {
+    //     const element = document.getElementById(id);
+    //     if (element) {
+    //         element.scrollIntoView({ behavior: "smooth" });
+    //     }
+    // };
 
     return (
         <>
@@ -124,7 +121,7 @@ export default function HomePage() {
                         >
                             <img src={Arrow} alt="Scroll to works" className="w-44 h-44 opacity-80" />
                         </motion.div> */}
-                        <AnimatedArrow2/>
+                        <AnimatedArrow2 />
                         {/* <AnimatedArrow/> */}
                     </div>
                 </motion.section>
@@ -145,52 +142,51 @@ export default function HomePage() {
                     ))}
                 </motion.div>
 
-                <motion.section 
-    id="work" 
-    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mb-8"
-    initial="hidden"
-    animate={isLoaded ? "visible" : "hidden"}
-    variants={staggerChildren}
->
-    {filteredProjects.map((project, i) => (
-        <motion.div
-            key={i}
-            className="relative overflow-hidden group hover:cursor-pointer"
-            variants={fadeIn}
-            onClick={() => handleProjectClick(i)}
-        >
-            {project.images[0]?.includes('drive.google.com') ? (
-               <div className="relative w-full min-w-full h-[300px] overflow-hidden transition-transform duration-300 group-hover:scale-110">
-               <iframe                      
-                 src={project.images[0].replace('/view?usp=sharing', '/preview')}
-                 className=" min-w-full  h-[400px] absolute left-0 pointer-events-none object-fit "
-                 style={{
-                   border: 'none',
-                   backgroundColor: 'transparent',
-                   maskImage: 'linear-gradient(to bottom, black 83%, transparent 100%)'
-                 }}
-                 frameBorder="0"
-                 scrolling="no"
-               />
-             </div>
-              
-       
-            ) : (
-                <img
-                    src={project.images[0]}
-                    alt="Project thumbnail"
-                    className="w-full h-[300px] object-cover transition-transform duration-300 group-hover:scale-110"
-                />
-            )}
+                <motion.section
+                    id="work"
+                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mb-8"
+                    initial="hidden"
+                    animate={isLoaded ? "visible" : "hidden"}
+                    variants={staggerChildren}
+                >
+                    {filteredProjects.map((project, i) => (
+                        <motion.div
+                            key={i}
+                            className="relative overflow-hidden group hover:cursor-pointer"
+                            variants={fadeIn}
+                            onClick={() => handleProjectClick(i)}
+                        >
+                            {project.images[0]?.includes("drive.google.com") ? (
+                                <div className="relative w-full min-w-full h-[300px] overflow-hidden transition-transform duration-300 group-hover:scale-110">
+                                    <iframe
+                                        src={project.images[0].replace("/view?usp=sharing", "/preview")}
+                                        className=" min-w-full  h-[400px] absolute left-0 pointer-events-none object-fit "
+                                        style={{
+                                            border: "none",
+                                            backgroundColor: "transparent",
+                                            maskImage: "linear-gradient(to bottom, black 83%, transparent 100%)",
+                                            transform: "scale(4) translateY(145px)",
+                                        }}
+                                        frameBorder="0"
+                                        scrolling="no"
+                                    />
+                                </div>
+                            ) : (
+                                <img
+                                    src={project.images[0]}
+                                    alt="Project thumbnail"
+                                    className="w-full h-[300px] object-cover transition-transform duration-300 group-hover:scale-110"
+                                />
+                            )}
 
-            <div className="absolute bottom-0 left-0 p-2 bg-black bg-opacity-50 w-full transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-                <h3 className="text-lg font-bold">{project.title}</h3>
-                <p className="text-sm">{project.subtitle}</p>
-            </div>
-        </motion.div>
-    ))}
-</motion.section>
-            </main> 
+                            <div className="absolute bottom-0 left-0 p-2 bg-black bg-opacity-50 w-full transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                                <h3 className="text-lg font-bold">{project.title}</h3>
+                                <p className="text-sm">{project.subtitle}</p>
+                            </div>
+                        </motion.div>
+                    ))}
+                </motion.section>
+            </main>
 
             <AnimatePresence>
                 {selectedProjectIndex !== null && (
