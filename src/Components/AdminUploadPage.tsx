@@ -1,6 +1,7 @@
 import { useState, ChangeEvent, FormEvent, useEffect } from "react";
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection, addDoc, deleteDoc, getDocs, doc } from "firebase/firestore";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 // Initialize Firebase (replace with your config)
 const firebaseConfig = {
@@ -14,6 +15,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+const storage=getStorage(app);
 
 interface Project {
     id: string;
@@ -38,7 +40,7 @@ export default function AdminDashboard() {
         tools: "",
         index:0
     });
-
+    const [selectedImage, setSelectedImage] = useState<File | null>(null);
     const [isUploading, setIsUploading] = useState(false);
     const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
     const [projects, setProjects] = useState<Project[]>([]);
@@ -65,6 +67,19 @@ export default function AdminDashboard() {
         setProject((prev) => ({ ...prev, [name]: value }));
     };
 
+
+    const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files && e.target.files[0]) {
+            setSelectedImage(e.target.files[0]);
+        }
+    };
+
+    const uploadImage = async (file: File): Promise<string> => {
+        const storageRef = ref(storage, `projects/${Date.now()}_${file.name}`);
+        await uploadBytes(storageRef, file);
+        return await getDownloadURL(storageRef);
+    };
+
 //to get thumbnail and embedded url
     const extractURL = (url: string): string[] | null => {
         // Updated regex to correctly capture only the video ID
@@ -89,7 +104,30 @@ export default function AdminDashboard() {
         e.preventDefault();
         setIsUploading(true);
         setMessage(null);
+        
+        let imageUrl = "";
+        let iframeUrl = "";
 
+try {
+        if (selectedImage) {
+            // If image is selected, upload it and use it for both images and iframeLink
+            imageUrl = await uploadImage(selectedImage);
+            iframeUrl = imageUrl;
+        }else if (project.link) {
+            // If no image but link is provided, extract URLs
+            const urls = extractURL(project.link);
+            if (!urls) {
+                setMessage({
+                    type: "error",
+                    text: "Invalid project link. Please provide a valid YouTube or Vimeo URL or upload an image.",
+                });
+                setIsUploading(false);
+                return;
+            }
+            [imageUrl, iframeUrl] = urls;
+        } 
+
+        
         const urls = extractURL(project.link);
 
         if (!urls) {
@@ -98,6 +136,20 @@ export default function AdminDashboard() {
                 text: "Invalid project link. Please provide a valid YouTube or Vimeo URL.",
             });
             return;
+        }else {
+                setMessage({
+                    type: "error",
+                    text: "Please either upload an image or provide a valid project link.",
+                });
+                setIsUploading(false);
+                return;
+            }
+
+        } catch (error) {
+            setMessage({
+                type: "error",
+                text: "Error uploading Image. Please try again.",
+            });
         }
 
 
@@ -113,8 +165,8 @@ export default function AdminDashboard() {
             const nextIndex = lastIndex + 1;
             await addDoc(projectsRef, {
                 ...project,
-                iframeLink:urls[1],
-                images: [urls[0]],
+                iframeLink:iframeUrl,
+                images:[imageUrl],
                 index:nextIndex,
                 // id: Date.now(),
             });
@@ -130,7 +182,7 @@ export default function AdminDashboard() {
                 tools: "",
                 index:nextIndex,
             });
-         
+            setSelectedImage(null);
             fetchProjects();
         } catch (error) {
             console.error("Error uploading project:", error);
@@ -230,7 +282,7 @@ export default function AdminDashboard() {
                         </div>
                         <div>
                             <label htmlFor="link" className="block text-sm font-medium text-gray-700">
-                                Project Link
+                                Project Link (Optional if image is uploaded)
                             </label>
                             <input
                                 type="text"
@@ -270,6 +322,19 @@ export default function AdminDashboard() {
                                 onChange={handleInputChange}
                                 className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md text-sm shadow-sm placeholder-gray-400
                 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                            />
+                        </div>
+                        <div>
+                            <label htmlFor="image" className="block text-sm font-medium text-gray-700">
+                                Project Image (Optional)
+                            </label>
+                            <input
+                                type="file"
+                                id="image"
+                                accept="image/*"
+                                onChange={handleImageChange}
+                                className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md text-sm shadow-sm placeholder-gray-400
+                                focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
                             />
                         </div>
 
