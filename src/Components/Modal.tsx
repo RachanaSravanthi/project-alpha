@@ -110,13 +110,14 @@ export default function Modal({
             </div>
 
             <div className="mb-12">
-              {project.iframeLink.includes("firebasestorage") ? (
+              {project.iframeLink.includes("appwrite") ? (
                 <img
                   src={project.iframeLink}
                   alt="Project visual"
                   className="w-full h-full object-cover"
                 />
               ) : (
+               
                 <VimeoEmbed link={project.iframeLink} />
               )}
 
