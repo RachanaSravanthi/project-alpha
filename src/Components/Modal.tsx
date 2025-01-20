@@ -13,7 +13,7 @@ interface ModalProps {
     images: string[];
     iframeLink: string;
     description: string;
-    tools: string;
+    thumbnail: string;
   };
   onClose: () => void;
   onPrevious: () => void;

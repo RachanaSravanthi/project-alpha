@@ -18,7 +18,7 @@ interface HomePageProps {
         images: string[];
         iframeLink: string;
         description: string;
-        tools: string;
+        thumbnail: string;
     }>;
     fadeIn: any;
     staggerChildren: any;
@@ -156,30 +156,35 @@ export default function HomePage() {
                             variants={fadeIn}
                             onClick={() => handleProjectClick(i)}
                         >
-                            {project.images[0]?.includes("drive.google.com") ? (
-                                <div className="relative w-full min-w-full h-[300px] overflow-hidden transition-transform duration-300 group-hover:scale-110">
-                                    <iframe
-                                        src={project.images[0].replace("/view?usp=sharing", "/preview")}
-                                        className=" min-w-full  h-[400px] absolute left-0 pointer-events-none object-fit"
-                                        style={{
-                                            border: "none",
-                                            backgroundColor: "transparent",
-                                            maskImage: "linear-gradient(to bottom, black 83%, transparent 100%)",
-                                            transform: "scale(4) translateY(145px)",
-                                            position: "absolute",
-                                            // bottom: "-200px",
-                                        }}
-                                        frameBorder="0"
-                                        scrolling="no"
-                                    />
-                                </div>
-                            ) : (
-                                <img
-                                    src={project.images[0]}
-                                    alt="Project thumbnail"
-                                    className="w-full h-[300px] object-cover transition-transform duration-300 group-hover:scale-110"
-                                />
-                            )}
+                           {project.thumbnail && project.thumbnail.trim() !== "" ? (
+    <img
+        src={project.thumbnail}
+        alt="Project thumbnail"
+        className="w-full h-[300px] object-cover transition-transform duration-300 group-hover:scale-110"
+    />
+) : project.images[0]?.includes("drive.google.com") ? (
+    <div className="relative w-full min-w-full h-[300px] overflow-hidden transition-transform duration-300 group-hover:scale-110">
+        <iframe
+            src={project.images[0].replace("/view?usp=sharing", "/preview")}
+            className="min-w-full h-[400px] absolute left-0 pointer-events-none object-fit"
+            style={{
+                border: "none",
+                backgroundColor: "transparent",
+                maskImage: "linear-gradient(to bottom, black 83%, transparent 100%)",
+                transform: "scale(4) translateY(145px)",
+                position: "absolute",
+            }}
+            frameBorder="0"
+            scrolling="no"
+        />
+    </div>
+) : (
+    <img
+        src={project.images[0]}
+        alt="Project thumbnail"
+        className="w-full h-[300px] object-cover transition-transform duration-300 group-hover:scale-110"
+    />
+)}
 
                             <div className="absolute bottom-0 left-0 p-2 bg-black bg-opacity-50 w-full transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
                                 <h3 className="text-lg font-bold">{project.title}</h3>

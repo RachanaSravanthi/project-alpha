@@ -42,7 +42,7 @@ interface Project {
   images: string[]; // Array to store Base64 strings
   iframeLink: string;
   description: string;
-  tools: string;
+  thumbnail: string;
   index: number;
 }
 export default function AdminDashboard() {
@@ -53,10 +53,11 @@ export default function AdminDashboard() {
     link: "",
     iframeLink: "",
     description: "",
-    tools: "",
+    thumbnail: "",
     index: 0,
   });
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  const [selectedThumbnail,setSelectedThumbnail]=useState<File |null>(null)
   const [isUploading, setIsUploading] = useState(false);
   const [message, setMessage] = useState<{
     type: "success" | "error";
@@ -94,12 +95,18 @@ export default function AdminDashboard() {
   };
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
-    console.log("CAME 1");
     if (e.target.files && e.target.files[0]) {
       setSelectedImage(e.target.files[0]);
-      console.log("CAME 2");
     }
   };
+
+  const handleThumbnailImageChange=(e: ChangeEvent<HTMLInputElement>)=>{
+    if (e.target.files && e.target.files[0]) {
+      setSelectedThumbnail(e.target.files[0]);
+    }
+  }
+
+
 
   const uploadImage = async (file: File): Promise<string> => {
     try {
@@ -166,6 +173,7 @@ export default function AdminDashboard() {
 
     let imageUrl = "";
     let iframeUrl = "";
+    let thumbnailUrl="";
 
     
       if (selectedImage) {
@@ -187,6 +195,11 @@ export default function AdminDashboard() {
         [imageUrl, iframeUrl] = urls;
       }
 
+      if (selectedThumbnail) {
+        // If image is selected, upload it and use it for both images and iframeLink
+        thumbnailUrl = await uploadImage(selectedThumbnail);
+      }
+
      
 
     try {
@@ -205,6 +218,7 @@ export default function AdminDashboard() {
         iframeLink: iframeUrl,
         images: [imageUrl],
         index: nextIndex,
+        thumbnail:thumbnailUrl,
         // id: Date.now(),
       });
 
@@ -216,10 +230,11 @@ export default function AdminDashboard() {
         link: "",
         iframeLink: "",
         description: "",
-        tools: "",
+        thumbnail: "",
         index: nextIndex,
       });
       setSelectedImage(null);
+      setSelectedThumbnail(null)
       fetchProjects();
     } catch (error) {
       console.error("Error uploading project:", error);
@@ -371,23 +386,6 @@ export default function AdminDashboard() {
             </div>
             <div>
               <label
-                htmlFor="tools"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Tools
-              </label>
-              <input
-                type="text"
-                id="tools"
-                name="tools"
-                value={project.tools}
-                onChange={handleInputChange}
-                className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md text-sm shadow-sm placeholder-gray-400
-                focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
-              />
-            </div>
-            <div>
-              <label
                 htmlFor="image"
                 className="block text-sm font-medium text-gray-700"
               >
@@ -398,6 +396,22 @@ export default function AdminDashboard() {
                 id="image"
                 accept="image/*"
                 onChange={handleImageChange}
+                className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md text-sm shadow-sm placeholder-gray-400
+                                focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+              />
+            </div>
+            <div>
+              <label
+                htmlFor="tools"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Coustom Thumbnail(Optional)
+              </label>
+              <input
+                type="file"
+                id="image"
+                accept="image/*"
+                onChange={handleThumbnailImageChange}
                 className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md text-sm shadow-sm placeholder-gray-400
                                 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
               />
