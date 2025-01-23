@@ -1,10 +1,9 @@
-import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
+import { useState, useRef, useEffect } from "react";
 import { useOutletContext } from "react-router-dom";
 import Modal from "../Components/Modal";
-// import VimeoEmbed from "../components/VEM";
-// import AnimatedArrow from "../assets/AnimatedArrow";
 import AnimatedArrow2 from "../assets/AnimatedArrow2";
+
 
 interface HomePageProps {
     isLoaded: boolean;
@@ -26,10 +25,27 @@ interface HomePageProps {
 
 export default function HomePage() {
     const { isLoaded, projectData, fadeIn, staggerChildren } = useOutletContext<HomePageProps>();
-    const [selectedCategory, setSelectedCategory] = useState<string | null>("Motion Design");
+    const [selectedCategory, setSelectedCategory] = useState<string>("Motion Design");
     const [selectedProjectIndex, setSelectedProjectIndex] = useState<number | null>(null);
+    const [filteredProjects, setFilteredProjects] = useState(projectData);
 
     const categories = ["Motion Design", "Graphics Design", "VFX for film"];
+
+   
+  
+
+    const mainRef = useRef(null);
+    const { scrollYProgress } = useScroll({ target: mainRef });
+    const yBg = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
+    const opacityBg = useTransform(scrollYProgress, [0, 0.5, 1], [1, 0.5, 0]);
+
+    useEffect(() => {
+        setFilteredProjects(
+            selectedCategory
+                ? projectData.filter((project) => project.category === selectedCategory)
+                : projectData
+        );
+    }, [selectedCategory, projectData]);
 
     const handlePreviousProject = () => {
         setSelectedProjectIndex((prevIndex) =>
@@ -42,46 +58,93 @@ export default function HomePage() {
     };
 
     const handleProjectClick = (index: number) => {
-        const project = filteredProjects[index]; // Get the clicked project from the filtered list
-        const projectIndexInOriginalData = projectData.findIndex((p) => p.id === project.id); // Find its index in the original data
+        const project = filteredProjects[index];
+        const projectIndexInOriginalData = projectData.findIndex((p) => p.id === project.id);
         setSelectedProjectIndex(projectIndexInOriginalData);
     };
+    const containerVariants = {
+        hidden: { opacity: 0 },
+        visible: {
+            opacity: 1,
+            transition: {
+                staggerChildren: 0.1,
+                delayChildren: 0.3
+            }
+        }
+    };
 
-    const filteredProjects = selectedCategory
-        ? projectData.filter((project) => project.category === selectedCategory)
-        : projectData;
-
-    // const scrollTo = (id: string) => {
-    //     const element = document.getElementById(id);
-    //     if (element) {
-    //         element.scrollIntoView({ behavior: "smooth" });
-    //     }
-    // };
-
+    const getItemVariants = (index: number) => {
+        const positions = [
+            { x: '-100%', y: 0 },     // Left
+            { x: '100%', y: 0 },      // Right
+            { x: 0, y: '100%' },      // Bottom
+            { x: 0, y: '-100%' },     // Top
+            { x: '-100%', y: '100%' }, // Bottom-left
+            { x: '100%', y: '100%' }  // Bottom-right
+        ];
+        const position = positions[index % positions.length];
+        
+        return {
+            hidden: { opacity: 0, ...position },
+            visible: {
+                opacity: 1,
+                x: 0,
+                y: 0,
+                transition: {
+                    type: "spring",
+                    stiffness: 100,
+                    damping: 12
+                }
+            }
+        };
+    };
     return (
         <>
-            <main className="mx-auto">
+            <motion.main 
+                className="mx-auto"
+                ref={mainRef}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.5 }}
+            >
                 <motion.section
                     id="about"
-                    className="relative text-center py-36 flex items-center justify-center flex-col overflow-hidden aspect-[50/50] sm:aspect-[28/15] md:aspect-[28/15] "
+                    className="relative text-center py-36 flex items-center justify-center flex-col overflow-hidden aspect-[50/50] sm:aspect-[28/15] md:aspect-[28/15]"
                     initial="hidden"
                     animate={isLoaded ? "visible" : "hidden"}
                     variants={staggerChildren}
+                    style={{ y: yBg, opacity: opacityBg }}
                 >
-                    <div className="absolute inset-0 grid grid-cols-[repeat(28,1fr)] grid-rows-[repeat(15,1fr)]">
+                    <motion.div 
+                        className="absolute inset-0 grid grid-cols-[repeat(28,1fr)] grid-rows-[repeat(15,1fr)]"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 1, delay: 0.5 }}
+                    >
                         {[...Array(28 * 16)].map((_, i) => (
-                            <div
+                            <motion.div
                                 key={i}
                                 className="border border-white/15"
                                 style={{
                                     aspectRatio: "1 / 1",
                                     animation: `pulse 12s cubic-bezier(0.4, 0, 0.6, 1) infinite ${i * 0.05}s`,
                                 }}
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                transition={{ duration: 0.5, delay: i * 0.01 }}
                             />
                         ))}
-                    </div>
+                    </motion.div>
 
-                    <div className="relative z-10 min-h-[60vh] flex items-center justify-center flex-col">
+                    <motion.div 
+                        className="relative z-10 min-h-[60vh] flex items-center justify-center flex-col"
+                        variants={{
+                            hidden: { opacity: 0, y: 50 },
+                            visible: { opacity: 1, y: 0 }
+                        }}
+                        transition={{ duration: 0.8, delay: 0.2 }}
+                    >
                         <motion.h1
                             variants={fadeIn}
                             className="text-xl md:text-4xl lg:text-5xl text-dim-white mb-2 font-inter font-medium"
@@ -106,29 +169,19 @@ export default function HomePage() {
                         >
                             for Film and Beyond!
                         </motion.h2>
-                        {/* <motion.div
-                            className="mt-8 cursor-pointer"
-                            animate={{
-                                y: [0, 10, 0],
-                            }}
-                            transition={{
-                                duration: 2,
-                                repeat: Infinity,
-                                ease: "easeInOut",
-                            }}
-                            onClick={() => scrollTo("work")}
-                            // onClick={() => scrollTo("work")}
-                        >
-                            <img src={Arrow} alt="Scroll to works" className="w-44 h-44 opacity-80" />
-                        </motion.div> */}
                         <AnimatedArrow2 />
-                        {/* <AnimatedArrow/> */}
-                    </div>
+                    </motion.div>
                 </motion.section>
 
-                <motion.div className="flex justify-center space-x-4 my-8" variants={fadeIn}>
+                <motion.div 
+                    className="flex justify-center space-x-4 my-8" 
+                    variants={fadeIn}
+                    initial="hidden"
+                    animate="visible"
+                    transition={{ staggerChildren: 0.1, delayChildren: 0.3 }}
+                >
                     {categories.map((category) => (
-                        <button
+                        <motion.button
                             key={category}
                             className={`px-4 py-2 rounded-full ${
                                 selectedCategory === category
@@ -136,64 +189,112 @@ export default function HomePage() {
                                     : "bg-transparent text-white border border-white"
                             }`}
                             onClick={() => setSelectedCategory(category)}
+                            variants={{
+                                hidden: { opacity: 0, y: 20 },
+                                visible: { opacity: 1, y: 0 }
+                            }}
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
                         >
                             {category}
-                        </button>
+                        </motion.button>
                     ))}
                 </motion.div>
 
                 <motion.section
-                    id="work"
-                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mb-8"
-                    initial="hidden"
-                    animate={isLoaded ? "visible" : "hidden"}
-                    variants={staggerChildren}
-                >
-                    {filteredProjects.map((project, i) => (
+                id="work"
+                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-0 mb-8"
+                initial="hidden"
+                animate={isLoaded ? "visible" : "hidden"}
+                variants={containerVariants}
+            >
+                {filteredProjects.map((project, i) => (
+                    <motion.div
+                        key={i}
+                        className="relative overflow-hidden group hover:cursor-pointer"
+                        variants={getItemVariants(i)}
+                        onClick={() => handleProjectClick(i)}
+                        whileHover={{ scale: 1.05, zIndex: 1 }}
+                        transition={{ duration: 0.3 }}
+                    >
                         <motion.div
-                            key={i}
-                            className="relative overflow-hidden group hover:cursor-pointer"
-                            variants={fadeIn}
-                            onClick={() => handleProjectClick(i)}
+                            className="w-full h-[300px] overflow-hidden"
+                            initial={{ scale: 1.2, rotate: -5 }}
+                            animate={{ scale: 1, rotate: 0 }}
+                            transition={{ duration: 0.5, delay: i * 0.1 }}
                         >
-                           {project.thumbnail && project.thumbnail.trim() !== "" ? (
-    <img
-        src={project.thumbnail}
-        alt="Project thumbnail"
-        className="w-full h-[300px] object-cover transition-transform duration-300 group-hover:scale-110"
-    />
-) : project.images[0]?.includes("drive.google.com") ? (
-    <div className="relative w-full min-w-full h-[300px] overflow-hidden transition-transform duration-300 group-hover:scale-110">
-        <iframe
-            src={project.images[0].replace("/view?usp=sharing", "/preview")}
-            className="min-w-full h-[400px] absolute left-0 pointer-events-none object-fit"
-            style={{
-                border: "none",
-                backgroundColor: "transparent",
-                maskImage: "linear-gradient(to bottom, black 83%, transparent 100%)",
-                transform: "scale(4) translateY(145px)",
-                position: "absolute",
-            }}
-            frameBorder="0"
-            scrolling="no"
-        />
-    </div>
-) : (
-    <img
-        src={project.images[0]}
-        alt="Project thumbnail"
-        className="w-full h-[300px] object-cover transition-transform duration-300 group-hover:scale-110"
-    />
-)}
-
-                            <div className="absolute bottom-0 left-0 p-2 bg-black bg-opacity-50 w-full transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-                                <h3 className="text-lg font-bold">{project.title}</h3>
-                                <p className="text-sm">{project.subtitle}</p>
-                            </div>
+                            {project.thumbnail && project.thumbnail.trim() !== "" ? (
+                                <motion.img
+                                    src={project.thumbnail}
+                                    alt="Project thumbnail"
+                                    className="w-full h-full object-cover"
+                                    initial={{ scale: 1.2 }}
+                                    animate={{ scale: 1 }}
+                                    transition={{ duration: 0.5 }}
+                                    whileHover={{ scale: 1.1 }}
+                                />
+                            ) : project.images[0]?.includes("drive.google.com") ? (
+                                <motion.div 
+                                    className="relative w-full h-full overflow-hidden"
+                                    initial={{ scale: 1.2 }}
+                                    animate={{ scale: 1 }}
+                                    transition={{ duration: 0.5 }}
+                                    whileHover={{ scale: 1.1 }}
+                                >
+                                    <iframe
+                                        src={project.images[0].replace("/view?usp=sharing", "/preview")}
+                                        className="w-full h-[400px] absolute left-0 pointer-events-none object-fit"
+                                        style={{
+                                            border: "none",
+                                            backgroundColor: "transparent",
+                                            maskImage: "linear-gradient(to bottom, black 83%, transparent 100%)",
+                                            transform: "scale(4) translateY(145px)",
+                                            position: "absolute",
+                                        }}
+                                        frameBorder="0"
+                                        scrolling="no"
+                                    />
+                                </motion.div>
+                            ) : (
+                                <motion.img
+                                    src={project.images[0]}
+                                    alt="Project thumbnail"
+                                    className="w-full h-full object-cover"
+                                    initial={{ scale: 1.2 }}
+                                    animate={{ scale: 1 }}
+                                    transition={{ duration: 0.5 }}
+                                    whileHover={{ scale: 1.1 }}
+                                />
+                            )}
                         </motion.div>
-                    ))}
-                </motion.section>
-            </main>
+
+                        <motion.div 
+                            className="absolute bottom-0 left-0 w-full bg-black bg-opacity-70"
+                            initial={{ y: "100%" }}
+                            animate={{ y: 0 }}
+                            transition={{ duration: 0.3, delay: (i * 0.1) + 0.3 }}
+                        >
+                            <motion.h3 
+                                className="text-lg font-bold text-white px-2 py-1"
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.3, delay: (i * 0.1) + 0.4 }}
+                            >
+                                {project.title}
+                            </motion.h3>
+                            <motion.p 
+                                className="text-sm text-gray-300 px-2 pb-1"
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.3, delay: (i * 0.1) + 0.5 }}
+                            >
+                                {project.subtitle}
+                            </motion.p>
+                        </motion.div>
+                    </motion.div>
+                ))}
+            </motion.section>
+            </motion.main>
 
             <AnimatePresence>
                 {selectedProjectIndex !== null && (
@@ -207,4 +308,4 @@ export default function HomePage() {
             </AnimatePresence>
         </>
     );
-}
+} 
