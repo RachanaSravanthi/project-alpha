@@ -258,6 +258,48 @@ export default function AboutPage() {
                         </div>
                     </div>
                 </motion.div>
+                <motion.div
+  className="w-full mx-auto px-4 md:px-6 py-16 relative"
+  initial="hidden"
+  animate="visible"
+  variants={{
+    hidden: { opacity: 0 },
+    visible: { opacity: 1 },
+  }}
+>
+  <motion.h2
+    className="text-2xl md:text-3xl font-bold mb-12 text-center"
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.6 }}
+  >
+    SOFTWARE
+  </motion.h2>
+
+  <motion.div className="grid grid-cols-2 md:grid-cols-3 gap-6 max-w-[1200px] mx-auto" variants={staggerChildren}>
+    {[
+      { name: "After Effects", icon: "Ae" },
+      { name: "Illustrator", icon: "Ai" },
+      { name: "Photoshop", icon: "Ps" },
+      { name: "Premiere Pro", icon: "Pr" },
+      { name: "Audition", icon: "Au" },
+      { name: "Lightroom", icon: "Lr" },
+    ].map((software, index) => (
+      <motion.div
+        key={software.name}
+        className="bg-white rounded-sm p-6 flex flex-col items-center justify-center "
+        variants={fadeIn}
+        whileHover={{ scale: 1.05 }}
+        transition={{ duration: 0.3 }}
+      >
+        <div className="bg-black rounded-lg p-4 mb-4 w-20 h-20 flex items-center justify-center">
+          <span className="text-white text-3xl font-bold">{software.icon}</span>
+        </div>
+        <h3 className="text-black text-lg font-medium text-center">{software.name}</h3>
+      </motion.div>
+    ))}
+  </motion.div>
+</motion.div>
 
                 <style>{`
                     @keyframes pulse {
