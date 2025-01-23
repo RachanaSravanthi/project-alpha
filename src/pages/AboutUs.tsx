@@ -286,7 +286,7 @@ export default function AboutPage() {
       { name: "Lightroom", icon: "Lr" },
     ].map((software, index) => (
       <motion.div
-        key={software.name}
+        key={software.name || index}
         className="bg-white rounded-sm p-6 flex flex-col items-center justify-center "
         variants={fadeIn}
         whileHover={{ scale: 1.05 }}
