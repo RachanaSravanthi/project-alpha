@@ -2,7 +2,7 @@ import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion"
 import { useState, useRef, useEffect } from "react"
 import { useOutletContext } from "react-router-dom"
 import Modal from "../Components/Modal"
-import AnimatedArrow2 from "../assets/AnimatedArrow2"
+// import AnimatedArrow2 from "../assets/AnimatedArrow2"
 import AnimatedArrow from "../assets/AnimatedArrow"
 
 interface HomePageProps {
