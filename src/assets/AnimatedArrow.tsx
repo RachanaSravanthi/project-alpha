@@ -1,48 +1,59 @@
-  import { motion } from "framer-motion";
+"use client"
 
-  export default function AnimatedArrow() {
-    const scrollTo = (id: string) => {
-      const element = document.getElementById(id);
-      element?.scrollIntoView({ behavior: "smooth" });
-    };
+import { motion } from "framer-motion"
 
-    return (
-      <div
-        className="relative w-24 h-48 cursor-pointer" // Adjusted height to accommodate more arrows
-        onClick={() => scrollTo("work")}
+export default function AnimatedArrow() {
+  const scrollTo = (id: string) => {
+    const element = document.getElementById(id)
+    element?.scrollIntoView({ behavior: "smooth" })
+  }
+
+  return (
+    <div
+      className="relative h-16 w-32 md:w-12 md:h-12 lg:w-20 lg:h-40 cursor-pointer mx-auto"
+      onClick={() => scrollTo("work")}
+    >
+      <div className="absolute inset-0 bg-white/5 rounded-full blur-3xl" />
+
+      <motion.div
+        className="absolute top-0 left-0 w-full h-full"
+        animate={{ y: [0, 40, 0] }}
+        transition={{
+          duration: 2,
+          repeat: Number.POSITIVE_INFINITY,
+          ease: "easeInOut",
+        }}
       >
-        {/* Glow effect background */}
-        <div className="absolute inset-0 bg-blue-500/20 rounded-full blur-2xl " />
-
-        {[0, 1, 2, 3, 4].map((index) => ( // Added more arrows
+        {[0, 1, 2].map((index) => (
           <motion.svg
             key={index}
             className="absolute top-0 left-0 w-full h-full"
-            style={{ top: `${index * 6}px` }} // Added spacing between arrows
-            viewBox="0 0 24 16" // Adjusted viewBox height for better alignment
-            initial={{ opacity: index === 0 ? 0.8 : 0.2, y: 0 }}
+            style={{ top: `${index * 20}px` }}
+            viewBox="0 0 48 30" // Increased width and height for a larger arrow
+            initial={{ opacity: index === 0 ? 0.8 : 0.2 }}
             animate={{
-              opacity: index === 0 ? 0.8 : 0.2,
-              y: [0, 40, 0], // Increased y spacing for larger gaps
+              opacity: [0.1, 0.8, 0.1],
             }}
             transition={{
-              duration: 2.5,
-              repeat: Infinity,
+              duration: 2,
+              repeat: Number.POSITIVE_INFINITY,
               ease: "easeInOut",
-              delay: index * 0.4, // Increased delay to separate animations
+              delay: index * 0.5,
             }}
           >
             <motion.path
-              d="M4 4 L12 12 L20 4"
+              d="M4 6 L24 24 L44 6" // Widened the arrow points
               stroke="white"
-              strokeWidth="1.7"
+              strokeWidth="4" // Increased stroke width for a thicker arrow
               strokeLinecap="round"
               strokeLinejoin="round"
               fill="none"
-              className="drop-shadow-[0_0_6px_rgba(255,255,255,0.2)]"
+              className="drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]" // Increased shadow for better visibility
             />
           </motion.svg>
         ))}
-      </div>
-    );
-  }
+      </motion.div>
+    </div>
+  )
+}
+

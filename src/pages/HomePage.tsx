@@ -3,6 +3,7 @@ import { useState, useRef, useEffect } from "react"
 import { useOutletContext } from "react-router-dom"
 import Modal from "../Components/Modal"
 import AnimatedArrow2 from "../assets/AnimatedArrow2"
+import AnimatedArrow from "../assets/AnimatedArrow"
 
 interface HomePageProps {
   isLoaded: boolean
@@ -161,11 +162,12 @@ export default function HomePage() {
     </motion.h2>
     <motion.h2
       variants={fadeIn}
-      className="text-2xl md:text-5xl lg:text-6xl font-medium text-off-white mb-3 font-inter max-w-2xl mx-auto"
+      className="text-2xl md:text-5xl lg:text-6xl font-medium text-off-white  mb-3 font-inter max-w-2xl mx-auto"
     >
       for Film and Beyond!
     </motion.h2>
-    <AnimatedArrow2 />
+    {/* <AnimatedArrow2 /> */}
+    <AnimatedArrow />
   </motion.div>
 </motion.section>
 
