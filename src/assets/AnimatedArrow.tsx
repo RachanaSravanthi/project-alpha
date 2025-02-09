@@ -47,7 +47,7 @@ export default function AnimatedArrow() {
               <motion.path
                 d="M4 6 L24 24 L44 6"
                 stroke="white"
-                strokeWidth="3" // Reduced for mobile
+                strokeWidth="4" // Reduced for mobile
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 fill="none"
