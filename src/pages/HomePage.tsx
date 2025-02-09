@@ -122,13 +122,13 @@ export default function HomePage() {
               className="w-full h-full object-cover opacity-50"
             />
           </motion.div>
-          <motion.div
+          {/* <motion.div
             className="absolute inset-0 grid grid-cols-[repeat(28,1fr)] grid-rows-[repeat(15,1fr)] z-10"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1, delay: 0.5 }}
           >
-            {[...Array(28 * 16)].map((_, i) => (
+            {/* {[...Array(28 * 16)].map((_, i) => (
               <motion.div
                 key={i}
                 className="border border-white/15"
@@ -140,8 +140,8 @@ export default function HomePage() {
                 // animate={{ opacity: 1 }}
                 // transition={{ duration: 0.5, delay: i * 0.01 }}
               />
-            ))}
-          </motion.div>
+            // ))} 
+          </motion.div> */}
 
           <motion.div
             className="relative z-20 min-h-[60vh] flex items-center justify-center flex-col"
