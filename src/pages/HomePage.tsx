@@ -28,7 +28,7 @@ export default function HomePage() {
   const [selectedProjectIndex, setSelectedProjectIndex] = useState<number | null>(null)
   const [filteredProjects, setFilteredProjects] = useState(projectData)
 
-  const categories = ["Motion Design", "Graphics Design", "VFX for film"]
+  const categories = ["Motion Design", "Graphic Design", "VFX for film"]
 
   const mainRef = useRef(null)
   const { scrollYProgress } = useScroll({ target: mainRef })
@@ -103,81 +103,71 @@ export default function HomePage() {
         transition={{ duration: 0.5 }}
       >
         <motion.section
-          id="about"
-          className="relative text-center py-36 flex items-center justify-center flex-col overflow-hidden aspect-[50/50] sm:aspect-[28/15] md:aspect-[28/15] bg-black"
-          initial="hidden"
-          animate={isLoaded ? "visible" : "hidden"}
-          variants={staggerChildren}
-          style={{ y: yBg, opacity: opacityBg }}
-        >
-          <motion.div
-            className="absolute inset-0 z-0"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1 }}
-          >
-            <img
-              src="/Banner.png?height=1080&width=1920"
-              alt="Background"
-              className="w-full h-full object-cover opacity-50"
-            />
-          </motion.div>
-          {/* <motion.div
-      className="absolute inset-0 grid grid-cols-[repeat(28,1fr)] grid-rows-[repeat(15,1fr)] z-10 bg-gradient-to-b from-white/5 to-white/3"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 0.4 }} // Further reduced overall opacity
-      transition={{ duration: 1, delay: 0.5 }}
-    >
-      {[...Array(28 * 15)].map((_, i) => (
-        <motion.div
-          key={i}
-          className="border border-white/5" // Further reduced border opacity
-          style={{
-            aspectRatio: "1 / 1",
-            opacity: 1 - (i / (28 * 15)) * 0.1, // Even more subtle opacity gradient
-          }}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 - (i / (28 * 15)) * 0.1 }} // Animate to final opacity
-          transition={{ duration: 0.5, delay: i * 0.01 }}
-        />
-      ))}
-    </motion.div> */}
+  id="about"
+  className="relative text-center py-36 flex items-center justify-center flex-col overflow-hidden aspect-[50/50] sm:aspect-[28/15] md:aspect-[28/15] bg-black"
+  initial="hidden"
+  animate={isLoaded ? "visible" : "hidden"}
+  variants={staggerChildren}
+  style={{ y: yBg, opacity: opacityBg }}
+>
+  <motion.div
+    className="absolute inset-0 z-0"
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    transition={{ duration: 1 }}
+  >
+    <picture>
+      <source 
+        media="(min-width: 640px)" 
+        srcSet="/Banner.png?height=1080&width=1920" 
+      />
+      <source 
+        media="(max-width: 639px)" 
+        srcSet="/BannerImage_Mobile.png?height=926&width=428" 
+      />
+      <img
+        src="/Banner.png?height=1080&width=1920"
+        alt="Background"
+        className="w-full h-full object-cover opacity-50"
+      />
+    </picture>
+  </motion.div>
 
-          <motion.div
-            className="relative z-20 min-h-[60vh] flex items-center justify-center flex-col"
-            variants={{
-              hidden: { opacity: 0, y: 50 },
-              visible: { opacity: 1, y: 0 },
-            }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-          >
-            <motion.h1
-              variants={fadeIn}
-              className="text-xl md:text-4xl lg:text-5xl text-dim-white mb-2 font-inter font-medium"
-            >
-              Hello! I'm Rachana Sravanthi
-            </motion.h1>
-            <motion.h2
-              variants={fadeIn}
-              className="text-2xl md:text-5xl lg:text-6xl font-medium text-off-white mb-3 font-inter max-w-3xl mx-auto"
-            >
-              Bringing Imagination to Life:
-            </motion.h2>
-            <motion.h2
-              variants={fadeIn}
-              className="text-2xl md:text-5xl lg:text-6xl font-medium text-off-white mb-3 font-inter max-w-4xl mx-auto"
-            >
-              Stunning VFX, 2D & 3D Designs
-            </motion.h2>
-            <motion.h2
-              variants={fadeIn}
-              className="text-2xl md:text-5xl lg:text-6xl font-medium text-off-white mb-3 font-inter max-w-2xl mx-auto"
-            >
-              for Film and Beyond!
-            </motion.h2>
-            <AnimatedArrow2 />
-          </motion.div>
-        </motion.section>
+  <motion.div
+    className="relative z-20 min-h-[60vh] flex items-center justify-center flex-col"
+    variants={{
+      hidden: { opacity: 0, y: 50 },
+      visible: { opacity: 1, y: 0 },
+    }}
+    transition={{ duration: 0.8, delay: 0.2 }}
+  >
+    <motion.h1
+      variants={fadeIn}
+      className="text-xl md:text-4xl lg:text-5xl text-dim-white mb-2 font-inter font-medium"
+    >
+      Hello! I'm Rachana Sravanthi
+    </motion.h1>
+    <motion.h2
+      variants={fadeIn}
+      className="text-2xl md:text-5xl lg:text-6xl font-medium text-off-white mb-3 font-inter max-w-3xl mx-auto"
+    >
+      Bringing Imagination to Life:
+    </motion.h2>
+    <motion.h2
+      variants={fadeIn}
+      className="text-2xl md:text-5xl lg:text-6xl font-medium text-off-white mb-3 font-inter max-w-4xl mx-auto"
+    >
+      Stunning VFX, 2D & 3D Designs
+    </motion.h2>
+    <motion.h2
+      variants={fadeIn}
+      className="text-2xl md:text-5xl lg:text-6xl font-medium text-off-white mb-3 font-inter max-w-2xl mx-auto"
+    >
+      for Film and Beyond!
+    </motion.h2>
+    <AnimatedArrow2 />
+  </motion.div>
+</motion.section>
 
         <motion.div
           className="flex justify-center space-x-4 my-8"

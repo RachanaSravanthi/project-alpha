@@ -326,7 +326,7 @@ export default function AdminDashboard() {
               >
                 <option value="">Select Category</option>
                 <option value="Motion Design">Motion Design</option>
-                <option value="Graphics Design">Graphics Design</option>
+                <option value="Graphic Design">Graphic Design</option>
                 <option value="VFX for film">VFX for film</option>
               </select>
             </div>
