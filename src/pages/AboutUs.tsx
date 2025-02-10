@@ -307,12 +307,21 @@ export default function AboutPage() {
             variants={staggerChildren}
           >
             {[
-              { name: "After Effects", icon: "Ae" },
-              { name: "Illustrator", icon: "Ai" },
-              { name: "Photoshop", icon: "Ps" },
-              { name: "Premiere Pro", icon: "Pr" },
-              { name: "Audition", icon: "Au" },
-              { name: "Lightroom", icon: "Lr" },
+              { name: "After Effects", icon: "Software/Adobe_After_Effects_CC_icon.svg.png" },
+              { name: "Illustrator", icon: "Software/Adobe_Illustrator_CC_icon.svg.png" },
+              { name: "Photoshop", icon: "/Software/Adobe_Photoshop_CC_icon.svg.png" },
+              { name: "Premiere Pro", icon: "/Software/Adobe_Premiere_Pro_CC_icon.svg.png" },
+              { name: "Audition", icon: "/Software/Adobe_Audition_CC_icon_(2020).svg.png" },
+              { name: "Lightroom", icon: "/Software/Adobe_Photoshop_Lightroom_CC_logo.svg.png" },
+              { name: "Houdini FX", icon: "/Software/Houdini3D_icon.png" },
+              { name: "Autodesk Maya", icon: "/Software/AutodeskMaya.png" },
+              { name: "Nuke", icon: "/Software/nuke.png" },
+              { name: "Unreal Engine", icon: "/Software/unreal.png" },
+              { name: "3D Equalizer", icon: "/Software/3De.jpg" },
+              { name: "Redshift", icon: "/Software/redshift.png" },
+              { name: "Figma", icon: "https://cdn4.iconfinder.com/data/icons/logos-brands-in-colors/3000/figma-logo-1024.png" },
+              { name: "Clarisse", icon: "/Software/Clarisse.jpg" },
+              { name: "Indesign", icon: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/Adobe_InDesign_CC_icon.svg/768px-Adobe_InDesign_CC_icon.svg.png" }
             ].map((software, index) => (
               <motion.div
                 key={software.name || index}
@@ -321,11 +330,9 @@ export default function AboutPage() {
                 whileHover={{ scale: 1.05 }}
                 transition={{ duration: 0.3 }}
               >
-                <div className="bg-black rounded-lg p-4 mb-4 w-20 h-20 flex items-center justify-center">
-                  <span className="text-white text-3xl font-bold">
-                    {software.icon}
-                  </span>
-                </div>
+                {/* <div className="bg-black rounded-lg p-4 mb-4 w-20 h-20 flex items-center justify-center"> */}
+                  <img src={software.icon} className="h-20 w-20 mb-4 object-fit"/>
+                {/* </div> */}
                 <h3 className="text-black text-lg font-medium text-center">
                   {software.name}
                 </h3>

@@ -85,7 +85,7 @@ const VideoEmbed: React.FC<VideoEmbedProps> = ({ link, className }) => {
     return (
         <iframe
             src={`${videoSource.embedUrl}?controls=1&modestbranding=1`}
-            className={`object-cover transition-transform duration-300 w-full min-h-screen ${className}`}
+            className={`object-cover transition-transform duration-300 w-full min-h-[80vh] ${className}`}
             allow="autoplay; fullscreen; encrypted-media"
             title={`${videoSource.type} video`}
             frameBorder="0"
