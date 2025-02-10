@@ -291,7 +291,7 @@ export default function HomePage() {
                       className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 text-white text-4xl rounded-full w-16 h-16 m-auto"
                       aria-label="Play"
                     >
-                      ▶
+                      <img src="/play-solid.svg" className="w-8 h-8" alt="" />
                     </button>
                   </>
                   
