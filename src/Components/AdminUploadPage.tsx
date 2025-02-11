@@ -10,6 +10,7 @@ import {
 } from "firebase/firestore";
 
 import { Client, Storage, ID } from "appwrite";
+import { Helmet } from "react-helmet";
 
 const client = new Client()
   .setEndpoint("https://cloud.appwrite.io/v1")
@@ -263,6 +264,12 @@ export default function AdminDashboard() {
 
   return (
     <div className="container mx-auto p-4">
+       <Helmet>
+              <title>AdminUpload Page</title>
+              <meta name="description" content="AdminUpload page to upload works" />
+              <meta property="og:title" content="AdminUpload Page | Rachana sravanthi" />
+              <meta property="og:description" content="AdminUpload page to upload works" />
+          </Helmet>
       <h1 className="text-3xl font-bold mb-6">Admin Dashboard</h1>
       <div className="mb-4">
         <button

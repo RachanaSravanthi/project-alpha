@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { Helmet } from 'react-helmet';
 
 export default function AboutPage() {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -9,7 +10,7 @@ export default function AboutPage() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const autoScrollRef = useRef<NodeJS.Timeout>();
-
+  
   const experiences = [
     {
       period: "Nov 2023 - Present",
@@ -133,6 +134,12 @@ export default function AboutPage() {
 
   return (
     <>
+     <Helmet>
+                  <title>About Page</title>
+                  <meta name="description" content="About page which describes author" />
+                  <meta property="og:title" content="About Page | Rachana sravanthi" />
+                  <meta property="og:description" content="About page which describes author" />
+              </Helmet>
       <main className="relative">
         {/* Grid Background */}
         <div className="absolute inset-0 overflow-hidden">

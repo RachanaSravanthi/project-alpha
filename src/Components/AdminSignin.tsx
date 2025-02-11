@@ -1,6 +1,7 @@
 import { useState, FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { Helmet } from "react-helmet";
 
 export default function AdminSignin() {
     const [email, setEmail] = useState("");
@@ -35,6 +36,12 @@ export default function AdminSignin() {
 
     return (
         <div className="min-h-screen bg-gray-100 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+        <Helmet>
+              <title>Admin signin</title>
+              <meta name="description" content="Admin signin to authenticate admin" />
+              <meta property="og:title" content="Admin signin Page | Rachana sravanthi" />
+              <meta property="og:description" content="Admin signin to authenticate admin" />
+          </Helmet>
             <div className="max-w-md w-full space-y-8">
                 <div className="bg-white shadow-md rounded-lg p-8">
                     <h2 className="text-2xl font-bold text-gray-900 mb-6">Admin Sign In</h2>

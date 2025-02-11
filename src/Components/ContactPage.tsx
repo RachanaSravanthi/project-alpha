@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
+import { Helmet } from "react-helmet";
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -48,6 +49,12 @@ console.log(err);
 
   return (
     <div className="min-h-screen bg-black text-white p-8 md:p-16 lg:p-24">
+       <Helmet>
+              <title>Contact Page</title>
+              <meta name="description" content="contact page to contact author" />
+              <meta property="og:title" content="contact Page | Rachana sravanthi" />
+              <meta property="og:description" content="contact page to contact author" />
+          </Helmet>
       <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center">
         {/* Left Column */}
         <motion.div

@@ -9,6 +9,7 @@ import { useOutletContext } from "react-router-dom";
 import Modal from "../Components/Modal";
 // import AnimatedArrow2 from "../assets/AnimatedArrow2"
 import AnimatedArrow from "../assets/AnimatedArrow";
+import { Helmet } from 'react-helmet';
 
 interface HomePageProps {
   isLoaded: boolean;
@@ -112,6 +113,12 @@ export default function HomePage() {
   };
   return (
     <>
+    <Helmet>
+        <title>Home Page</title>
+        <meta name="description" content="Home page with title and works" />
+        <meta property="og:title" content="Home Page | Rachana sravanthi" />
+        <meta property="og:description" content="Home page with title and works" />
+    </Helmet>
       <motion.main
         className="mx-auto"
         ref={mainRef}
