@@ -1,7 +1,7 @@
 import { useState, FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { Helmet } from "react-helmet";
+import {Helmet} from "react-helmet-async";
 
 export default function AdminSignin() {
     const [email, setEmail] = useState("");

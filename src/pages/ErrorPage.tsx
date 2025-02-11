@@ -1,5 +1,5 @@
 import {useRouteError} from "react-router-dom"
-import { Helmet } from 'react-helmet';
+import {Helmet} from 'react-helmet-async';
 function ErrorPage() {
     const error = useRouteError()
     console.log(error)

@@ -10,6 +10,7 @@ import AdminUploadPage from "./Components/AdminUploadPage.tsx";
 import AdminSignin from "./Components/AdminSignin.tsx";
 import PrivateRoute from "./Components/PrivateRoute.tsx";
 import ContactPage from "./Components/ContactPage.tsx";
+import { HelmetProvider } from "react-helmet-async";
 
 
 const appRouter = createBrowserRouter([
@@ -47,6 +48,8 @@ const appRouter = createBrowserRouter([
 ]);
 createRoot(document.getElementById("root")!).render(
     <StrictMode>
+        <HelmetProvider>
         <RouterProvider router={appRouter} />
+        </HelmetProvider>
     </StrictMode>
 );

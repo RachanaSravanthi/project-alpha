@@ -9,7 +9,7 @@ import { useOutletContext } from "react-router-dom";
 import Modal from "../Components/Modal";
 // import AnimatedArrow2 from "../assets/AnimatedArrow2"
 import AnimatedArrow from "../assets/AnimatedArrow";
-import { Helmet } from 'react-helmet';
+import {Helmet} from 'react-helmet-async';
 
 interface HomePageProps {
   isLoaded: boolean;

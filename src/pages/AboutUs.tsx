@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { Helmet } from 'react-helmet';
+import {Helmet} from 'react-helmet-async';
 
 export default function AboutPage() {
   const [isLoaded, setIsLoaded] = useState(false);

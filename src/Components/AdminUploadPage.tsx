@@ -10,7 +10,7 @@ import {
 } from "firebase/firestore";
 
 import { Client, Storage, ID } from "appwrite";
-import { Helmet } from "react-helmet";
+import {Helmet} from "react-helmet-async";
 
 const client = new Client()
   .setEndpoint("https://cloud.appwrite.io/v1")
