@@ -205,7 +205,7 @@ export default function HomePage() {
           {categories.map((category) => (
             <motion.button
               key={category}
-              className={`px-4 py-2 rounded-full ${
+              className={`px-4 py-2 lg:py-6 lg:px-10 lg:text-xl rounded-full ${
                 selectedCategory === category
                   ? "bg-white text-black"
                   : "bg-transparent text-white border border-white"
@@ -225,7 +225,7 @@ export default function HomePage() {
 
         <motion.section
           id="work"
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-0 mb-8"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-0 mb-8 mt-16"
           initial="hidden"
           animate={isLoaded ? "visible" : "hidden"}
           variants={containerVariants}

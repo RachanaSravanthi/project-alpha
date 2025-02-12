@@ -26,7 +26,7 @@ export default function AboutPage() {
     },
     {
       period: "Jan 2021 - July 2021",
-      company: "Elite crest technologies",
+      company: "Elite Crest Technologies",
       role: "Graphic Designer",
       image: "/ExpericeLogo/Graphicdesigner.png",
     },
@@ -68,7 +68,7 @@ export default function AboutPage() {
     const startAutoScroll = () => {
       autoScrollRef.current = setInterval(() => {
         scrollTo(currentIndex + 1);
-      }, 3000); // Scroll every 3 seconds
+      }, 5000); // Scroll every 3 seconds
     };
 
     startAutoScroll();

@@ -5,7 +5,19 @@ import { motion } from "framer-motion";
 export default function AnimatedArrow() {
   const scrollTo = (id: string) => {
     const element = document.getElementById(id);
-    element?.scrollIntoView({ behavior: "smooth" });
+
+    if (element) {
+      const isMobile = window.innerWidth <= 768; // Check if it's a mobile screen
+      const offset = isMobile ? 220 : 240; // Adjusted offset for mobile screens
+
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.scrollY - offset; // Use window.scrollY instead of pageYOffset
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth",
+      });
+    }
   };
 
   return (

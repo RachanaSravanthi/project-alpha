@@ -17,7 +17,7 @@ const Exp = () => {
         },
         {
             period: "Jan 2021 - July 2021",
-            company: "Elite crest technologies",
+            company: "Elite Crest Technologies",
             role: "Graphic Designer",
         },
         {

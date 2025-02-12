@@ -80,7 +80,8 @@ console.log(err);
           <div className="space-y-8">
             <div>
               <h2 className="text-4xl font-semibold mb-2">
-                Lets create together
+                {/* Lets create together */}
+                Let’s talk....
               </h2>
               <p className="text-gray-400">
                 Break the ice!  Let me help you out
@@ -91,7 +92,7 @@ console.log(err);
               <div className="space-y-1">
                 <input
                   type="text"
-                  placeholder="What's your name?*"
+                  placeholder="What's your name? *"
                   required
                   value={formData.name}
                   onChange={(e) =>
@@ -104,7 +105,7 @@ console.log(err);
               <div className="space-y-1">
                 <input
                   type="email"
-                  placeholder="What's your email?"
+                  placeholder="What's your email? *"
                   required
                   value={formData.email}
                   onChange={(e) =>
@@ -119,8 +120,8 @@ console.log(err);
                   id="mobile"
                   name="mobile"
                   pattern="[0-9]{10}"
-                  placeholder="Whats your contact number?"
-                  required
+                  placeholder="What’s your contact number?"
+                  
                   value={formData.mobile}
                   onChange={(e) =>
                     setFormData((prev) => ({ ...prev, mobile: e.target.value }))
