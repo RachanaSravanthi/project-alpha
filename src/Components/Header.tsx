@@ -12,11 +12,13 @@ export default function Header({ isLoaded, scrollTo }: HeaderProps) {
         visible: { opacity: 1, transition: { duration: 1 } },
     };
 
+
+
     const navigate = useNavigate();
 
     return (
         <motion.header
-            className="flex justify-center items-center p-4 bg-black text-white fixed top-0 left-0 w-full z-50"
+            className="flex justify-center items-center p-4 bg-black  text-white fixed top-0 left-0 w-full z-50"
             initial="hidden"
             animate={isLoaded ? "visible" : "hidden"}
             variants={fadeIn}

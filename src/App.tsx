@@ -102,12 +102,30 @@ const App = () => {
     const scrollTo = (id: string) => {
         const element = document.getElementById(id);
         if (element) {
-            lenisRef.current?.scrollTo(element, { immediate: false });
+            
+            if(element.id==="work")
+            {
+                const isMobile = window.innerWidth <= 768; // Check if it's a mobile screen
+                const offset = isMobile ? 200 : 200; // Adjusted offset for mobile screens
+          
+                const elementPosition = element.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.scrollY - offset; // Use window.scrollY instead of pageYOffset
+          
+                window.scrollTo({
+                  top: offsetPosition,
+                  behavior: "smooth",
+                });
+
+            }
+            else{
+
+                lenisRef.current?.scrollTo(element, { immediate: false });
+            }
         }
     };
 
     return (
-        <div className="min-h-screen bg-black text-white overflow-x-hidden font-inter">
+        <div className="min-h-screen bg-black text-white overflow-x-hidden font-inter pt-20 lg:pt-16">
             <Header isLoaded={isLoaded} scrollTo={scrollTo} />
             <Outlet
                 context={

@@ -80,8 +80,7 @@ console.log(err);
           <div className="space-y-8">
             <div>
               <h2 className="text-4xl font-semibold mb-2">
-                {/* Lets create together */}
-                Let’s talk....
+                Let's create together
               </h2>
               <p className="text-gray-400">
                 Break the ice!  Let me help you out

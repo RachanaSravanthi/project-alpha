@@ -196,7 +196,7 @@ export default function HomePage() {
         </motion.section>
 
         <motion.div
-          className="flex justify-center space-x-4 my-8"
+          className="flex justify-center space-x-4 py-8 bg-black"
           variants={fadeIn}
           initial="hidden"
           animate="visible"
@@ -225,7 +225,7 @@ export default function HomePage() {
 
         <motion.section
           id="work"
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-0 mb-8 mt-16"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-0 mb-8 pt-2 lg:pt-8 bg-black"
           initial="hidden"
           animate={isLoaded ? "visible" : "hidden"}
           variants={containerVariants}

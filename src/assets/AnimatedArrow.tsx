@@ -8,7 +8,7 @@ export default function AnimatedArrow() {
 
     if (element) {
       const isMobile = window.innerWidth <= 768; // Check if it's a mobile screen
-      const offset = isMobile ? 220 : 240; // Adjusted offset for mobile screens
+      const offset = isMobile ? 200 : 200; // Adjusted offset for mobile screens
 
       const elementPosition = element.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.scrollY - offset; // Use window.scrollY instead of pageYOffset
