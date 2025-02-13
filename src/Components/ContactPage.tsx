@@ -118,7 +118,7 @@ console.log(err);
                   type="tel"
                   id="mobile"
                   name="mobile"
-                  pattern="[0-9]{10}"
+                  pattern="^(\+\d{1,3}[- ]?)?\d{10}$"
                   placeholder="What’s your contact number?"
                   
                   value={formData.mobile}
