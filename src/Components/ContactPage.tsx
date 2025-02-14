@@ -37,6 +37,7 @@ try{
     console.log('res',formResponse);
     setFormData({ name: "", email: "", subject: "",mobile:"" });
     setFormSubmited(true);
+    
   }
   setIsSubmitting(false);
 }

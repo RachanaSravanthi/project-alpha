@@ -1,8 +1,12 @@
-testing gitopus
-final changes 
+installing dipendencies:
 
-update fork
+npm install
 
+run the project:
 
+npm run dev 
 
+to build the project:
+
+npm run build
 
