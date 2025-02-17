@@ -1,3 +1,6 @@
+
+// Form page to submit response
+
 import { motion } from "framer-motion";
 import { useState } from "react";
 import {Helmet} from "react-helmet-async";
@@ -37,6 +40,9 @@ try{
     console.log('res',formResponse);
     setFormData({ name: "", email: "", subject: "",mobile:"" });
     setFormSubmited(true);
+    setTimeout(() => {
+      setFormSubmited(false);
+    }, 4000);
     
   }
   setIsSubmitting(false);
@@ -51,13 +57,17 @@ console.log(err);
   return (
     <div className="min-h-screen bg-black text-white p-8 md:p-16 lg:p-24">
        <Helmet>
+        {/* Meta tags for SEO and sharing */}
+        <title>Contact Page</title>
               <title>Contact Page</title>
               <meta name="description" content="contact page to contact author" />
               <meta property="og:title" content="contact Page | Rachana sravanthi" />
               <meta property="og:description" content="contact page to contact author" />
           </Helmet>
+
+       {/* Main container with responsive grid layout */}    
       <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center">
-        {/* Left Column */}
+        {/* Left Column Introduction */}
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
@@ -72,7 +82,7 @@ console.log(err);
           </p>
         </motion.div>
 
-        {/* Right Column */}
+        {/* Right Column Form */}
         <motion.div
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
@@ -89,6 +99,7 @@ console.log(err);
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-6">
+               {/* Name Input */}
               <div className="space-y-1">
                 <input
                   type="text"
@@ -101,7 +112,7 @@ console.log(err);
                   className="w-full bg-transparent border-b border-gray-700 focus:border-white py-2 outline-none transition-colors"
                 />
               </div>
-
+                  {/* Email Input */}
               <div className="space-y-1">
                 <input
                   type="email"
@@ -114,6 +125,7 @@ console.log(err);
                   className="w-full bg-transparent border-b border-gray-700 focus:border-white py-2 outline-none transition-colors"
                 />
               </div>
+               {/* Mobile Input */}
               <div className="space-y-1">
                 <input
                   type="tel"

@@ -1,3 +1,7 @@
+
+// Admin side page,to uplaod work
+
+
 import { useState, ChangeEvent, FormEvent, useEffect } from "react";
 import { initializeApp } from "firebase/app";
 import {
@@ -265,6 +269,7 @@ export default function AdminDashboard() {
   return (
     <div className="container mx-auto p-4">
        <Helmet>
+        SEO
               <title>AdminUpload Page</title>
               <meta name="description" content="AdminUpload page to upload works" />
               <meta property="og:title" content="AdminUpload Page | Rachana sravanthi" />

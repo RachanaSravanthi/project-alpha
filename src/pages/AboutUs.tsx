@@ -1,3 +1,6 @@
+
+// about us page
+
 import { useState, useEffect, useRef, useCallback } from "react";
 import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
@@ -140,8 +143,9 @@ export default function AboutPage() {
                   <meta property="og:title" content="About Page | Rachana sravanthi" />
                   <meta property="og:description" content="About page which describes author" />
               </Helmet>
-      <main className="relative">
-        {/* Grid Background */}
+               {/* Main container for About Page */}
+  <main className="relative">
+        {/* Background Image */}
         <div className="absolute inset-0 overflow-hidden">
   <div className="absolute inset-0 max-w-screen max-h-screen">
     <picture>
@@ -160,7 +164,9 @@ export default function AboutPage() {
       />
     </picture>
   </div>
+
 </div>
+ {/* Main Content */}
         <motion.div
           className="relative z-10 max-w-6xl mx-auto px-4 py-8 md:py-16"
           initial="hidden"
@@ -196,6 +202,7 @@ export default function AboutPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.4 }}
               >
+                
                 With around 7 years of experience in the creative industry, I
                 have cultivated a robust skill set that blends both technical
                 and artistic expertise. I hold a Post-Graduate degree in Visual
@@ -205,6 +212,7 @@ export default function AboutPage() {
                 storytelling.
               </motion.p>
             </motion.div>
+             {/* Right Section: Profile Image */}
             <motion.div
               variants={fadeIn}
               className="relative overflow-hidden rounded-lg h-64 md:h-auto"
@@ -220,6 +228,8 @@ export default function AboutPage() {
             </motion.div>
           </div>
         </motion.div>
+
+          {/* Experience Section */}
 
         <motion.div
           className="w-full mx-auto px-4 md:px-6 shadow-lg relative flex flex-col justify-center items-center min-h-[50vh]"
@@ -251,7 +261,7 @@ export default function AboutPage() {
               <ChevronRight className="h-6 w-6 text-white" />
             </button>
 
-            {/* Cards Container */}
+            {/* Experience Cards */}
             <div
               ref={containerRef}
               className="flex overflow-x-hidden snap-x snap-mandatory w-full max-w-[1200px] mx-auto"

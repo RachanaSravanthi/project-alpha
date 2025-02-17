@@ -126,6 +126,7 @@ const App = () => {
 
     return (
         <div className="min-h-screen bg-black text-white overflow-x-hidden font-inter pt-20 lg:pt-16">
+            
             <Header isLoaded={isLoaded} scrollTo={scrollTo} />
             <Outlet
                 context={

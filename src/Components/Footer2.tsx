@@ -38,9 +38,25 @@ export default function Footer2({ isLoaded }: FooterProps) {
     transition: { duration: 0.2 },
   }
 
+  const watermarkAnimation = {
+    initial: { opacity: 0.6, scale: 1 },
+    hover: { 
+      opacity: 1, 
+      scale: 1.05,
+      rotate: [0, -2, 2, -2, 0],
+      transition: {
+        rotate: {
+          repeat: Infinity,
+          duration: 2,
+          ease: "easeInOut"
+        }
+      }
+    }
+  }
+
   return (
     <motion.footer
-      className="bg-black text-white px-8 py-12"
+      className="bg-black text-white px-8 py-12 relative"
       initial="hidden"
       animate={isLoaded ? "visible" : "hidden"}
       variants={staggerChildren}
@@ -80,6 +96,7 @@ export default function Footer2({ isLoaded }: FooterProps) {
           Let's do this!
         </motion.a>
       </motion.div>
+
       <motion.div className="max-w-8xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-9" variants={staggerChildren}>
         {/* Left Column */}
         <motion.div
@@ -173,6 +190,7 @@ export default function Footer2({ isLoaded }: FooterProps) {
             </motion.a>
           </motion.div>
         </motion.div>
+
         <motion.div variants={fadeIn} className="space-y-6">
           {/* Say Hello Button */}
           <motion.a
@@ -190,7 +208,47 @@ export default function Footer2({ isLoaded }: FooterProps) {
           </motion.a>
         </motion.div>
       </motion.div>
+
+      {/* Watermark */}
+      <motion.a
+        href="https://devoctane.in"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="absolute left-8 bottom-4 text-white/60 font-light text-sm cursor-pointer"
+        initial="initial"
+        whileHover="hover"
+        variants={watermarkAnimation}
+      >
+        <motion.div className="flex items-center gap-2">
+          <motion.span 
+            className="inline-block"
+            animate={{ 
+              y: [0, -2, 0],
+            }}
+            transition={{
+              duration: 2,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+          >
+            Handcrafted by
+          </motion.span>
+          <motion.span 
+            className="font-semibold underline underline-offset-2"
+            animate={{ 
+              y: [0, -2, 0],
+            }}
+            transition={{
+              duration: 2,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: 0.2
+            }}
+          >
+            Octane
+          </motion.span>
+        </motion.div>
+      </motion.a>
     </motion.footer>
   )
 }
-

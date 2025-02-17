@@ -6,11 +6,11 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import ErrorPage from "./pages/ErrorPage.tsx";
 import AboutPage from "./pages/AboutUs.tsx";
 import HomePage from "./pages/HomePage.tsx";
-import AdminUploadPage from "./Components/AdminUploadPage.tsx";
-import AdminSignin from "./Components/AdminSignin.tsx";
+import AdminUploadPage from "./pages/AdminUploadPage.tsx";
 import PrivateRoute from "./Components/PrivateRoute.tsx";
-import ContactPage from "./Components/ContactPage.tsx";
+import ContactPage from "./pages/ContactPage.tsx";
 import { HelmetProvider } from "react-helmet-async";
+import AdminSignin from "./pages/AdminSignin.tsx";
 
 
 const appRouter = createBrowserRouter([

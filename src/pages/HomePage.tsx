@@ -1,3 +1,6 @@
+
+//Page which is shown first (HomePage)
+
 import {
   motion,
   AnimatePresence,
@@ -7,7 +10,6 @@ import {
 import { useState, useRef, useEffect } from "react";
 import { useOutletContext } from "react-router-dom";
 import Modal from "../Components/Modal";
-// import AnimatedArrow2 from "../assets/AnimatedArrow2"
 import AnimatedArrow from "../assets/AnimatedArrow";
 import {Helmet} from 'react-helmet-async';
 
@@ -113,12 +115,14 @@ export default function HomePage() {
   };
   return (
     <>
+     {/* SEO: Setting the page title and meta tags */}
     <Helmet>
         <title>Home Page</title>
         <meta name="description" content="Home page with title and works" />
         <meta property="og:title" content="Home Page | Rachana sravanthi" />
         <meta property="og:description" content="Home page with title and works" />
     </Helmet>
+     {/* Main content container with fade-in animation */}
       <motion.main
         className="mx-auto"
         ref={mainRef}
@@ -127,14 +131,16 @@ export default function HomePage() {
         exit={{ opacity: 0 }}
         transition={{ duration: 0.5 }}
       >
+         {/* Setting background image for homepage */}
         <motion.section
           id="about"
-          className="relative text-center py-36 flex items-center justify-center flex-col overflow-hidden aspect-[50/50] sm:aspect-[28/15] md:aspect-[28/15] bg-black"
+          className="relative text-center py-36 flex items-center justify-center flex-col overflow-hidden aspect-[50/50] sm:aspect-[28/15] md:aspect-[28/15] bg-black  "
           initial="hidden"
           animate={isLoaded ? "visible" : "hidden"}
           variants={staggerChildren}
           style={{ y: yBg, opacity: opacityBg }}
         >
+          {/* 3 resized images for different screen size for responsiveness */}
           <motion.div
             className="absolute inset-0 z-0"
             initial={{ opacity: 0 }}
@@ -142,10 +148,12 @@ export default function HomePage() {
             transition={{ duration: 1 }}
           >
             <picture>
+           
               <source
                 media="(min-width: 640px)"
                 srcSet="/Banner.png?height=1080&width=1920"
               />
+               
               <source
                 media="(max-width: 639px)"
                 srcSet="/BannerImage_Mobile.png?height=926&width=428"
@@ -158,6 +166,8 @@ export default function HomePage() {
             </picture>
           </motion.div>
 
+           {/* Text content inside the section */}
+
           <motion.div
             className="relative z-20 min-h-[60vh] flex items-center justify-center flex-col"
             variants={{
@@ -166,15 +176,16 @@ export default function HomePage() {
             }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
+
             <motion.h1
               variants={fadeIn}
-              className="text-xl md:text-4xl lg:text-5xl text-dim-white mb-2 font-inter font-medium"
+              className="text-xl md:text-4xl lg:text-5xl text-dim-white mb-2 font-inter font-medium"  
             >
               Hello! I'm Rachana Sravanthi
             </motion.h1>
             <motion.h2
               variants={fadeIn}
-              className="text-2xl md:text-5xl lg:text-6xl font-medium text-off-white mb-3 font-inter max-w-3xl mx-auto"
+              className="text-2xl md:text-5xl lg:text-6xl font-medium text-off-white mb-3 font-inter max-w-3xl mx-auto "
             >
               Bringing Imagination to Life:
             </motion.h2>
@@ -190,11 +201,12 @@ export default function HomePage() {
             >
               for Film and Beyond!
             </motion.h2>
-            {/* <AnimatedArrow2 /> */}
+            {/* Arrow  for navigating to work */}
             <AnimatedArrow />
           </motion.div>
         </motion.section>
 
+       {/* Category selection buttons */}
         <motion.div
           className="flex justify-center space-x-4 py-8 bg-black"
           variants={fadeIn}
@@ -202,6 +214,7 @@ export default function HomePage() {
           animate="visible"
           transition={{ staggerChildren: 0.1, delayChildren: 0.3 }}
         >
+          {/* mapping the categories array declaired in line 41 */}
           {categories.map((category) => (
             <motion.button
               key={category}
@@ -222,6 +235,8 @@ export default function HomePage() {
             </motion.button>
           ))}
         </motion.div>
+
+         {/* Projects Grid Section */}
 
         <motion.section
           id="work"
@@ -304,7 +319,7 @@ export default function HomePage() {
                   
                 )}
               </motion.div>
-
+            {/* Project Title and Subtitle */}
               <motion.div
                 className="absolute bottom-0 left-0 w-full bg-black bg-opacity-70"
                 initial={{ y: "100%" }}
@@ -332,7 +347,7 @@ export default function HomePage() {
           ))}
         </motion.section>
       </motion.main>
-
+      {/* Modal for showing project details when clicked */}
       <AnimatePresence>
         {selectedProjectIndex !== null && (
           <Modal
